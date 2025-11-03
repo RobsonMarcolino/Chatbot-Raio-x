@@ -37,6 +37,11 @@
             background: #94a3b8;
         }
 
+        /* --- Melhora de Rolagem Mobile --- */
+        #message-container {
+            -webkit-overflow-scrolling: touch; /* Adiciona rolagem inercial em iOS */
+        }
+
         /* --- Fundo Tecnológico Global (TEMA AMBEV TECH) --- */
         /* Aplicado ao body para ser o fundo geral */
         body {
@@ -471,6 +476,7 @@
                 if (loadingBubble) {
                     let formattedText = text.replace(/\n/g, '<br>');
                     formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    // Adiciona o título "Insight da IA" e formata a resposta
                     loadingBubble.innerHTML = `🧠 <strong>Insight da IA:</strong><br><br>${formattedText}`;
                 }
             }
@@ -722,7 +728,7 @@
 
                 const options = {
                     method: 'POST',
-                    mode: 'cors', // ADICIONADO: Garante a política de CORS
+                    mode: 'cors', // Garante a política de CORS
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 };
@@ -747,10 +753,12 @@
                 }
             }
 
-            // Função para preparar o prompt e obter a análise
+            // Função para preparar o prompt e obter a análise (ATUALIZADA)
             async function getAIAnalysis(performanceData, code) {
-                const systemInstruction = "Você é o 'Raio-X Score 5', um analista de performance de vendas da Ambev Tech. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de um estabelecimento e fornecer um breve insight em um parágrafo (máximo 3 frases). Foque no ponto mais crítico (positivo ou negativo) e sugira uma ação. Não repita os dados, apenas a análise. Responda em português brasileiro.";
+                // Instrução do sistema atualizada para o novo formato
+                const systemInstruction = "Você é o 'Raio-X Score 5', um analista de performance de vendas da Ambev Tech. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de um estabelecimento. Responda em português brasileiro. Gere sua resposta **exclusivamente** no seguinte formato:\n\n🟢 **Pontos Fortes:**\n• [Insight positivo 1]\n• [Insight positivo 2]\n\n🔴 **Pontos de Atenção:**\n• [Insight negativo/acionável 1]\n• [Insight negativo/acionável 2]\n\nSe não houver pontos fortes, escreva 'Nenhum ponto forte notável'. Se não houver pontos de atenção, escreva 'Nenhum ponto de atenção crítico'.";
 
+                // Prompt atualizado para pedir a nova análise
                 const prompt = `Analise a performance do estabelecimento EG ${code} com base nos seguintes dados:\n` +
                     `• Gôndola (M-1): ${performanceData.gondola_m1}\n` +
                     `• Gôndola (M0 vs M-1): ${performanceData.gondola_vs}\n` +
@@ -761,7 +769,7 @@
                     `• BASE FOCO: ${performanceData.base_foco}\n` +
                     `• COB HDW: ${performanceData.cob_hdw}\n` +
                     `• Atendimento: ${performanceData.atendimento}\n\n` +
-                    `Forneça um insight acionável em no máximo 3 frases.`;
+                    `Gere a análise dividida em Pontos Fortes e Pontos de Atenção, conforme o formato solicitado.`;
 
                 try {
                     const analysis = await callGeminiAPI(prompt, systemInstruction);
