@@ -155,8 +155,8 @@
         }
 
         /* --- Estilos do Contêiner do Celular (Glassmorphism/Neobrutalism) --- */
-        /* Em telas 'sm' (desktop), ele volta a ser um celular flutuante */
-        @media (min-width: 640px) {
+        /* Em telas 'md' (desktop/tablet grande), ele volta a ser um celular flutuante */
+        @media (min-width: 768px) {
             #phone-container {
                 background-color: rgba(39, 39, 42, 0.7); /* Fundo quase preto translúcido */
                 backdrop-filter: blur(10px); /* Efeito de vidro fosco */
@@ -229,8 +229,8 @@
             background: linear-gradient(to top, rgba(39, 39, 42, 0.4), transparent);
         }
         
-        /* Em mobile, a sombra interna do chat não deve existir no topo, pois já é o topo da tela */
-        @media (max-width: 639px) {
+        /* Em mobile (e tablet pequeno), a sombra interna do chat não deve existir no topo, pois já é o topo da tela */
+        @media (max-width: 767px) {
              #chat-screen .message-area-shadows::before {
                 display: none;
              }
@@ -238,7 +238,7 @@
 
     </style>
 </head>
-<body class="min-h-screen relative overflow-hidden sm:flex sm:items-center sm:justify-center">
+<body class="min-h-screen relative overflow-hidden md:flex md:items-center md:justify-center">
     <!-- Partículas do fundo global --><div id="particles-container"></div>
 
     <!-- TELA 1: Boas-vindas -->
@@ -251,7 +251,7 @@
         <!-- GIF Robô Responsivo -->
         <img src="https://media3.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZHJ1eGZkaHRuM2cyZ3FrOW40eG92MWExNGNncDl3bDl6dWs3Z3BxNyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/4NCmkwMuPoJSBzyIt8/giphy.webp" 
              alt="Robô IA" 
-             class="w-48 h-48 sm:w-64 sm:h-64 mx-auto my-4 object-contain animate-fade-in-up delay-1" />
+             class="w-48 h-48 md:w-64 md:h-64 mx-auto my-4 object-contain animate-fade-in-up delay-1" />
 
         <p class="text-gray-300 mb-8 animate-fade-in-up delay-2">Clique abaixo para começar nossa consulta.</p>
 
@@ -263,21 +263,21 @@
 
     <!-- TELA 2: Chat (Layout de Celular) -->
     <!-- Mobile: Ocupa a tela inteira -->
-    <!-- Desktop (sm:): Volta a ser um celular flutuante -->
-    <div id="phone-container" class="hidden flex-col w-screen h-screen z-30 relative sm:max-w-sm sm:h-[90vh] sm:max-h-[740px] sm:rounded-3xl sm:p-2.5 sm:shadow-2xl">
+    <!-- Desktop (md:): Volta a ser um celular flutuante -->
+    <div id="phone-container" class="hidden flex-col w-screen h-screen z-30 relative md:max-w-sm md:h-[90vh] md:max-h-[740px] md:rounded-3xl md:p-2.5 md:shadow-2xl">
         
         <!-- Notch (entalhe) - Visível apenas em desktop -->
-        <div class="hidden sm:block w-20 h-3 bg-black rounded-b-md mx-auto mb-1.5"></div>
+        <div class="hidden md:block w-20 h-3 bg-black rounded-b-md mx-auto mb-1.5"></div>
 
         <!-- Tela Interna do Chat -->
         <!-- Mobile: Cantos retos -->
-        <!-- Desktop (sm:): Cantos arredondados -->
-        <div id="chat-screen" class="flex flex-col w-full h-full bg-white overflow-hidden relative sm:rounded-2xl">
+        <!-- Desktop (md:): Cantos arredondados -->
+        <div id="chat-screen" class="flex flex-col w-full h-full bg-white overflow-hidden relative md:rounded-2xl">
             
             <!-- Cabeçalho do Chat (TEMA AMBEV TECH) -->
             <!-- Mobile: Cantos retos no topo -->
-            <!-- Desktop (sm:): Cantos arredondados no topo -->
-            <div class="flex items-center justify-between p-4 bg-amber-500 border-b border-amber-600 sm:rounded-t-2xl">
+            <!-- Desktop (md:): Cantos arredondados no topo -->
+            <div class="flex items-center justify-between p-4 bg-amber-500 border-b border-amber-600 md:rounded-t-2xl">
                 
                 <div class="flex items-center space-x-3">
                     <div>
@@ -311,8 +311,8 @@
 
             <!-- Input de Mensagem (TEMA AMBEV TECH) -->
             <!-- Mobile: Cantos retos na base -->
-            <!-- Desktop (sm:): Cantos arredondados na base -->
-            <div class="p-4 bg-amber-500 border-t border-amber-600 sm:rounded-b-2xl">
+            <!-- Desktop (md:): Cantos arredondados na base -->
+            <div class="p-4 bg-amber-500 border-t border-amber-600 md:rounded-b-2xl">
                 <form id="chat-form" class="flex items-center space-x-3">
                     <input 
                         type="text" 
@@ -501,10 +501,11 @@
                 isSheetLoading = true;
                 chatStatus.textContent = 'Carregando base de dados...';
 
-                // Usando um novo proxy: api.codetabs.com
                 // Adiciona o cachebust na URL interna para garantir que o proxy pegue uma nova versão
                 const proxiedUrl = `${GOOGLE_SHEET_CSV_URL}&_cachebust=${new Date().getTime()}`;
-                const url = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(proxiedUrl)}`;
+                // Usando um novo proxy: allorigins.win
+                const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(proxiedUrl)}`;
+
 
                 try {
                     const response = await fetch(url, {
@@ -519,9 +520,9 @@
 
                     const csvText = await response.text();
                     
-                    // Verifica erro do proxy (codetabs retorna JSON em erro)
-                    if (csvText.includes("ERROR:") || csvText.length < 50 || csvText.startsWith("{\"error\"")){ 
-                         throw new Error("Proxy não conseguiu buscar a URL ou resposta inválida.");
+                    // Verifica erro do proxy (allorigins pode retornar HTML de erro)
+                    if (!csvText || csvText.length < 50 || csvText.startsWith("<") || csvText.toLowerCase().includes("error")) { 
+                         throw new Error("Proxy (allorigins) não conseguiu buscar a URL ou resposta inválida.");
                     }
 
                     const allRows = parseCSV(csvText);
