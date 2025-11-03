@@ -1,9 +1,10 @@
 <!-- Título com o GIF alinhado ao centro -->
 <!-- Título com o GIF alinhado ao centro -->
 
-<div align="center">
-<img src="[https://media3.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZHJ1eGZkaHRuM2cyZ3FrOW40eG92MWExNGNncDl3bDl6dWs3Z3BxNyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/4NCmkwMuPoJSBzyIt8/giphy.webp](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTI3eTltZGVzM2VxOWYxMWIxb2ozazl3dG01dHI3N2RjdW44cjkwOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/8lUe197VNH9i7e4UCZ/giphy.gif](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTI3eTltZGVzM2VxOWYxMWIxb2ozazl3dG01dHI3N2RjdW44cjkwOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/8lUe197VNH9i7e4UCZ/giphy.gif)" width="150" alt="Robô IA"/>
+<!-- Título com o GIF alinhado ao centro -->
 
+<div align="center">
+<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTI3eTltZGVzM2VxOWYxMWIxb2ozazl3dG01dHI3N2RjdW44cjkwOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/8lUe197VNH9i7e4UCZ/giphy.gif" width="150" alt="Robô IA"/>
   <h1>
     <strong>Raio-X Score 5 (Direta MG)</strong>
   </h1>
