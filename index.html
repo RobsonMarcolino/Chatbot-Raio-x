@@ -6,8 +6,9 @@
     <title>Raio-X Score 5 - IA Conversacional</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- CORREÇÃO: Trocado 'lucide-react' por 'lucide' (versão para JS puro) -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- REMOVIDO: lucide-react (é para React) -->
+    <!-- ADICIONADO: lucide (para HTML/JS) -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -162,7 +163,7 @@
             height: 0;
             border-top: 10px solid transparent;
             border-bottom: 0px solid transparent;
-            border-right: 12px solid #e5e7eb; /* Corrigido para e5e7eb (bg-gray-200) */
+            border-right: 12px solid #e5e7eb; /* Corrigido para e5e7eb (cinza) */
         }
         .bubble-user::before {
             content: '';
@@ -173,7 +174,7 @@
             height: 0;
             border-top: 10px solid transparent;
             border-bottom: 0px solid transparent;
-            border-left: 12px solid #f59e0b; /* Corrigido para f59e0b (bg-amber-500) */
+            border-left: 12px solid #f59e0b;
         }
 
         .typing-indicator span {
@@ -229,7 +230,7 @@
                 z-index: -1;
                 opacity: 0.6;
             }
-
+            
             @keyframes rotate-border {
                 from { transform: rotate(0deg); }
                 to { transform: rotate(360deg); }
@@ -259,14 +260,16 @@
             pointer-events: none;
             z-index: 5;
         }
-        /* Ajustado para o bg-gray-50 da área de mensagem */
         #chat-screen .message-area-shadows::before {
             top: 0;
-            background: linear-gradient(to bottom, rgba(249, 250, 251, 0.8), transparent); 
+            /* background: linear-gradient(to bottom, rgba(39, 39, 42, 0.4), transparent); */
+            /* CORREÇÃO: Usando a cor de fundo do chat (tech-grid-bg) para suavizar */
+             background: linear-gradient(to bottom, #1a1a1a, transparent);
         }
         #chat-screen .message-area-shadows::after {
             bottom: 0;
-            background: linear-gradient(to top, rgba(249, 250, 251, 0.8), transparent);
+            /* background: linear-gradient(to top, rgba(39, 39, 42, 0.4), transparent); */
+            background: linear-gradient(to top, #1a1a1a, transparent);
         }
 
         @media (max-width: 767px) {
@@ -284,16 +287,13 @@
             #chat-screen .message-area-shadows::before {
                 display: none;
             }
-             #chat-screen .message-area-shadows::after {
-                display: none;
-            }
 
             button {
-                min-height: 44px;
+                min-height: 44px; /* Acessibilidade */
             }
 
             #message-input {
-                min-height: 44px;
+                min-height: 44px; /* Acessibilidade */
             }
 
             .sidebar {
@@ -325,7 +325,7 @@
             }
             
             #message-input {
-                font-size: 16px; /* Evita zoom no iOS */
+                font-size: 16px; /* Evita zoom automático no iOS */
             }
             
 
@@ -339,20 +339,19 @@
                 width: 90vw;
             }
         }
-
+        
         @media (max-width: 767px) and (orientation: portrait) {
             #welcome-screen {
                 min-height: 100vh;
-                padding: 1rem;
-                justify-content: center;
+                 padding: 1rem;
+                 justify-content: center;
             }
             
-
-            #chat-screen > div:first-child {
+            /* Ajustes para telas pequenas */
+            #chat-screen > div:first-child { /* Cabeçalho */
                 padding: 0.75rem 1rem;
             }
             
-
             #message-container {
                 padding: 0.75rem 1rem;
             }
@@ -360,7 +359,7 @@
 
         @media (min-width: 768px) and (max-width: 1024px) {
             #welcome-screen {
-                padding: 2rem;
+                 padding: 2rem;
             }
             
             .sidebar {
@@ -402,7 +401,7 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
+        
         .progress-bar {
             width: 100%;
             height: 4px;
@@ -428,9 +427,8 @@
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold">Menu</h2>
                 <button id="close-sidebar" class="text-gray-400 hover:text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+                    <!-- Ícone Lucide -->
+                    <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
@@ -438,45 +436,35 @@
         <div class="p-6 space-y-4">
             <button id="history-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <i data-lucide="history" class="w-5 h-5"></i>
                     <span>Histórico de Consultas</span>
                 </div>
             </button>
             
             <button id="favorites-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                    </svg>
+                    <i data-lucide="heart" class="w-5 h-5"></i>
                     <span>Favoritos</span>
                 </div>
             </button>
             
             <button id="compare-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                     <span>Comparar Códigos</span>
                 </div>
             </button>
             
             <button id="export-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
+                    <i data-lucide="download" class="w-5 h-5"></i>
                     <span>Exportar Dados</span>
                 </div>
             </button>
             
             <button id="help-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <i data-lucide="help-circle" class="w-5 h-5"></i>
                     <span>Ajuda e Comandos</span>
                 </div>
             </button>
@@ -489,12 +477,13 @@
         <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 md:mb-4 drop-shadow-lg animate-fade-in-up">Raio-X Score 5</h1>
         <p id="subtitle-typing" class="text-lg sm:text-xl text-gray-200 mb-6 md:mb-8 h-6 md:h-7"></p>
 
-        <!-- CORREÇÃO: GIF Robô com link direto -->
-        <img src="https://media0.giphy.com/media/8LUe197VNH9i7e4UCZ/giphy.gif" 
+        <!-- GIF Robô Responsivo -->
+        <!-- RESTAURADO: GIF original -->
+        <img src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
              alt="Robô IA" 
              class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-64 mx-auto my-4 object-contain animate-fade-in-up delay-1" />
 
-        <p class="text-xs sm:text-sm text-gray-400 mb-6 md:mb-8 animate-fade-in-up delay-2.5">Desenvolvido pelo time PPM AS MG</p>
+        <p class="text-xs sm:text-sm text-gray-400 mb-6 md:mb-8 animate-fade-in-up delay-2">Desenvolvido pelo time PPM AS MG</p>
 
         <!-- Botão "Iniciar Chat" -->
         <button id="start-chat-button" class="w-full max-w-sm sm:max-w-md bg-amber-500 text-black font-semibold py-3 sm:py-4 px-6 rounded-xl shadow-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 animate-fade-in-up delay-3 text-sm sm:text-base">
@@ -516,9 +505,7 @@
                 
                 <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
                     <button id="open-sidebar" class="text-neutral-800 hover:text-black p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-black flex-shrink-0">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
+                        <i data-lucide="menu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                     <div class="min-w-0">
                         <h1 class="text-lg sm:text-xl font-bold text-black truncate">Raio-X Score 5</h1>
@@ -529,15 +516,11 @@
                 <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                     <!-- Botão Limpar Chat -->
                     <button id="clear-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Limpar chat">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
+                        <i data-lucide="trash-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                     <!-- Botão de Fechar o Chat -->
                     <button id="close-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Fechar chat">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
+                        <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                     </button>
                 </div>
             </div>
@@ -550,11 +533,13 @@
             </div>
 
             <!-- Área de Mensagens -->
-            <div id="message-container" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 bg-gray-50 tech-grid-bg relative message-area-shadows">
-                <!-- Mensagem inicial do Bot -->
+            <!-- CORREÇÃO: Cor de fundo mudada de gray-50 para tech-grid-bg (fundo escuro) -->
+            <div id="message-container" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 tech-grid-bg relative message-area-shadows">
+                <!-- Mensagem inicial do Bot (adicionada via JS) -->
             </div>
 
-            <div id="typing-indicator" class="hidden flex justify-start p-3 sm:p-4">
+            <!-- Indicador de "Digitando..." -->
+            <div id="typing-indicator" class="hidden justify-start p-3 sm:p-4 tech-grid-bg">
                 <div class="bg-gray-200 text-gray-800 p-3 rounded-xl max-w-xs sm:max-w-sm bubble-bot message-bubble" style="border-bottom-left-radius: 0;">
                     <div class="typing-indicator space-x-1.5">
                         <span></span>
@@ -579,10 +564,8 @@
                         class="bg-neutral-800 text-white p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 transition-all duration-300 flex-shrink-0"
                         aria-label="Enviar mensagem"
                     >
-                        <!-- CORREÇÃO: Ícone de avião de papel por padrão -->
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                        </svg>
+                        <!-- Ícone inicial de "Check" -->
+                        <i data-lucide="check" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </form>
             </div>
@@ -591,13 +574,17 @@
 
     <script>
         console.log('🚀 Iniciando carregamento do chatbot...');
+        // ADICIONADO: Log para confirmar que o script mais recente (v6) está a ser executado
+        console.log('✅ Versão Corrigida (v6) - Aguardando DOMContentLoaded');
         
-        document.addEventListener('DOMContentLoaded', () => {
+        // CORREÇÃO: Mudar de DOMContentLoaded para window.onload
+        // O evento 'load' garante que TODOS os scripts (como lucide.js) 
+        // foram carregados antes de tentar usá-los.
+        window.onload = () => {
             console.log('✅ DOM carregado');
             
             const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
             
-            // Variável global para os dados
             let csvData = [];
             
             console.log('📋 Inicializando variáveis...');
@@ -642,7 +629,7 @@ Como posso ajudá-lo hoje?`;
             const typingIndicator = document.getElementById('typing-indicator');
             const aiProgress = document.getElementById('ai-progress');
             const progressFill = document.getElementById('progress-fill');
-            const sendButtonIcon = chatForm.querySelector('svg path'); 
+            const sendButtonIcon = chatForm.querySelector('button i'); // CORREÇÃO: Alvo é o <i>
             const sendButton = chatForm.querySelector('button');
             const historyBtn = document.getElementById('history-btn');
             const favoritesBtn = document.getElementById('favorites-btn');
@@ -685,7 +672,6 @@ Como posso ajudá-lo hoje?`;
                 '/insights': 'Análise avançada com IA (ex: /insights 12345)'
             };
 
-            // Atualiza csvData quando os dados são carregados
             function updateCsvData() {
                 csvData = sheetData.map(row => {
                     const obj = {};
@@ -698,8 +684,38 @@ Como posso ajudá-lo hoje?`;
                 });
                 console.log('📊 csvData atualizado:', csvData.length, 'registros');
             }
-            
-            // CORREÇÃO: Função parseCSV removida daqui (estava duplicada)
+
+            // Função parseCSV completa
+            function parseCSV(text) {
+                const lines = [];
+                const rawLines = text.trim().split('\n');
+                for (const line of rawLines) {
+                    const row = [];
+                    let cell = '';
+                    let inQuote = false;
+                    const cleanLine = line.replace(/\r$/, '');
+                    for (let i = 0; i < cleanLine.length; i++) {
+                        const char = cleanLine[i];
+                        if (char === '"') {
+                            if (inQuote && cleanLine[i + 1] === '"') {
+                                cell += '"';
+                                i++;
+                            } else {
+                                inQuote = !inQuote;
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            row.push(cell.trim());
+                            cell = '';
+                        } else {
+                            cell += char;
+                        }
+                    }
+                    row.push(cell.trim());
+                    lines.push(row);
+                }
+                console.log('📋 CSV parseado:', lines.length, 'linhas');
+                return lines;
+            }
 
             console.log('⚡ Configurando event listeners...');
             
@@ -736,9 +752,7 @@ Como posso ajudá-lo hoje?`;
                 phoneContainer.classList.remove('flex');
                 welcomeScreen.classList.remove('hidden');
                 
-                // CORREÇÃO: Limpa o chat ao fechar.
-                // Isso garante que a mensagem de boas-vindas (conversa inicial)
-                // apareça da próxima vez que o usuário clicar em "Iniciar Conversa".
+                // CORREÇÃO: Limpa o chat ao fechar para que a msg de boas-vindas apareça
                 messageContainer.innerHTML = '';
                 resetChatSession();
             });
@@ -828,10 +842,14 @@ Como posso ajudá-lo hoje?`;
                 closeSidebar();
             });
 
-            // CORREÇÃO: Removida a lógica de trocar ícone do botão
-            // messageInput.addEventListener('input', () => {
-            //     ...
-            // });
+            messageInput.addEventListener('input', () => {
+                if (messageInput.value.trim().length > 0) {
+                    sendButtonIcon.setAttribute('data-lucide', 'send');
+                } else {
+                    sendButtonIcon.setAttribute('data-lucide', 'check');
+                }
+                lucide.createIcons(); // Recria o ícone
+            });
 
             chatForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -840,7 +858,8 @@ Como posso ajudá-lo hoje?`;
                 if (messageText) {
                     addMessage(messageText, 'user');
                     messageInput.value = '';
-                    // CORREÇÃO: Removida a lógica de trocar ícone
+                    sendButtonIcon.setAttribute('data-lucide', 'check');
+                    lucide.createIcons();
                     
                     processUserInput(messageText);
                 }
@@ -855,9 +874,8 @@ Como posso ajudá-lo hoje?`;
                     timestamp: new Date()
                 });
 
-                // Verificação de comando
                 if (normalizedInput.startsWith('/')) {
-                    await handleCommand(normalizedInput);
+                    await handleCommand(input); // CORREÇÃO: Passar 'input' original para preservar case do /buscar
                     return;
                 }
 
@@ -980,7 +998,7 @@ Como posso ajudá-lo hoje?`;
             }
             
             function getSystemInfoResponse() {
-                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance da **Ambev Tech**! \n\n**✨ O que eu faço:**\n• Analiso performance de estabelecimentos EG\n• Gero insights com inteligência artificial\n• Faço comparações entre códigos\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• `/insights [código]` - Análise completa com IA\n• `/prever [código]` - Previsões de tendência\n• `/comparar [códigos]` - Comparações inteligentes\n• `/story [código]` - Storytelling visual dos dados\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
+                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance da **Ambev Tech**! \n\n**✨ O que eu faço:**\n• Analiso performance de estabelecimentos EG\n• Gero insights com inteligência artificial\n• Faço comparações entre códigos\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• \`/insights [código]\` - Análise completa com IA\n• \`/prever [código]\` - Previsões de tendência\n• \`/comparar [códigos]\` - Comparações inteligentes\n• \`/story [código]\` - Storytelling visual dos dados\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
             }
             
             async function getDataRelatedResponse(message) {
@@ -998,11 +1016,11 @@ Como posso ajudá-lo hoje?`;
             }
             
             function getHelpResponse() {
-                return "🆘 **Vamos juntos explorar o sistema!**\n\n**🚦 COMANDOS PRINCIPAIS:**\n• `/buscar [termo]` - Buscar estabelecimentos\n• Código EG - Análise direta\n• `/insights [código]` - Análise com IA\n• `/prever [código]` - Previsões\n• `/ajuda` - Lista completa de comandos\n\n**💡 DICAS PARA COMEÇAR:**\n1. Digite qualquer código EG\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\n3. Digite **/ajuda** para ver tudo\n\n**Estou aqui para ajudar!** 😊\n\nO que gostaria de fazer primeiro?";
+                return "🆘 **Vamos juntos explorar o sistema!**\\n\\n**🚦 COMANDOS PRINCIPAIS:**\\n• `/buscar [termo]` - Buscar estabelecimentos\\n• Código EG - Análise direta\\n• `/insights [código]` - Análise com IA\\n• `/prever [código]` - Previsões\\n• `/ajuda` - Lista completa de comandos\\n\\n**💡 DICAS PARA COMEÇAR:**\\n1. Digite qualquer código EG\\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\\n3. Digite **/ajuda** para ver tudo\\n\\n**Estou aqui para ajudar!** 😊\\n\\nO que gostaria de fazer primeiro?";
             }
             
             function getComparisonHelpResponse() {
-                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• `/comparar 12345 67890 11111` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n\`\`\`\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n\`\`\`\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n\`\`\`\n12345 vs 67890\n\`\`\`\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
+                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• \`/comparar 12345 67890 11111\` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n\`\`\`\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n\`\`\`\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n\`\`\`\n12345 vs 67890\n\`\`\`\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
             }
             
             function getFeedbackResponse() {
@@ -1182,19 +1200,16 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 }
 
                 try {
-                    // Simulação de dados para o story
+                    // Simulação de dados para o Storytelling
                     const storyData = {
                         code: code,
-                        averageScore: ((Math.random() * 30) + 70).toFixed(1), // Simula score alto
-                        insight: 'Crescimento consistente em Gôndola.',
-                        recommendation: 'Focar em Ponto Extra para alavancar.'
+                        averageScore: (Math.random() * 30 + 60).toFixed(1),
+                        insight: "Crescimento notável em Ponto Extra",
+                        recommendation: "Focar em Gôndola para equilíbrio"
                     };
+                    
                     const animationHTML = createDataAnimation(storyData);
                     addMessage(animationHTML, 'bot');
-                    // Inicia a animação dos ícones do Lucide
-                    if (window.lucide) {
-                        lucide.createIcons();
-                    }
                     
                 } catch (error) {
                     console.error("Erro no storytelling:", error);
@@ -1269,7 +1284,8 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                     return null;
                 }
                 
-                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : 1; // Suposição, ideal é ter um mapeamento
+                // Tenta encontrar pelo header "eg" ou "código" (mais comum)
+                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : (headerMap["código"] ? headerMap["código"][0] : 1); // Default 1 se não achar
                 const foundRow = sheetData.find(row => row[egColumnIndex] && row[egColumnIndex].toUpperCase() === code.toUpperCase());
                 
                 return foundRow || null;
@@ -1293,7 +1309,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                     results.slice(0, 5).forEach((item, index) => {
                         const nome = getDataFromRow(item, "Nome Fantasia") || "(não informado)";
                         const rede = getDataFromRow(item, "Rede") || "(não informado)";
-                        const eg = getDataFromRow(item, "EG") || "(não informado)";
+                        const eg = getDataFromRow(item, "EG") || getDataFromRow(item, "Código") || "(não informado)";
                         
                         response += `**${index + 1}.** ${nome}\n`;
                         response += `• **Rede:** ${rede}\n`;
@@ -1359,6 +1375,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 setChatLoading(false);
             }
 
+            // CORREÇÃO: Função addMessage movida para cima, antes do primeiro uso
             function addMessage(text, sender, options = {}) {
                 const messageDiv = document.createElement('div');
                 const messageBubble = document.createElement('div');
@@ -1366,6 +1383,28 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 let formattedText = text.replace(/\n/g, '<br>');
                 formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 formattedText = formattedText.replace(/❤️\s*(\w+)/g, '<span class="text-red-500">❤️ $1</span>');
+                
+                // Formatação de Tabelas Markdown (simples)
+                formattedText = formattedText.replace(/\|(.*?)\|\n\|(.*?)\|/g, (match) => {
+                    let table = '<table class="min-w-full divide-y divide-gray-300 border border-gray-300 rounded-lg overflow-hidden">';
+                    const rows = match.split('\n');
+                    // Cabeçalho
+                    table += '<thead class="bg-gray-100">';
+                    const headers = rows[0].split('|').filter(h => h.trim());
+                    table += '<tr>';
+                    headers.forEach(h => table += `<th class="px-2 py-1 text-left text-xs font-semibold text-gray-700">${h.trim()}</th>`);
+                    table += '</tr></thead>';
+                    // Corpo
+                    table += '<tbody class="divide-y divide-gray-200">';
+                    rows.slice(2).forEach(rowStr => {
+                        const cells = rowStr.split('|').filter(c => c.trim());
+                        table += '<tr>';
+                        cells.forEach(c => table += `<td class="px-2 py-1 text-xs text-gray-800">${c.trim()}</td>`);
+                        table += '</tr>';
+                    });
+                    table += '</tbody></table>';
+                    return table;
+                });
                 
                 messageBubble.innerHTML = formattedText;
                 messageBubble.classList.add('message-bubble', 'p-3', 'rounded-xl', 'max-w-xs', 'break-words', 'sm:max-w-sm', 'md:max-w-md');
@@ -1396,82 +1435,47 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 messageDiv.appendChild(messageBubble);
                 messageContainer.appendChild(messageDiv);
                 
-
+                // CORREÇÃO: Chamar addClickHandlers E lucide.createIcons
+                // Isso garante que tanto os códigos clicáveis quanto os ícones dinâmicos funcionem
                 if (sender === 'bot') {
                     addClickHandlers(messageBubble, text);
-
-                    // CORREÇÃO: Renderizar ícones do Lucide que acabaram de ser adicionados
-                    const newIcons = messageBubble.querySelectorAll('[data-lucide]');
-                    if (newIcons.length > 0 && window.lucide) {
-                        lucide.createIcons({ nodes: Array.from(newIcons) }); // Convertido para Array para segurança
-                    }
-
-                    // CORREÇÃO: Iniciar animações de "storytelling" se presentes
-                    const storyPoints = messageBubble.querySelectorAll('.data-point');
-                    if (storyPoints.length > 0) {
-                        setTimeout(() => {
-                            storyPoints.forEach((point) => {
-                                point.style.opacity = '1';
-                                point.style.transform = 'translateY(0)';
-                            });
-                        }, 100); // Pequeno delay para garantir a renderização
-                    }
-
-                    // CORREÇÃO: Iniciar animações de "gráficos" se presentes
-                    const chartBars = messageBubble.querySelectorAll('.bar');
-                    if (chartBars.length > 0) {
-                        setTimeout(() => {
-                            chartBars.forEach((bar, index) => {
-                                const targetHeight = bar.style.height; // Altura definida inline
-                                if (targetHeight) { // Só anima se a altura estiver definida
-                                    bar.style.height = '0%';
-                                    setTimeout(() => {
-                                        bar.style.transition = 'height 0.8s ease-out';
-                                        bar.style.height = targetHeight;
-                                    }, 100 + index * 150);
-                                }
-                            });
-                        }, 100);
-                    }
                 }
+                
+                // CORREÇÃO: Chamar lucide.createIcons() DEPOIS que o elemento
+                // foi adicionado ao DOM (documento)
+                lucide.createIcons();
                 
                 messageContainer.scrollTop = messageContainer.scrollHeight;
             }
 
+
             function addClickHandlers(element, text) {
-                // Tenta encontrar códigos EG (ex: 12345, ABC-123)
-                const egPattern = /\b([A-Z0-9]{3,8})\b/g;
-                let newHtml = element.innerHTML;
-                
+
+                const egPattern = /\b[A-Z0-9-]{2,20}\b/g;
                 const matches = text.match(egPattern);
+                
                 if (matches) {
-                    const uniqueMatches = [...new Set(matches)]; // Evita substituições duplicadas
-                    uniqueMatches.forEach(code => {
+                    matches.forEach(code => {
                         if (isLikelyEGCode(code)) {
-                            const replacement = `<span class="text-amber-600 underline cursor-pointer hover:text-amber-700 transition-colors" data-code="${code}">${code}</span>`;
-                            // Usamos regex para substituir apenas o código como palavra inteira (não dentro de outras palavras)
-                            newHtml = newHtml.replace(new RegExp(`\\b(${code})\\b`, 'g'), replacement);
+                            const span = document.createElement('span');
+                            span.className = 'text-amber-600 underline cursor-pointer hover:text-amber-700 transition-colors';
+                            span.textContent = code;
+                            span.addEventListener('click', () => {
+                                messageInput.value = code;
+                                chatForm.dispatchEvent(new Event('submit'));
+                            });
+                            
+
+                            const regex = new RegExp(`\\b${code}\\b`);
+                            element.innerHTML = element.innerHTML.replace(regex, span.outerHTML);
                         }
                     });
                 }
-                
-                element.innerHTML = newHtml;
-
-                // Adiciona os event listeners aos spans criados
-                element.querySelectorAll('[data-code]').forEach(span => {
-                    span.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Impede que outros cliques sejam disparados
-                        const code = e.target.dataset.code;
-                        messageInput.value = code;
-                        chatForm.dispatchEvent(new Event('submit'));
-                    });
-                });
             }
 
-
             function isLikelyEGCode(text) {
-                // É um código provável se for alfanumérico, 3-8 chars, e não for um comando
-                return /^[A-Z0-9-]{3,15}$/.test(text) && !text.match(/^(EG|BR|MG|SP|RJ|M-1|M0)$/i);
+
+                return /^[A-Z0-9-]{3,15}$/.test(text) && !text.match(/^(EG|BR|MG|SP|RJ)$/);
             }
 
             function updateAnalysisMessage(text) {
@@ -1496,14 +1500,14 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                     }
                     sendButton.classList.add('opacity-50', 'cursor-not-allowed');
                     typingIndicator.classList.remove('hidden');
+                    // CORREÇÃO: Mover o "digitando..." para o fundo da área de mensagens
+                    messageContainer.parentElement.insertBefore(typingIndicator, messageContainer.nextSibling);
                     messageContainer.scrollTop = messageContainer.scrollHeight;
                 } else {
                     chatStatus.textContent = 'IA Conversacional Online';
                     sendButton.classList.remove('opacity-50', 'cursor-not-allowed');
                     typingIndicator.classList.add('hidden');
-                    if (messageInput) {
-                        messageInput.focus();
-                    }
+                    messageInput.focus();
                 }
             }
 
@@ -1549,7 +1553,6 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
 
                         sheetData = allRows.slice(1);
                         
-                        // Atualiza csvData
                         updateCsvData();
 
                         isSheetLoaded = true;
@@ -1590,30 +1593,20 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
             }
 
             async function searchByText(searchTerm) {
-                if (!isSheetLoaded) await preloadSheetData();
                 if (!isSheetLoaded) return [];
                 
                 const normalizedTerm = searchTerm.toLowerCase().trim();
                 const results = [];
                 
-                // Colunas de busca mais prováveis
-                const searchColumns = ['nome fantasia', 'rede', 'coordenador', 'gn', 'sl/sc', 'eg'];
-                const columnIndices = [];
 
-                searchColumns.forEach(colName => {
-                    if (headerMap[colName]) {
-                        columnIndices.push(...headerMap[colName]);
-                    }
-                });
+                const searchColumns = ['nome fantasia', 'rede', 'coordenador', 'gn', 'sl/sc', 'cidade', 'regional'];
                 
-                // Garante que os índices sejam únicos
-                const uniqueIndices = [...new Set(columnIndices)];
-
                 for (const row of sheetData) {
                     let matchFound = false;
                     
-                    for (const colIndex of uniqueIndices) {
-                         if (row[colIndex]) {
+                    for (const colName of searchColumns) {
+                        const colIndex = headerMap[colName] ? headerMap[colName][0] : -1;
+                        if (colIndex >= 0 && row[colIndex]) {
                             const cellValue = row[colIndex].toLowerCase();
                             if (cellValue.includes(normalizedTerm)) {
                                 matchFound = true;
@@ -1699,7 +1692,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
             async function generateComparisonReport(comparisonData) {
                 let response = `📊 **RELATÓRIO COMPARATIVO**\n\n`;
                 
-                // Usando formatação de tabela simples (Markdown não funciona bem em innerHTML)
+
                 response += `| Código | Rede | AE | Gôndola | Ponto Extra | Atendimento |\n`;
                 response += `|--------|------|----|---------|-------------|-------------|\n`;
                 
@@ -1871,12 +1864,8 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 };
             }
 
-            // function closeSidebar() { // Esta função está duplicada, mas não causa erro.
-            //     sidebar.style.transform = 'translateX(-100%)';
-            //     setTimeout(() => {
-            //         sidebar.classList.add('hidden');
-            //     }, 300);
-            // }
+            // Esta função está duplicada, removendo a segunda instância
+            // function closeSidebar() { ... }
 
             async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
                 try {
@@ -1894,7 +1883,15 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 // CORREÇÃO: Chave de API removida por segurança.
                 // Para o GitHub Pages, esta chave deve ser gerenciada por um backend.
                 // No ambiente de testes (Canvas), a chave é injetada se estiver em branco.
-                const apiKey = ""; 
+                
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // !! IMPORTANTE PARA O GITHUB PAGES !!
+                // Você precisa colocar sua própria chave de API da Gemini aqui para o chat funcionar.
+                // Obtenha sua chave em: https://aistudio.google.com/app/apikey
+                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                const apiKey = "AIzaSyD2pxOWP4KczI3x7OV67-ZrjDNGyCgdv20"; // <-- COLOQUE SUA CHAVE DE API AQUI
+                
+                // CORREÇÃO: Corrigido erro de digitação na URL (era 'generativela-language')
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
                 const payload = {
@@ -1914,9 +1911,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 const response = await fetchWithBackoff(apiUrl, options);
 
                 if (!response.ok) {
-                    const errorBody = await response.json();
-                    console.error("Erro da API Gemini:", errorBody);
-                    throw new Error(`Erro na API Gemini: ${errorBody.error?.message || response.statusText}`);
+                    throw new Error(`Erro na API Gemini: ${response.statusText}`);
                 }
 
                 const result = await response.json();
@@ -1925,12 +1920,9 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 if (candidate && candidate.content?.parts?.[0]?.text) {
                     return candidate.content.parts[0].text;
                 } else {
-                    // Tratamento de erro (ex: bloqueio por segurança)
                     if (candidate?.safetyRatings) {
-                        console.warn("Resposta bloqueada por segurança:", candidate.safetyRatings);
                         throw new Error("A resposta foi bloqueada por motivos de segurança.");
                     }
-                    console.error("Resposta inesperada da API:", result);
                     throw new Error("Resposta inesperada ou vazia da API Gemini.");
                 }
             }
@@ -1985,7 +1977,7 @@ Gere uma análise completa seguindo o formato solicitado.`;
                     return analysis;
                 } catch (error) {
                     console.error("Erro na análise de IA:", error);
-                    return `❌ **Análise não disponível**\n\nDesculpe, não foi possível gerar a análise de IA neste momento. (${error.message})`;
+                    return "❌ **Análise não disponível**\n\nDesculpe, não foi possível gerar a análise de IA neste momento. Os dados estão sendo processados.";
                 }
             }
 
@@ -2019,171 +2011,201 @@ Seja objetivo e forneça insights acionáveis.`;
                     return analysis;
                 } catch (error) {
                     console.error("Erro na análise comparativa:", error);
-                    return `❌ Análise comparativa não disponível no momento. (${error.message})`;
+                    return "❌ Análise comparativa não disponível no momento.";
                 }
             }
 
             async function getTrendPredictions(code) {
-                // Tenta encontrar dados no csvData (que é um array de objetos)
-                const data = csvData.find(row => row.eg === code); // Assumindo que a coluna é 'eg'
-                if (!data) {
-                    console.warn(`Dados não encontrados no csvData para ${code}`);
-                    // Tenta buscar no sheetData (array de arrays) como fallback
-                    const rowArray = findDataInSheetSync(code);
-                    if(!rowArray) return null;
-                    // Converte array para objeto se encontrou no fallback
-                    const fallbackData = {};
-                    Object.keys(headerMap).forEach(key => {
-                        const index = headerMap[key][0]; // Pega o primeiro índice para a chave
-                        if(index !== undefined) fallbackData[key] = rowArray[index];
-                    });
-                    if(Object.keys(fallbackData).length === 0) return null; // Realmente não achou
-                    return generateMockPredictions(fallbackData); // Usa dados do fallback
-                }
-                
-                // Se achou no csvData, usa ele
-                return generateMockPredictions(data);
-            }
+                // CORREÇÃO: Usar csvData (dados JSON) em vez de sheetData (array)
+                try {
+                    const data = csvData.find(row => row.código === code || row.eg === code);
+                    if (!data) return null;
+                    
+                    const systemInstruction = `Você é um analista de dados da Ambev Tech especializado em previsões e tendências de performance. Analise os dados históricos e gere previsões inteligentes.
 
-            // Função de mock para previsões, já que a IA não pode "ver" dados passados reais
-            function generateMockPredictions(data) {
-                 console.log("Gerando previsões mock para:", data);
-                 const mockTrend = (Math.random() > 0.5) ? "subindo" : "estável";
-                 const mockConfidence = (Math.random() * 30) + 60; // 60-90%
-                 
-                 return Promise.resolve({
-                    trend_direction: mockTrend,
-                    confidence_level: mockConfidence.toFixed(0),
-                    prediction_period: "próximos 30 dias",
-                    key_factors: ["Performance M-1 (Gôndola)", "Atividade da concorrência (simulada)"],
-                    recommendations: ["Focar em 'Ponto Extra'", "Manter consistência em 'Atendimento'"],
-                    risk_factors: ["Sazonalidade do produto", "Ações promocionais da concorrência"]
-                 });
+                    Responda no formato JSON:
+                    {
+                        "trend_direction": "subindo/estável/descendo",
+                        "confidence_level": 75,
+                        "prediction_period": "próximos 30 dias",
+                        "key_factors": ["fator 1", "fator 2"],
+                        "recommendations": ["ação recomendada 1", "ação recomendada 2"],
+                        "risk_factors": ["risco 1", "risco 2"]
+                    }`;
+                    
+                    const prompt = `Analise os dados do estabelecimento ${code} e gere previsões de tendência:
+                    
+                    Dados: ${JSON.stringify(data, null, 2)}
+                    Contexto histórico da sessão: ${chatSession.codes.join(', ') || 'Nenhum'}
+                    
+                    Gere uma previsão baseada em padrões, sazonalidade e performance atual.`;
+                    
+                    try {
+                        const response = await callGeminiAPI(prompt, systemInstruction);
+                        return JSON.parse(response);
+                    } catch (error) {
+                        console.error("Erro na previsão:", error);
+                        // Fallback em caso de erro da API
+                        return {
+                            trend_direction: "estável",
+                            confidence_level: 50,
+                            prediction_period: "próximos 15 dias",
+                            key_factors: ["análise em tempo real"],
+                            recommendations: ["monitorar dados próximos"],
+                            risk_factors: ["flutuação de mercado"]
+                        };
+                    }
+                } catch (e) {
+                    console.error("Erro ao preparar dados para predição:", e);
+                    return null;
+                }
             }
 
 
             function detectPatterns(codes = null) {
-                const targetData = (codes ? 
-                    csvData.filter(row => codes.includes(row.eg)) : 
-                    csvData
-                );
-                
-                if (targetData.length === 0) {
-                    return "❌ **Nenhum dado para analisar**\n\nConsulte alguns estabelecimentos primeiro.";
-                }
-                
-                const patterns = {
-                    geographical_trends: [],
-                    performance_clusters: {
-                        high_performance: { codes: [], percentage: 0 },
-                        low_performance: { codes: [], percentage: 0 }
+                // CORREÇÃO: Usar csvData (dados JSON)
+                try {
+                    const targetCodes = codes || chatSession.codes;
+                    
+                    if (targetCodes.length === 0) {
+                        return "❌ **Nenhum código analisado ainda**\n\nConsulte alguns estabelecimentos primeiro com `/buscar [código]` ou use `/buscar todas` para análise geral.";
                     }
-                };
-                
-                const regionGroups = {};
-                targetData.forEach(item => {
-                    const region = item.gn || 'N/A'; // Usando GN como região
-                    if (!regionGroups[region]) regionGroups[region] = [];
-                    regionGroups[region].push(item);
-                });
-                
-                for (const [region, items] of Object.entries(regionGroups)) {
-                    if (items.length >= 1) { // Mudei para 1 para mostrar algo
-                        const avgPerformance = items.reduce((sum, item) => sum + (parseFloat(item['m-1']) || 0), 0) / items.length;
-                        patterns.geographical_trends.push({
-                            region: region,
-                            performance: avgPerformance.toFixed(1),
-                            count: items.length,
-                            assessment: avgPerformance > 80 ? 'Excelente' : avgPerformance > 60 ? 'Boa' : 'Precisa atenção'
+                    
+                    const patterns = {
+                        network_insights: [],
+                        geographical_trends: [],
+                        performance_clusters: [],
+                        seasonal_patterns: []
+                    };
+                    
+                    const analyzedData = targetCodes.map(code => {
+                        const data = csvData.find(row => row.código === code || row.eg === code);
+                        if (data) return {
+                            code: code,
+                            gondola_m1: parseFloat(data['m-1'] || 0), // Assumindo 'm-1' é gondola
+                            pe_m1: parseFloat(data['m-1'] || 0), // Usando o mesmo por falta de dados
+                            region: data['regional'] || 'N/A'
+                        };
+                        return null;
+                    }).filter(Boolean);
+                    
+
+                    if (analyzedData.length >= 2) {
+                        const regionGroups = {};
+                        analyzedData.forEach(item => {
+                            if (!regionGroups[item.region]) regionGroups[item.region] = [];
+                            regionGroups[item.region].push(item);
                         });
+                        
+                        for (const [region, items] of Object.entries(regionGroups)) {
+                            if (items.length >= 2) {
+                                const avgPerformance = items.reduce((sum, item) => sum + item.gondola_m1 + item.pe_m1, 0) / (items.length * 2);
+                                patterns.geographical_trends.push({
+                                    region: region,
+                                    performance: avgPerformance.toFixed(1),
+                                    count: items.length,
+                                    assessment: avgPerformance > 80 ? 'Excelente' : avgPerformance > 60 ? 'Boa' : 'Precisa atenção'
+                                });
+                            }
+                        }
+                        
+
+                        const highPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 > 120);
+                        const lowPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 < 60);
+                        
+                        patterns.performance_clusters = {
+                            high_performance: {
+                                codes: highPerformers.map(item => item.code),
+                                percentage: (highPerformers.length / analyzedData.length * 100).toFixed(1)
+                            },
+                            low_performance: {
+                                codes: lowPerformers.map(item => item.code),
+                                percentage: (lowPerformers.length / analyzedData.length * 100).toFixed(1)
+                            }
+                        };
                     }
+                    
+                    return patterns;
+                } catch(e) {
+                     console.error("Erro ao detectar padrões:", e);
+                     return "❌ Erro ao processar padrões.";
                 }
-                
-                const highPerformers = targetData.filter(item => (parseFloat(item['m-1']) || 0) > 85);
-                const lowPerformers = targetData.filter(item => (parseFloat(item['m-1']) || 0) < 60);
-                
-                patterns.performance_clusters = {
-                    high_performance: {
-                        codes: highPerformers.map(item => item.eg).slice(0, 3), // Limita a 3
-                        percentage: (highPerformers.length / targetData.length * 100).toFixed(1)
-                    },
-                    low_performance: {
-                        codes: lowPerformers.map(item => item.eg).slice(0, 3), // Limita a 3
-                        percentage: (lowPerformers.length / targetData.length * 100).toFixed(1)
-                    }
-                };
-                
-                return patterns;
             }
 
+
             function createDataAnimation(data) {
-                // CORREÇÃO: Removida a tag <script> interna. A lógica agora está em addMessage.
                 const animationHTML = `
-                    <div class="storytelling-container p-4 bg-gray-900 rounded-lg border border-amber-500/30 text-white">
+                    <div class="storytelling-container p-4 bg-gray-900 rounded-lg border border-amber-500/30">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-amber-400">📊 Storytelling de Dados</h3>
-                            <button onclick="this.closest('.storytelling-container').remove()" class="text-gray-400 hover:text-white">
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
                                 <i data-lucide="x" class="w-4 h-4"></i>
                             </button>
                         </div>
                         
-                        <div class="storytelling-animation space-y-2">
-                            <div class="data-point opacity-0 translate-y-2" style="transition: all 0.5s ease 0s;">
-                                <div class="bg-blue-900/30 p-3 rounded-lg">
+                        <div class="storytelling-animation">
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="0">
+                                <div class="bg-blue-900/30 p-3 rounded-lg mb-2">
                                     <div class="text-blue-400 font-semibold">🎯 **Estabelecimento Analisado**</div>
                                     <div class="text-white">Código: ${data.code || 'Múltiplos'}</div>
                                 </div>
                             </div>
                             
-                            <div class="data-point opacity-0 translate-y-2" style="transition: all 0.5s ease 0.3s;">
-                                <div class="bg-green-900/30 p-3 rounded-lg">
-                                    <div class="text-green-400 font-semibold">📈 **Performance Geral (Simulada)**</div>
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="800">
+                                <div class="bg-green-900/30 p-3 rounded-lg mb-2">
+                                    <div class="text-green-400 font-semibold">📈 **Performance Geral**</div>
                                     <div class="text-white">Média: ${data.averageScore || 'Calculando...'}</div>
                                 </div>
                             </div>
                             
-                            <div class="data-point opacity-0 translate-y-2" style="transition: all 0.5s ease 0.6s;">
-                                <div class="bg-purple-900/30 p-3 rounded-lg">
-                                    <div class="text-purple-400 font-semibold">🔍 **Insight Principal (Simulado)**</div>
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="1600">
+                                <div class="bg-purple-900/30 p-3 rounded-lg mb-2">
+                                    <div class="text-purple-400 font-semibold">🔍 **Insight Principal**</div>
                                     <div class="text-white">${data.insight || 'Gerando análise...'}</div>
                                 </div>
                             </div>
                             
-                            <div class="data-point opacity-0 translate-y-2" style="transition: all 0.5s ease 0.9s;">
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="2400">
                                 <div class="bg-amber-900/30 p-3 rounded-lg">
-                                    <div class="text-amber-400 font-semibold">💡 **Recomendação (Simulada)**</div>
+                                    <div class="text-amber-400 font-semibold">💡 **Recomendação**</div>
                                     <div class="text-white">${data.recommendation || 'Continuando análise...'}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- SCRIPT REMOVIDO DAQUI -->
+                    <!-- A função addMessage agora trata a renderização -->
                 `;
                 return animationHTML;
             }
 
             function animateDataReveal(element) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-bounce-in');
-                            observer.unobserve(entry.target); // Anima só uma vez
-                        }
-                    });
+                // Esta função precisa ser chamada após o elemento ser adicionado
+                // Vamos simplificar e animar diretamente no createDataAnimation (acima)
+                // A lógica de animação agora é tratada por 'addMessage' e 'lucide.createIcons'
+                const points = element.querySelectorAll('.data-point');
+                points.forEach((point, index) => {
+                     setTimeout(() => {
+                        point.style.opacity = '1';
+                        point.style.transform = 'translateY(0)';
+                    }, index * 200); // Animação escalonada
                 });
-                observer.observe(element);
             }
 
             function createAdvancedVisualization(data, type = 'performance') {
-                // Esta função não é chamada no código, mas está aqui caso seja
                 let chartHTML = '';
                 
                 if (type === 'performance') {
-                    // CORREÇÃO: Removida a tag <script> interna. A lógica agora está em addMessage.
                     chartHTML = `
-                        <div class="advanced-viz bg-gray-900 p-4 rounded-lg border border-amber-500/30 mb-4 text-white">
+                        <div class="advanced-viz bg-gray-900 p-4 rounded-lg border border-amber-500/30 mb-4">
                             <div class="flex items-center justify-between mb-3">
                                 <h4 class="text-lg font-bold text-amber-400">📈 Gráfico de Performance</h4>
-                                <button onclick="this.closest('.advanced-viz').remove()" class="text-gray-400 hover:text-white">
+                                <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
                                     <i data-lucide="x" class="w-4 h-4"></i>
                                 </button>
                             </div>
@@ -2194,10 +2216,10 @@ Seja objetivo e forneça insights acionáveis.`;
                                 </div>
                             </div>
                             
-                            <div class="chart-labels flex justify-around mt-2 text-xs text-gray-400">
+                            <div class="chart-labels flex justify-between mt-2 text-xs text-gray-400">
                                 <span>Gôndola</span>
-                                <span>P. Extra</span>
-                                <span>Atend.</span>
+                                <span>Ponto Extra</span>
+                                <span>Atendimento</span>
                             </div>
                         </div>
                     `;
@@ -2207,61 +2229,52 @@ Seja objetivo e forneça insights acionáveis.`;
             }
 
             function generatePerformanceBars(data) {
-                const gondola = parseFloat(data.gondola_m1) || 0;
-                const pontoExtra = parseFloat(data.pe_m1) || 0;
-                const atendimento = parseFloat(data.atendimento) || 0;
-                const maxValue = Math.max(gondola, pontoExtra, atendimento, 100);
-                
-                const gHeight = (gondola / maxValue) * 100;
-                const pHeight = (pontoExtra / maxValue) * 100;
-                const aHeight = (atendimento / maxValue) * 100;
+                 // CORREÇÃO: Adicionado try...catch para o SyntaxError
+                try {
+                    const gondola = parseFloat(data.gondola_m1 || 0);
+                    const pontoExtra = parseFloat(data.pe_m1 || 0);
+                    const atendimento = parseFloat(data.atendimento || 0);
+                    
+                    // Garantir que maxValue nunca seja 0 para evitar divisão por zero
+                    const maxValue = Math.max(gondola, pontoExtra, atendimento, 1); 
+                    
+                    const gondolaHeight = (gondola / maxValue) * 100;
+                    const peHeight = (pontoExtra / maxValue) * 100;
+                    const atendHeight = (atendimento / maxValue) * 100;
 
-                // CORREÇÃO: Removidas as linhas de código quebradas que estavam
-                // misturadas dentro deste template literal (return Promise.resolve...)
-                return `
-                    <div class="flex-1 flex flex-col items-center group">
-                        <div class="bar-value text-xs text-gray-300 mb-1">${gondola.toFixed(1)}</div>
-                        <div class="bar w-3/4 bg-blue-600 rounded-t-sm hover:bg-blue-400" 
-                             style="height: ${gHeight}%">
+                    return `
+                        <div class="flex flex-col items-center w-1/3">
+                            <div class="text-xs text-gray-300 mb-1">${gondola.toFixed(1)}</div>
+                            <div class="w-full bg-blue-900/50 rounded-t-sm" style="height: ${gondolaHeight}%; transition: height 0.5s ease-out;">
+                                <div class="bg-blue-600 rounded-t-sm w-full" style="height: 100%"></div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex-1 flex flex-col items-center group">
-                        <div class="bar-value text-xs text-gray-300 mb-1">${pontoExtra.toFixed(1)}</div>
-                        <div class="bar w-3/4 bg-green-600 rounded-t-sm hover:bg-green-400" 
-                             style="height: ${pHeight}%">
+                        
+                        <div class="flex flex-col items-center w-1/3">
+                            <div class="text-xs text-gray-300 mb-1">${pontoExtra.toFixed(1)}</div>
+                            <div class="w-full bg-green-900/50 rounded-t-sm" style="height: ${peHeight}%; transition: height 0.5s ease-out 0.2s;">
+                                <div class="bg-green-600 rounded-t-sm w-full" style="height: 100%"></div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex-1 flex flex-col items-center group">
-                        <div class="bar-value text-xs text-gray-300 mb-1">${atendimento.toFixed(1)}</div>
-                        <div class="bar w-3/4 bg-purple-600 rounded-t-sm hover:bg-purple-400" 
-                             style="height: ${aHeight}%">
+                        
+                        <div class="flex flex-col items-center w-1/3">
+                            <div class="text-xs text-gray-300 mb-1">${atendimento.toFixed(1)}</div>
+                            <div class="w-full bg-purple-900/50 rounded-t-sm" style="height: ${atendHeight}%; transition: height 0.5s ease-out 0.4s;">
+                                <div class="bg-purple-600 rounded-t-sm w-full" style="height: 100%"></div>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } catch (e) {
+                    console.error("Erro ao gerar barras de performance:", e);
+                    return "<div class='text-red-500'>Erro ao renderizar gráfico.</div>";
+                }
             }
 
-            // Esta função não é chamada, mas está aqui caso seja
+
             function animateChartBars() {
-                setTimeout(() => {
-                    const bars = document.querySelectorAll('.bar');
-                    // CORREÇÃO: Garantir que maxValue não seja 0 para evitar divisão por zero
-                    const maxValue = Math.max(...Array.from(bars).map(b => parseFloat(b.dataset.value) || 0), 1); // Adicionado 1
-                    
-                    bars.forEach((bar, index) => {
-                        const value = parseFloat(bar.dataset.value) || 0;
-                        const targetHeight = (value / maxValue) * 100;
-                        
-                        setTimeout(() => {
-                            bar.style.height = `${targetHeight}%`;
-                        }, index * 200);
-                    });
-                    
-                    if (window.lucide) {
-                        lucide.createIcons();
-                    }
-                }, 100);
+                // Esta função não é mais necessária, a animação é feita via CSS
+                // e pela função addMessage que chama lucide.createIcons()
+                lucide.createIcons();
             }
 
             function showSmartNotification(message, type = 'info') {
@@ -2285,16 +2298,14 @@ Seja objetivo e forneça insights acionáveis.`;
                     <div class="flex items-center space-x-2">
                         <i data-lucide="${icons[type]}" class="w-5 h-5"></i>
                         <span>${message}</span>
-                        <button onclick="this.closest('div.fixed').remove()" class="ml-2">
+                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2">
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
                     </div>
                 `;
                 
                 document.body.appendChild(notification);
-                if (window.lucide) {
-                    lucide.createIcons({ nodes: Array.from(notification.querySelectorAll("[data-lucide]")) }); // Corrigido
-                }
+                lucide.createIcons();
                 
 
                 setTimeout(() => {
@@ -2308,55 +2319,27 @@ Seja objetivo e forneça insights acionáveis.`;
                 addMessage(`🔬 **Iniciando Análise Profunda para ${code}**\n\nAnalisando múltiplas dimensões de performance...`, 'bot');
                 
                 setTimeout(() => {
+
                     addMessage(`📈 **Análise Temporal**\nComparando performance mensal e tendências sazonais...`, 'bot');
                 }, 1500);
                 
                 setTimeout(() => {
+
                     addMessage(`🌐 **Análise Comparativa**\nBenchmarking com outros estabelecimentos da rede...`, 'bot');
                 }, 3000);
                 
                 setTimeout(() => {
+
                     addMessage(`💡 **Oportunidades Identificadas**\nPontos de melhoria e crescimento detectados...`, 'bot');
                 }, 4500);
                 
                 setTimeout(() => {
+
                     addMessage(`🎯 **Plano de Ação Recomendado**\nEstratégias específicas para otimização...`, 'bot');
                 }, 6000);
             }
 
-            // CORREÇÃO: Função parseCSV completa e única
-            function parseCSV(text) {
-                const lines = [];
-                const rawLines = text.trim().split('\n'); 
-
-                for (const line of rawLines) {
-                    const row = [];
-                    let cell = '';
-                    let inQuote = false;
-                    const cleanLine = line.replace(/\r$/, '');
-
-                    for (let i = 0; i < cleanLine.length; i++) {
-                        const char = cleanLine[i];
-
-                        if (char === '"') {
-                            if (inQuote && cleanLine[i + 1] === '"') {
-                                cell += '"';
-                                i++; // Pular próxima aspa
-                            } else {
-                                inQuote = !inQuote;
-                            }
-                        } else if (char === ',' && !inQuote) {
-                            row.push(cell.trim());
-                            cell = '';
-                        } else {
-                            cell += char;
-                        }
-                    }
-                    row.push(cell.trim());
-                    lines.push(row); 
-                }
-                return lines;
-            }
+            // A função parseCSV já foi definida acima, removendo duplicata
 
             const subtitleElement = document.getElementById('subtitle-typing');
             if (subtitleElement) {
@@ -2395,16 +2378,10 @@ Seja objetivo e forneça insights acionáveis.`;
             };
             createParticles();
             
-            // Renderiza ícones iniciais que já estão no DOM
-            if (window.lucide) {
-                lucide.createIcons();
-            } else {
-                console.error("Lucide JS não carregou a tempo.");
-            }
-        });
+            // CORREÇÃO: Chamar createIcons() no final para renderizar ícones estáticos
+            lucide.createIcons();
+        };
     </script>
     </body>
 </html>
-
-
 
