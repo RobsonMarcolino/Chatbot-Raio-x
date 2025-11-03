@@ -1,1 +1,1608 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raio-X Score 5 - IA Conversacional</title>
+    
+    <!-- Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons --><script type="module" src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    
+    <!-- Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
+        /* Estilo para a barra de rolagem */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* --- Melhora de Rolagem Mobile --- */
+        #message-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* --- Fundo Tecnológico Global (TEMA AMBEV TECH) --- */
+        body {
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+                linear-gradient(135deg, #171717 0%, #0a0a0a 100%);
+            background-size: cover;
+            position: relative;
+        }
+        @keyframes fadeInBackground {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Partículas Animadas para o Fundo Global */
+        .particle {
+            position: absolute;
+            background-color: rgba(245, 158, 11, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: particle-move 20s infinite ease-in-out;
+        }
+
+        @keyframes particle-move {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate(var(--x), var(--y)) scale(1.2); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .animate-fade-in-up.delay-1 { animation-delay: 0.2s; opacity: 0; }
+        .animate-fade-in-up.delay-2 { animation-delay: 0.4s; opacity: 0; }
+        .animate-fade-in-up.delay-3 { animation-delay: 0.6s; opacity: 0; }
+
+        /* Fundo de grade "Tech" para a área de chat */
+        .tech-grid-bg {
+            background-color: #1a1a1a;
+            background-image: 
+                linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* --- Animação de "Digitando" na Tela Inicial --- */
+        #subtitle-typing::after {
+            content: '|';
+            animation: blink-caret 0.75s infinite;
+        }
+        @keyframes blink-caret {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --- "Caudas" dos Balões de Chat --- */
+        .message-bubble {
+            position: relative;
+        }
+        .bubble-bot::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 0px solid transparent;
+            border-right: 12px solid #e5e7eb;
+        }
+        .bubble-user::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 0px solid transparent;
+            border-left: 12px solid #f59e0b;
+        }
+
+        /* --- Indicador de "Digitando..." --- */
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #9ca3af;
+            animation: typing-pulse 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing-pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        /* --- Estilos do Contêiner do Celular --- */
+        @media (min-width: 768px) {
+            #phone-container {
+                background-color: rgba(39, 39, 42, 0.7);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(245, 158, 11, 0.2);
+                box-shadow: 
+                    0 0 15px rgba(245, 158, 11, 0.3),
+                    0 0 30px rgba(0, 0, 0, 0.5);
+                position: relative;
+                overflow: hidden;
+            }
+
+            #phone-container::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: conic-gradient(
+                    from 0deg at 50% 50%, 
+                    transparent 0%, 
+                    transparent 20%, 
+                    rgba(245, 158, 11, 0.6) 30%,
+                    transparent 40%, 
+                    transparent 60%, 
+                    rgba(245, 158, 11, 0.6) 70%,
+                    transparent 80%, 
+                    transparent 100%
+                );
+                border-radius: inherit;
+                animation: rotate-border 6s linear infinite;
+                z-index: -1;
+                opacity: 0.6;
+            }
+
+            #phone-container::after {
+                content: '';
+                position: absolute;
+                top: 2.5px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                height: 1px;
+                background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+                border-radius: 9999px;
+                z-index: 10;
+            }
+        }
+
+        /* Sombras internas para a área de mensagens */
+        .message-area-shadows::before,
+        .message-area-shadows::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        #chat-screen .message-area-shadows::before {
+            top: 0;
+            background: linear-gradient(to bottom, rgba(39, 39, 42, 0.4), transparent);
+        }
+        #chat-screen .message-area-shadows::after {
+            bottom: 0;
+            background: linear-gradient(to top, rgba(39, 39, 42, 0.4), transparent);
+        }
+
+        @media (max-width: 767px) {
+            /* Melhorias para telas muito pequenas */
+            body {
+                padding: 0;
+                margin: 0;
+                overflow-x: hidden;
+            }
+
+            /* Tela de boas-vindas mobile */
+            #welcome-screen {
+                padding: 1rem;
+                padding-bottom: 2rem;
+            }
+
+            /* Mensagens mobile */
+            #chat-screen .message-area-shadows::before {
+                display: none;
+            }
+
+            /* Botões mobile */
+            button {
+                min-height: 44px; /* Tamanho mínimo para touch */
+            }
+
+            /* Input mobile */
+            #message-input {
+                min-height: 44px;
+            }
+
+            /* Sidebar mobile */
+            .sidebar {
+                width: 85vw;
+                max-width: 320px;
+            }
+
+            /* Mensagens do chat mobile */
+            .message-bubble {
+                max-width: 85%;
+                font-size: 0.875rem;
+            }
+
+            /* Botões do header mobile */
+            #open-sidebar,
+            #clear-chat-button,
+            #close-chat-button {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        /* Melhorias para telas muito pequenas (iPhone SE, etc.) */
+        @media (max-width: 375px) {
+            #welcome-screen {
+                padding: 0.75rem;
+            }
+            
+            .message-bubble {
+                max-width: 90%;
+                font-size: 0.875rem;
+            }
+            
+            #message-input {
+                font-size: 16px; /* Evita zoom automático no iOS */
+            }
+            
+            /* Botões menores em telas muito pequenas */
+            button {
+                min-height: 40px;
+                font-size: 0.875rem;
+            }
+            
+            /* Sidebar mais estreito */
+            .sidebar {
+                width: 90vw;
+            }
+        }
+
+        /* Melhorias específicas para orientação portrait em mobile */
+        @media (max-width: 767px) and (orientation: portrait) {
+            #welcome-screen {
+                min-height: 100vh;
+                padding: 1rem;
+                justify-content: center;
+            }
+            
+            /* Header do chat mais compacto */
+            #chat-screen > div:first-child {
+                padding: 0.75rem 1rem;
+            }
+            
+            /* Área de mensagens com melhor espaçamento */
+            #message-container {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Melhorias para tablets */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            #welcome-screen {
+                padding: 2rem;
+            }
+            
+            .sidebar {
+                width: 350px;
+            }
+        }
+
+        /* Estilos para menu lateral */
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        /* Estilos para badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .badge-success {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: rgb(34, 197, 94);
+        }
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: rgb(245, 158, 11);
+        }
+        .badge-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: rgb(239, 68, 68);
+        }
+
+        /* Animação para botões de ação */
+        .action-button {
+            transition: all 0.2s ease;
+        }
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Indicador de carga */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(245, 158, 11, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #f59e0b;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-hidden md:flex md:items-center md:justify-center">
+    <!-- Partículas do fundo global --><div id="particles-container"></div>
+
+    <!-- Menu Lateral -->
+    <div id="sidebar" class="sidebar fixed left-0 top-0 h-full w-80 sm:w-80 md:w-80 bg-gray-900 text-white z-40 hidden transform -translate-x-full transition-transform duration-300">
+        <div class="p-6 border-b border-gray-700">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold">Menu</h2>
+                <button id="close-sidebar" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6 space-y-4">
+            <button id="history-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Histórico de Consultas</span>
+                </div>
+            </button>
+            
+            <button id="favorites-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <span>Favoritos</span>
+                </div>
+            </button>
+            
+            <button id="compare-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span>Comparar Códigos</span>
+                </div>
+            </button>
+            
+            <button id="export-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Exportar Dados</span>
+                </div>
+            </button>
+            
+            <button id="help-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Ajuda e Comandos</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- TELA 1: Boas-vindas -->
+    <div id="welcome-screen" class="flex flex-col items-center justify-center text-center px-4 py-8 w-full min-h-screen relative z-20">
+        
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 md:mb-4 drop-shadow-lg animate-fade-in-up">Raio-X Score 5</h1>
+        <p id="subtitle-typing" class="text-lg sm:text-xl text-gray-200 mb-6 md:mb-8 h-6 md:h-7"></p>
+
+        <!-- GIF Robô Responsivo -->
+        <img src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
+             alt="Robô IA" 
+             class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-64 mx-auto my-4 object-contain animate-fade-in-up delay-1" />
+
+        <p class="text-xs sm:text-sm text-gray-400 mb-6 md:mb-8 animate-fade-in-up delay-2.5">Desenvolvido pelo time PPM AS MG</p>
+
+        <!-- Botão "Iniciar Chat" -->
+        <button id="start-chat-button" class="w-full max-w-sm sm:max-w-md bg-amber-500 text-black font-semibold py-3 sm:py-4 px-6 rounded-xl shadow-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 animate-fade-in-up delay-3 text-sm sm:text-base">
+            Iniciar Conversa
+        </button>
+    </div>
+
+    <!-- TELA 2: Chat (Layout de Celular) -->
+    <div id="phone-container" class="hidden flex-col w-screen h-screen z-30 relative md:max-w-sm md:h-[90vh] md:max-h-[740px] md:rounded-3xl md:p-2.5 md:shadow-2xl">
+        
+        <!-- Notch -->
+        <div class="hidden md:block w-20 h-3 bg-black rounded-b-md mx-auto mb-1.5"></div>
+
+        <!-- Tela Interna do Chat -->
+        <div id="chat-screen" class="flex flex-col w-full h-full bg-white overflow-hidden relative md:rounded-2xl">
+            
+            <!-- Cabeçalho do Chat -->
+            <div class="flex items-center justify-between px-3 sm:px-4 py-3 sm:py-4 bg-amber-500 border-b border-amber-600 md:rounded-t-2xl">
+                
+                <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                    <button id="open-sidebar" class="text-neutral-800 hover:text-black p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-black flex-shrink-0">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <div class="min-w-0">
+                        <h1 class="text-lg sm:text-xl font-bold text-black truncate">Raio-X Score 5</h1>
+                        <p id="chat-status" class="text-xs sm:text-sm text-neutral-800 truncate">IA Conversacional Online</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+                    <!-- Botão Limpar Chat -->
+                    <button id="clear-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Limpar chat">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                    <!-- Botão de Fechar o Chat -->
+                    <button id="close-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Fechar chat">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra de Progresso para IA -->
+            <div id="ai-progress" class="hidden bg-gray-200">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Área de Mensagens -->
+            <div id="message-container" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 bg-gray-50 tech-grid-bg relative message-area-shadows">
+                <!-- Mensagem inicial do Bot -->
+            </div>
+
+            <div id="typing-indicator" class="hidden flex justify-start p-3 sm:p-4">
+                <div class="bg-gray-200 text-gray-800 p-3 rounded-xl max-w-xs sm:max-w-sm bubble-bot message-bubble" style="border-bottom-left-radius: 0;">
+                    <div class="typing-indicator space-x-1.5">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input de Mensagem -->
+            <div class="p-3 sm:p-4 bg-amber-500 border-t border-amber-600 md:rounded-b-2xl">
+                <form id="chat-form" class="flex items-center space-x-2 sm:space-x-3">
+                    <input 
+                        type="text" 
+                        id="message-input"
+                        placeholder="Digite aqui..." 
+                        class="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-amber-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                        autocomplete="off"
+                    >
+                    <button 
+                        type="submit"
+                        class="bg-neutral-800 text-white p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 transition-all duration-300 flex-shrink-0"
+                        aria-label="Enviar mensagem"
+                    >
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- URL DA PLANILHA ---
+            const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
+            
+            // --- MENSAGENS SISTEMA ---
+            const WELCOME_MESSAGE = `🚀 **Olá! Sou a IA Conversacional do Raio-X Score 5!**
+
+Posso ajudá-lo de várias formas:
+
+**📊 CONSULTAS:**
+• Envie um **código EG** (ex: 12345)
+• Digite um **nome de rede** para buscar
+• Use **"/buscar [termo]"** para consultas específicas
+
+**🛠️ COMANDOS:**
+• **"/histórico"** - Ver consultas anteriores
+• **"/favoritos"** - Estabelecimentos salvos
+• **"/comparar EG1 EG2"** - Comparar códigos
+• **"/exportar"** - Baixar dados
+• **"/ajuda"** - Ver todos os comandos
+
+**🧠 IA AVANÇADA:**
+Posso analisar padrões, tendências e gerar insights personalizados sobre os dados.
+
+Como posso ajudá-lo hoje?`;
+            const SUBTITLE_TEXT = "IA Conversacional para análise de dados da Direta MG";
+
+            // --- ELEMENTOS DAS TELAS ---
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const phoneContainer = document.getElementById('phone-container'); 
+            const startChatButton = document.getElementById('start-chat-button');
+            const closeChatButton = document.getElementById('close-chat-button');
+            const clearChatButton = document.getElementById('clear-chat-button'); 
+            const particlesContainer = document.getElementById('particles-container');
+            const sidebar = document.getElementById('sidebar');
+            const openSidebarBtn = document.getElementById('open-sidebar');
+            const closeSidebarBtn = document.getElementById('close-sidebar');
+
+            // --- ELEMENTOS DO CHAT ---
+            const chatForm = document.getElementById('chat-form');
+            const messageInput = document.getElementById('message-input');
+            const messageContainer = document.getElementById('message-container');
+            const chatStatus = document.getElementById('chat-status');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const aiProgress = document.getElementById('ai-progress');
+            const progressFill = document.getElementById('progress-fill');
+            const sendButtonIcon = chatForm.querySelector('svg path'); 
+            const sendButton = chatForm.querySelector('button');
+
+            // --- ELEMENTOS DO MENU LATERAL ---
+            const historyBtn = document.getElementById('history-btn');
+            const favoritesBtn = document.getElementById('favorites-btn');
+            const compareBtn = document.getElementById('compare-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const helpBtn = document.getElementById('help-btn');
+
+            // --- SISTEMA DE SESSÃO E CONTEXTO ---
+            let chatSession = {
+                codes: [], // Códigos consultados nesta sessão
+                conversationContext: [], // Histórico da conversa
+                favorites: [], // Estabelecimentos favoritos
+                comparisonList: [], // Lista para comparação
+                isProcessing: false
+            };
+
+            // --- Cache da Planilha ---
+            let headerMap = {};
+            let sheetData = [];
+            let isSheetLoaded = false;
+            let isSheetLoading = false;
+            let filteredData = []; // Para buscas por nome/rede
+
+            // --- COMANDOS DISPONÍVEIS ---
+            const COMMANDS = {
+                '/buscar': 'Buscar por nome/rede (ex: /buscar ambev)',
+                '/comparar': 'Comparar códigos (ex: /comparar 123 456)',
+                '/histórico': 'Ver histórico da sessão',
+                '/favoritos': 'Gerenciar favoritos',
+                '/exportar': 'Exportar dados',
+                '/ajuda': 'Mostrar comandos disponíveis',
+                '/limpar': 'Limpar contexto da sessão',
+                '/status': 'Status da base de dados'
+            };
+
+            // --- LÓGICA DE TROCA DE TELA ---
+            startChatButton.addEventListener('click', () => {
+                welcomeScreen.classList.add('hidden');
+                phoneContainer.classList.remove('hidden'); 
+                phoneContainer.classList.add('flex'); 
+                
+                messageInput.focus();
+
+                if (messageContainer.children.length === 0) {
+                    addMessage(WELCOME_MESSAGE, 'bot');
+                }
+
+                if (!isSheetLoaded && !isSheetLoading) {
+                    preloadSheetData();
+                }
+            });
+
+            closeChatButton.addEventListener('click', () => {
+                phoneContainer.classList.add('hidden'); 
+                phoneContainer.classList.remove('flex');
+                welcomeScreen.classList.remove('hidden');
+            });
+
+            clearChatButton.addEventListener('click', () => {
+                messageContainer.innerHTML = ''; 
+                addMessage(WELCOME_MESSAGE, 'bot');
+                messageContainer.scrollTop = 0;
+                resetChatSession();
+            });
+
+            // --- LÓGICA DO MENU LATERAL ---
+            openSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.remove('hidden');
+                setTimeout(() => {
+                    sidebar.style.transform = 'translateX(0)';
+                }, 10);
+            });
+
+            closeSidebarBtn.addEventListener('click', () => {
+                sidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    sidebar.classList.add('hidden');
+                }, 300);
+            });
+
+            // --- GESTOS TOUCH PARA MOBILE ---
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            // Detectar swipe da borda esquerda para abrir sidebar
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipeGesture();
+            });
+            
+            function handleSwipeGesture() {
+                const swipeThreshold = 50;
+                const swipeDistance = touchEndX - touchStartX;
+                
+                // Swipe da borda esquerda para abrir (em telas mobile)
+                if (touchStartX < 20 && swipeDistance > swipeThreshold && !sidebarIsVisible()) {
+                    if (window.innerWidth <= 768) {
+                        openSidebarBtn.click();
+                    }
+                }
+                
+                // Swipe da direita para fechar sidebar
+                if (swipeDistance < -swipeThreshold && sidebarIsVisible()) {
+                    closeSidebar();
+                }
+            }
+            
+            function sidebarIsVisible() {
+                return !sidebar.classList.contains('hidden');
+            }
+            
+            function closeSidebar() {
+                sidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    sidebar.classList.add('hidden');
+                }, 300);
+            }
+
+            // --- LÓGICA DOS BOTÕES DO MENU ---
+            historyBtn.addEventListener('click', () => {
+                showHistory();
+                closeSidebar();
+            });
+
+            favoritesBtn.addEventListener('click', () => {
+                showFavorites();
+                closeSidebar();
+            });
+
+            compareBtn.addEventListener('click', () => {
+                addMessage("💡 Para comparar códigos, use o comando:\n\n**/comparar EG1 EG2 EG3**\n\nExemplo: /comparar 12345 67890 11111", 'bot');
+                closeSidebar();
+            });
+
+            exportBtn.addEventListener('click', () => {
+                exportData();
+                closeSidebar();
+            });
+
+            helpBtn.addEventListener('click', () => {
+                showHelp();
+                closeSidebar();
+            });
+
+            // --- LÓGICA DO CHAT ---
+            messageInput.addEventListener('input', () => {
+                if (messageInput.value.trim().length > 0) {
+                    sendButtonIcon.setAttribute('d', 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8');
+                } else {
+                    sendButtonIcon.setAttribute('d', 'M5 13l4 4L19 7');
+                }
+            });
+
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const messageText = messageInput.value.trim();
+                
+                if (messageText) {
+                    addMessage(messageText, 'user');
+                    messageInput.value = '';
+                    sendButtonIcon.setAttribute('d', 'M5 13l4 4L19 7');
+                    
+                    processUserInput(messageText);
+                }
+            });
+
+            // --- PROCESSAMENTO DE ENTRADA DO USUÁRIO ---
+            async function processUserInput(input) {
+                const normalizedInput = input.trim().toUpperCase();
+                
+                // Adiciona ao contexto da conversa
+                chatSession.conversationContext.push({
+                    type: 'user_input',
+                    message: input,
+                    timestamp: new Date()
+                });
+
+                // Verifica comandos especiais
+                if (normalizedInput.startsWith('/')) {
+                    await handleCommand(normalizedInput);
+                    return;
+                }
+
+                // Verifica se é um código EG
+                const isCodeLookup = /^[A-Z0-9-]{2,20}$/i.test(normalizedInput);
+                
+                if (isCodeLookup) {
+                    await processCodeQuery(normalizedInput);
+                } else {
+                    // Processo como busca por nome/rede
+                    await processTextSearch(input);
+                }
+            }
+
+            // --- MANUSEIO DE COMANDOS ---
+            async function handleCommand(command) {
+                const [cmd, ...args] = command.split(' ');
+                const cleanArgs = args.join(' ').trim();
+
+                switch (cmd.toLowerCase()) {
+                    case '/buscar':
+                        await processTextSearch(cleanArgs);
+                        break;
+                    case '/comparar':
+                        await processComparison(cleanArgs);
+                        break;
+                    case '/histórico':
+                        showHistory();
+                        break;
+                    case '/favoritos':
+                        showFavorites();
+                        break;
+                    case '/exportar':
+                        exportData();
+                        break;
+                    case '/ajuda':
+                        showHelp();
+                        break;
+                    case '/limpar':
+                        resetChatSession();
+                        addMessage("✅ Contexto da sessão foi limpo!", 'bot');
+                        break;
+                    case '/status':
+                        showDatabaseStatus();
+                        break;
+                    default:
+                        addMessage(`❌ Comando não reconhecido: **${cmd}**\n\nDigite **/ajuda** para ver os comandos disponíveis.`, 'bot');
+                }
+            }
+
+            // --- PROCESSAMENTO DE CONSULTA POR CÓDIGO ---
+            async function processCodeQuery(code) {
+                setChatLoading(true, `Consultando código ${code}...`);
+                
+                const data = await findDataInSheet(code);
+                
+                if (data) {
+                    // Adiciona código à sessão
+                    if (!chatSession.codes.includes(code)) {
+                        chatSession.codes.push(code);
+                    }
+                    
+                    // Gera análise contextual
+                    await generateContextualAnalysis(code, data);
+                    
+                    // Pergunta se quer favorito ou comparar
+                    setTimeout(() => {
+                        addMessage(`💡 **Ações disponíveis para ${code}:**\n\n• Digite **"❤️ ${code}"** para adicionar aos favoritos\n• Use **"/comparar ${code} [outro_código]"** para comparar\n• Digite **"insights ${code}"** para mais análises`, 'bot');
+                    }, 1000);
+                }
+                
+                setChatLoading(false);
+            }
+
+            // --- PROCESSAMENTO DE BUSCA POR TEXTO ---
+            async function processTextSearch(searchTerm) {
+                if (!searchTerm) {
+                    addMessage("❌ Por favor, informe um termo para buscar.\n\nExemplo: **/buscar ambev** ou **/buscar belo horizonte**", 'bot');
+                    return;
+                }
+
+                setChatLoading(true, `Buscando por "${searchTerm}"...`);
+                
+                const results = await searchByText(searchTerm);
+                
+                if (results.length > 0) {
+                    let response = `🔍 **Resultados para "${searchTerm}":**\n\n`;
+                    
+                    results.slice(0, 5).forEach((item, index) => {
+                        const nome = getDataFromRow(item, "Nome Fantasia") || "(não informado)";
+                        const rede = getDataFromRow(item, "Rede") || "(não informado)";
+                        const eg = getDataFromRow(item, "EG") || "(não informado)";
+                        
+                        response += `**${index + 1}.** ${nome}\n`;
+                        response += `• Rede: ${rede}\n`;
+                        response += `• Código EG: ${eg}\n\n`;
+                    });
+                    
+                    if (results.length > 5) {
+                        response += `📊 **Encontrados ${results.length} resultados.** Digite códigos específicos para mais detalhes.`;
+                    }
+                    
+                    addMessage(response, 'bot');
+                    
+                    // Sugere próximas ações
+                    setTimeout(() => {
+                        addMessage("💡 **Dica:** Clique em qualquer código EG listado para ver a análise completa.", 'bot');
+                    }, 1500);
+                } else {
+                    addMessage(`😔 Não encontrei estabelecimentos para **"${searchTerm}"**.\n\n🔍 **Tente:**\n• Verificar a grafia\n• Usar termos mais gerais\n• Buscar por código EG diretamente`, 'bot');
+                }
+                
+                setChatLoading(false);
+            }
+
+            // --- COMPARAÇÃO DE CÓDIGOS ---
+            async function processComparison(argString) {
+                const codes = argString.split(/\s+/).filter(code => code.trim());
+                
+                if (codes.length < 2) {
+                    addMessage("❌ Preciso de pelo menos 2 códigos para comparar.\n\n**Exemplo:** /comparar 123 456", 'bot');
+                    return;
+                }
+
+                if (codes.length > 5) {
+                    addMessage("⚠️ Máximo de 5 códigos para comparar.", 'bot');
+                    return;
+                }
+
+                setChatLoading(true, `Comparando ${codes.length} códigos...`);
+                
+                const comparisonData = [];
+                
+                for (const code of codes) {
+                    const data = await findDataInSheet(code);
+                    if (data) {
+                        comparisonData.push({ code, data });
+                    }
+                }
+
+                if (comparisonData.length > 1) {
+                    await generateComparisonReport(comparisonData);
+                } else {
+                    addMessage("❌ Não foi possível encontrar dados suficientes para comparação.", 'bot');
+                }
+                
+                setChatLoading(false);
+            }
+
+            // --- FUNÇÕES DE MENSAGEM ---
+            function addMessage(text, sender, options = {}) {
+                const messageDiv = document.createElement('div');
+                const messageBubble = document.createElement('div');
+                
+                let formattedText = text.replace(/\n/g, '<br>');
+                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                formattedText = formattedText.replace(/❤️\s*(\w+)/g, '<span class="text-red-500">❤️ $1</span>');
+                
+                messageBubble.innerHTML = formattedText;
+                messageBubble.classList.add('message-bubble', 'p-3', 'rounded-xl', 'max-w-xs', 'break-words');
+                
+                if (options.id) {
+                    messageBubble.id = options.id;
+                }
+
+                if (sender === 'user') {
+                    messageDiv.className = 'flex justify-end';
+                    messageBubble.classList.add('bg-amber-500', 'text-black', 'bubble-user'); 
+                    messageBubble.style.borderBottomRightRadius = '0';
+                } else {
+                    messageDiv.className = 'flex justify-start';
+                    messageBubble.classList.add('bg-gray-200', 'text-gray-800', 'bubble-bot');
+                    messageBubble.style.borderBottomLeftRadius = '0';
+                    
+                    // Adiciona emojis de status
+                    if (text.includes('✅')) {
+                        messageBubble.style.borderLeft = '4px solid #22c55e';
+                    } else if (text.includes('⚠️') || text.includes('🔴')) {
+                        messageBubble.style.borderLeft = '4px solid #ef4444';
+                    } else if (text.includes('💡') || text.includes('🧠')) {
+                        messageBubble.style.borderLeft = '4px solid #f59e0b';
+                    }
+                }
+                
+                messageDiv.appendChild(messageBubble);
+                messageContainer.appendChild(messageDiv);
+                
+                // Adiciona cliques nos códigos EG
+                if (sender === 'bot') {
+                    addClickHandlers(messageBubble, text);
+                }
+                
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+
+            function addClickHandlers(element, text) {
+                // Encontra códigos EG no texto e os torna clicáveis
+                const egPattern = /\b[A-Z0-9-]{2,20}\b/g;
+                const matches = text.match(egPattern);
+                
+                if (matches) {
+                    matches.forEach(code => {
+                        if (isLikelyEGCode(code)) {
+                            const span = document.createElement('span');
+                            span.className = 'text-amber-600 underline cursor-pointer hover:text-amber-700 transition-colors';
+                            span.textContent = code;
+                            span.addEventListener('click', () => {
+                                messageInput.value = code;
+                                chatForm.dispatchEvent(new Event('submit'));
+                            });
+                            
+                            // Substitui o texto no innerHTML
+                            const regex = new RegExp(`\\b${code}\\b`);
+                            element.innerHTML = element.innerHTML.replace(regex, span.outerHTML);
+                        }
+                    });
+                }
+            }
+
+            function isLikelyEGCode(text) {
+                // Verifica se parece um código EG válido
+                return /^[A-Z0-9-]{3,15}$/.test(text) && !text.match(/^(EG|BR|MG|SP|RJ)$/);
+            }
+
+            function updateAnalysisMessage(text) {
+                const loadingBubble = document.getElementById('analysis-loading-bubble');
+                if (loadingBubble) {
+                    let formattedText = text.replace(/\n/g, '<br>');
+                    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    loadingBubble.innerHTML = `🧠 <strong>Insight da IA:</strong><br><br>${formattedText}`;
+                }
+            }
+
+            function setChatLoading(isLoading, statusText = null) {
+                chatSession.isProcessing = isLoading;
+                messageInput.disabled = isLoading;
+                sendButton.disabled = isLoading;
+
+                if (isLoading) {
+                    if (statusText) {
+                        chatStatus.textContent = statusText;
+                    } else {
+                        chatStatus.textContent = 'Processando...';
+                    }
+                    sendButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    typingIndicator.classList.remove('hidden');
+                    messageContainer.scrollTop = messageContainer.scrollHeight;
+                } else {
+                    chatStatus.textContent = 'IA Conversacional Online';
+                    sendButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    typingIndicator.classList.add('hidden');
+                    messageInput.focus();
+                }
+            }
+
+            // --- FUNÇÕES DE BUSCA E ANÁLISE ---
+            async function preloadSheetData() {
+                if (isSheetLoaded || isSheetLoading) return; 
+
+                isSheetLoading = true;
+                chatStatus.textContent = 'Carregando base de dados...';
+
+                const proxiedUrl = `${GOOGLE_SHEET_CSV_URL}&_cachebust=${new Date().getTime()}`;
+                const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(proxiedUrl)}`;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'cors', 
+                        cache: 'no-store', 
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Erro de rede: ${response.statusText} (${response.status})`);
+                    }
+
+                    const csvText = await response.text();
+                    
+                    if (!csvText || csvText.length < 50 || csvText.startsWith("<") || csvText.toLowerCase().includes("error")) { 
+                         throw new Error("Proxy (allorigins) não conseguiu buscar a URL ou resposta inválida.");
+                    }
+
+                    const allRows = parseCSV(csvText);
+
+                    if (allRows.length > 1) {
+                        headerMap = {};
+                        const sheetHeaders = allRows[0];
+                        
+                        sheetHeaders.forEach((header, index) => {
+                            const headerKey = header.trim().toLowerCase();
+                            if (!headerMap[headerKey]) {
+                                headerMap[headerKey] = [];
+                            }
+                            headerMap[headerKey].push(index);
+                        });
+
+                        sheetData = allRows.slice(1);
+                        filteredData = [...sheetData]; // Para buscas
+                        isSheetLoaded = true;
+                        chatStatus.textContent = 'Base de dados carregada';
+                        
+                        // Notifica usuário sobre funcionalidades disponíveis
+                        setTimeout(() => {
+                            addMessage("✅ **Base de dados carregada com sucesso!**\n\n🚀 **Agora você pode:**\n• Consultar códigos EG\n• Buscar por nome/rede\n• Comparar estabelecimentos\n• Usar comandos avançados", 'bot');
+                        }, 500);
+                    } else {
+                        throw new Error("Planilha vazia ou com formato inválido.");
+                    }
+
+                } catch (error) {
+                    console.error("Erro ao pré-carregar dados:", error);
+                    chatStatus.textContent = 'Erro ao carregar dados';
+                    addMessage(`❌ **Erro ao carregar a planilha:**\n\n${error.message}\n\n🔄 **Verifique:**\n• Link de publicação da planilha\n• Conexão com internet\n• Permissões de acesso`, 'bot');
+                } finally {
+                    isSheetLoading = false;
+                    if(isSheetLoaded) {
+                         setChatLoading(false);
+                         chatStatus.textContent = 'Base de dados carregada';
+                    }
+                }
+            }
+
+            async function findDataInSheet(code) {
+                if (!isSheetLoaded) {
+                    await preloadSheetData();
+                }
+
+                if (!isSheetLoaded) {
+                    addMessage("❌ Não foi possível consultar. A base de dados não está carregada.", 'bot');
+                    return null;
+                }
+
+                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : 1;
+                const foundRow = sheetData.find(row => row[egColumnIndex] && row[egColumnIndex].toUpperCase() === code);
+
+                return foundRow || null;
+            }
+
+            async function searchByText(searchTerm) {
+                if (!isSheetLoaded) return [];
+                
+                const normalizedTerm = searchTerm.toLowerCase().trim();
+                const results = [];
+                
+                // Busca em múltiplas colunas
+                const searchColumns = ['nome fantasia', 'rede', 'coordenador', 'gn', 'sl/sc'];
+                
+                for (const row of sheetData) {
+                    let matchFound = false;
+                    
+                    for (const colName of searchColumns) {
+                        const colIndex = headerMap[colName] ? headerMap[colName][0] : -1;
+                        if (colIndex >= 0 && row[colIndex]) {
+                            const cellValue = row[colIndex].toLowerCase();
+                            if (cellValue.includes(normalizedTerm)) {
+                                matchFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (matchFound) {
+                        results.push(row);
+                    }
+                }
+                
+                return results;
+            }
+
+            function getDataFromRow(row, headerName, occurrence = 0) {
+                const headerKey = headerName.trim().toLowerCase();
+                if (headerMap[headerKey] && headerMap[headerKey].length > occurrence) {
+                    const index = headerMap[headerKey][occurrence];
+                    if (row[index] && row[index].trim() !== "") {
+                        return row[index];
+                    }
+                }
+                return "(não informado)";
+            }
+
+            // --- ANÁLISE CONTEXTUAL COM IA ---
+            async function generateContextualAnalysis(code, rowData) {
+                // Prepara os dados
+                const performanceData = {
+                    gondola_m1: getDataFromRow(rowData, "M-1", 0),
+                    gondola_vs: getDataFromRow(rowData, "M0 vs M-1", 0),
+                    gondola_status: getDataFromRow(rowData, "Gôndola"),
+                    pe_m1: getDataFromRow(rowData, "M-1", 1),
+                    pe_vs: getDataFromRow(rowData, "M0 vs M-1", 1),
+                    pe_status: getDataFromRow(rowData, "Ponto Extra."),
+                    base_foco: getDataFromRow(rowData, "BASE FOCO"),
+                    cob_hdw: getDataFromRow(rowData, "COB HDW"),
+                    atendimento: getDataFromRow(rowData, "Atendimento")
+                };
+
+                // Monta resposta completa
+                let responseText = `📋 **Consulta: Código ${code}**\n\n`;
+                
+                responseText += `🏢 **Informações:**\n`;
+                responseText += `• **Rede:** ${getDataFromRow(rowData, "Rede")}\n`;
+                responseText += `• **Nome:** ${getDataFromRow(rowData, "Nome Fantasia")}\n\n`;
+                
+                responseText += `👥 **Equipe:**\n`;
+                responseText += `• **Coordenador:** ${getDataFromRow(rowData, "COORDENADOR")}\n`;
+                responseText += `• **Supervisor:** ${getDataFromRow(rowData, "SUPERVISOR TERCEIRO")}\n`;
+                responseText += `• **GN:** ${getDataFromRow(rowData, "GN")}\n`;
+                responseText += `• **SL/SC:** ${getDataFromRow(rowData, "SL/SC")}\n\n`;
+                
+                responseText += `📊 **Performance:**\n`;
+                responseText += `• **AE:** ${getDataFromRow(rowData, "AE")}\n`;
+                responseText += `• **Gôndola:** ${performanceData.gondola_status}\n`;
+                responseText += `• **Ponto Extra:** ${performanceData.pe_status}\n`;
+                responseText += `• **Atendimento:** ${performanceData.atendimento}\n\n`;
+
+                // Adiciona dados completos primeiro
+                addMessage(responseText, 'bot');
+
+                // Mostra progresso da IA
+                showAIProgress();
+                
+                // Gera análise com IA
+                const analysis = await getAIAnalysis(performanceData, code);
+                hideAIProgress();
+                
+                // Adiciona análise
+                addMessage(analysis, 'bot', { id: `analysis-${code}` });
+
+                // Adiciona contexto à conversa
+                chatSession.conversationContext.push({
+                    type: 'code_analysis',
+                    code: code,
+                    data: performanceData,
+                    timestamp: new Date()
+                });
+            }
+
+            async function generateComparisonReport(comparisonData) {
+                let response = `📊 **RELATÓRIO COMPARATIVO**\n\n`;
+                
+                // Tabela comparativa
+                response += `| Código | Rede | AE | Gôndola | Ponto Extra | Atendimento |\n`;
+                response += `|--------|------|----|---------|-------------|-------------|\n`;
+                
+                for (const item of comparisonData) {
+                    const { code, data } = item;
+                    const rede = getDataFromRow(data, "Rede").substring(0, 15);
+                    const ae = getDataFromRow(data, "AE");
+                    const gondola = getDataFromRow(data, "Gôndola").substring(0, 8);
+                    const pontoExtra = getDataFromRow(data, "Ponto Extra.").substring(0, 10);
+                    const atendimento = getDataFromRow(data, "Atendimento").substring(0, 8);
+                    
+                    response += `| ${code} | ${rede} | ${ae} | ${gondola} | ${pontoExtra} | ${atendimento} |\n`;
+                }
+                
+                response += `\n🧠 **Análise Comparativa:**\n`;
+                
+                // Gera análise comparativa com IA
+                showAIProgress();
+                const comparisonAnalysis = await getComparisonAnalysis(comparisonData);
+                hideAIProgress();
+                
+                response += comparisonAnalysis;
+                
+                addMessage(response, 'bot');
+            }
+
+            // --- PROGRESSO DA IA ---
+            function showAIProgress() {
+                aiProgress.classList.remove('hidden');
+                progressFill.style.width = '0%';
+                
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = `${progress}%`;
+                    
+                    if (progress >= 90) {
+                        clearInterval(interval);
+                    }
+                }, 200);
+            }
+
+            function hideAIProgress() {
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    aiProgress.classList.add('hidden');
+                    progressFill.style.width = '0%';
+                }, 300);
+            }
+
+            // --- FUNÇÕES DE INTEFACE ---
+            function showHistory() {
+                if (chatSession.conversationContext.length === 0) {
+                    addMessage("📝 **Histórico da Sessão:**\n\nNenhuma consulta realizada ainda.", 'bot');
+                    return;
+                }
+
+                let history = "📝 **Histórico da Sessão Atual:**\n\n";
+                const recentQueries = chatSession.conversationContext
+                    .filter(item => item.type === 'code_analysis')
+                    .slice(-10);
+
+                if (recentQueries.length === 0) {
+                    history += "Nenhuma análise de código ainda.";
+                } else {
+                    recentQueries.forEach((item, index) => {
+                        history += `${index + 1}. **EG ${item.code}** - ${item.timestamp.toLocaleTimeString()}\n`;
+                    });
+                }
+
+                history += `\n💡 **Dica:** Use códigos do histórico para consultas rápidas.`;
+
+                addMessage(history, 'bot');
+            }
+
+            function showFavorites() {
+                if (chatSession.favorites.length === 0) {
+                    addMessage("❤️ **Favoritos:**\n\nNenhum estabelecimento salvo.\n\nPara salvar: Digite \"❤️ CÓDIGO\" após uma consulta.", 'bot');
+                    return;
+                }
+
+                let favorites = "❤️ **Estabelecimentos Favoritos:**\n\n";
+                chatSession.favorites.forEach((code, index) => {
+                    favorites += `${index + 1}. **EG ${code}**\n`;
+                });
+
+                favorites += `\n💡 Clique em qualquer código para consultar rapidamente.`;
+
+                addMessage(favorites, 'bot');
+            }
+
+            function exportData() {
+                if (chatSession.codes.length === 0) {
+                    addMessage("📤 **Exportar Dados:**\n\nNenhuma consulta para exportar.\n\nRealize algumas consultas primeiro.", 'bot');
+                    return;
+                }
+
+                let exportText = `RELATÓRIO RAIO-X SCORE 5\n`;
+                exportText += `Data: ${new Date().toLocaleDateString()}\n`;
+                exportText += `Sessão: ${new Date().toISOString()}\n\n`;
+                exportText += `CÓDIGOS CONSULTADOS:\n`;
+                
+                chatSession.codes.forEach(code => {
+                    exportText += `- ${code}\n`;
+                });
+
+                const blob = new Blob([exportText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `raio-x-score-${Date.now()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                addMessage("✅ **Dados exportados com sucesso!**\n\nArquivo baixado: raio-x-score-[timestamp].txt", 'bot');
+            }
+
+            function showHelp() {
+                let help = "🆘 **COMANDOS DISPONÍVEIS:**\n\n";
+                
+                Object.entries(COMMANDS).forEach(([cmd, desc]) => {
+                    help += `**${cmd}** - ${desc}\n`;
+                });
+
+                help += "\n💡 **Exemplos de Uso:**\n";
+                help += "• /buscar ambev\n";
+                help += "• /comparar 12345 67890\n";
+                help += "• ❤️ 12345 (adicionar aos favoritos)\n";
+                help += "• insights 12345 (análise detalhada)";
+
+                addMessage(help, 'bot');
+            }
+
+            function showDatabaseStatus() {
+                const status = isSheetLoaded ? 
+                    `✅ **Status:** Base carregada\n📊 **Registros:** ${sheetData.length.toLocaleString()}\n🔍 **Contexto da sessão:** ${chatSession.codes.length} códigos` :
+                    `❌ **Status:** Carregando...\n🔄 Verificando conexão...`;
+
+                addMessage(status, 'bot');
+            }
+
+            function resetChatSession() {
+                chatSession = {
+                    codes: [],
+                    conversationContext: [],
+                    favorites: [],
+                    comparisonList: [],
+                    isProcessing: false
+                };
+            }
+
+            function closeSidebar() {
+                sidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    sidebar.classList.add('hidden');
+                }, 300);
+            }
+
+            // --- FUNÇÕES DA IA (GEMINI) ---
+            async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
+                try {
+                    return await fetch(url, options);
+                } catch (error) {
+                    if (retries > 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return fetchWithBackoff(url, options, retries - 1, delay * 2);
+                    }
+                    throw error;
+                }
+            }
+
+            async function callGeminiAPI(prompt, systemInstruction) {
+                const apiKey = "AIzaSyDrKj7epX5wg6sg1gSed5_ygum3RjJfvNs";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemInstruction }]
+                    },
+                };
+
+                const options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                };
+
+                const response = await fetchWithBackoff(apiUrl, options);
+
+                if (!response.ok) {
+                    throw new Error(`Erro na API Gemini: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    if (candidate && candidate.finishReason === 'SAFETY') {
+                        throw new Error("A resposta foi bloqueada por motivos de segurança.");
+                    }
+                    throw new Error("Resposta inesperada ou vazia da API Gemini.");
+                }
+            }
+
+            async function getAIAnalysis(performanceData, code) {
+                const systemInstruction = `Você é o 'Raio-X Score 5', um analista de performance de vendas da Ambev Tech. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de um estabelecimento específico.
+
+Instruções:
+1. Analise os dados de performance fornecidos
+2. Identifique pontos fortes e fracos
+3. Sugira ações específicas quando apropriado
+4. Seja direto e objetivo
+5. Use contexto da sessão quando disponível
+
+Responda em português brasileiro. Gere sua resposta no seguinte formato:
+
+🟢 **Pontos Fortes:**
+• [Insight positivo 1]
+• [Insight positivo 2]
+
+🔴 **Pontos de Atenção:**
+• [Insight acionável 1]
+• [Insight acionável 2]
+
+💡 **Sugestões:**
+• [Recomendação específica 1]
+• [Recomendação específica 2]
+
+Se não houver pontos fortes, escreva 'Nenhum ponto forte notável'. Se não houver pontos de atenção, escreva 'Nenhum ponto crítico identificado'.`;
+
+                const prompt = `Analise a performance do estabelecimento EG ${code} com base nos seguintes dados:
+
+**Dados de Performance:**
+• Gôndola (M-1): ${performanceData.gondola_m1}
+• Gôndola (M0 vs M-1): ${performanceData.gondola_vs}
+• Gôndola (Status): ${performanceData.gondola_status}
+• Ponto Extra (M-1): ${performanceData.pe_m1}
+• Ponto Extra (M0 vs M-1): ${performanceData.pe_vs}
+• Ponto Extra (Status): ${performanceData.pe_status}
+• BASE FOCO: ${performanceData.base_foco}
+• COB HDW: ${performanceData.cob_hdw}
+• Atendimento: ${performanceData.atendimento}
+
+**Contexto da Sessão:**
+• Códigos já consultados: ${chatSession.codes.join(', ') || 'Nenhum'}
+• Tipo de estabelecimento: Analisar padrões da rede e região
+
+Gere uma análise completa seguindo o formato solicitado.`;
+
+                try {
+                    const analysis = await callGeminiAPI(prompt, systemInstruction);
+                    return analysis;
+                } catch (error) {
+                    console.error("Erro na análise de IA:", error);
+                    return "❌ **Análise não disponível**\n\nDesculpe, não foi possível gerar a análise de IA neste momento. Os dados estão sendo processados.";
+                }
+            }
+
+            async function getComparisonAnalysis(comparisonData) {
+                const systemInstruction = `Você é um analista de performance da Ambev Tech especializado em comparações entre estabelecimentos.
+
+Compare os dados dos estabelecimentos fornecidos e identifique:
+1. Melhores performances
+2. Áreas de melhoria
+3. Padrões e tendências
+4. Recomendações específicas
+
+Seja objetivo e forneça insights acionáveis.`;
+
+                let prompt = "Compare os seguintes estabelecimentos:\n\n";
+                
+                comparisonData.forEach((item, index) => {
+                    const { code, data } = item;
+                    prompt += `**Estabelecimento ${index + 1} - EG ${code}:**\n`;
+                    prompt += `• Rede: ${getDataFromRow(data, "Rede")}\n`;
+                    prompt += `• AE: ${getDataFromRow(data, "AE")}\n`;
+                    prompt += `• Gôndola: ${getDataFromRow(data, "Gôndola")}\n`;
+                    prompt += `• Ponto Extra: ${getDataFromRow(data, "Ponto Extra.")}\n`;
+                    prompt += `• Atendimento: ${getDataFromRow(data, "Atendimento")}\n\n`;
+                });
+
+                prompt += "Gere uma análise comparativa detalhada.";
+
+                try {
+                    const analysis = await callGeminiAPI(prompt, systemInstruction);
+                    return analysis;
+                } catch (error) {
+                    console.error("Erro na análise comparativa:", error);
+                    return "❌ Análise comparativa não disponível no momento.";
+                }
+            }
+
+            // --- UTILITÁRIOS ---
+            function parseCSV(text) {
+                const lines = [];
+                const rawLines = text.trim().split('\n'); 
+
+                for (const line of rawLines) {
+                    const row = [];
+                    let cell = '';
+                    let inQuote = false;
+                    const cleanLine = line.replace(/\r$/, '');
+
+                    for (let i = 0; i < cleanLine.length; i++) {
+                        const char = cleanLine[i];
+                        if (char === '"') {
+                            if (inQuote && cleanLine[i+1] === '"') {
+                                cell += '"';
+                                i++; 
+                            } else {
+                                inQuote = !inQuote;
+                            }
+                        } 
+                        else if (char === ',' && !inQuote) {
+                            row.push(cell.trim());
+                            cell = '';
+                        } 
+                        else {
+                            cell += char;
+                        }
+                    }
+                    row.push(cell.trim());
+                    lines.push(row); 
+                }
+                return lines;
+            }
+
+            // --- ANIMAÇÃO DE "DIGITANDO" NA TELA INICIAL ---
+            const subtitleElement = document.getElementById('subtitle-typing');
+            if (subtitleElement) {
+                const subtitleText = SUBTITLE_TEXT;
+                let charIndex = 0;
+                subtitleElement.textContent = '';
+
+                function typeSubtitle() {
+                    if (charIndex < subtitleText.length) {
+                        subtitleElement.textContent += subtitleText.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeSubtitle, 60);
+                    }
+                }
+                setTimeout(typeSubtitle, 400);
+            }
+
+            // --- LÓGICA DE CRIAÇÃO DAS PARTÍCULAS ---
+            const createParticles = () => {
+                const numParticles = 40;
+                for (let i = 0; i < numParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const size = Math.random() * 3 + 1;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    particle.style.setProperty('--x', `${(Math.random() - 0.5) * window.innerWidth}px`);
+                    particle.style.setProperty('--y', `${(Math.random() - 0.5) * window.innerHeight}px`);
+                    if(particlesContainer) {
+                        particlesContainer.appendChild(particle);
+                    }
+                }
+            };
+            createParticles();
+        });
+    </script>
+</body>
+</html>
