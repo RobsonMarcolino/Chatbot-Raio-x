@@ -7,7 +7,6 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
-    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,7 +36,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-
         body {
             background: 
                 radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
@@ -50,7 +48,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
 
         .particle {
             position: absolute;
@@ -78,7 +75,6 @@
                 transform: translateY(0);
             }
         }
-
 
         @keyframes slideInRight {
             from {
@@ -136,7 +132,6 @@
         .animate-fade-in-up.delay-2 { animation-delay: 0.4s; opacity: 0; }
         .animate-fade-in-up.delay-3 { animation-delay: 0.6s; opacity: 0; }
 
-
         .tech-grid-bg {
             background-color: #1a1a1a;
             background-image: 
@@ -144,7 +139,6 @@
                 linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
 
         #subtitle-typing::after {
             content: '|';
@@ -154,7 +148,6 @@
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
-
 
         .message-bubble {
             position: relative;
@@ -182,7 +175,6 @@
             border-left: 12px solid #f59e0b;
         }
 
-
         .typing-indicator span {
             display: inline-block;
             width: 8px;
@@ -200,7 +192,6 @@
             50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); opacity: 0.5; }
         }
-
 
         @media (min-width: 768px) {
             #phone-container {
@@ -252,7 +243,6 @@
             }
         }
 
-
         .message-area-shadows::before,
         .message-area-shadows::after {
             content: '';
@@ -273,46 +263,38 @@
         }
 
         @media (max-width: 767px) {
-
             body {
                 padding: 0;
                 margin: 0;
                 overflow-x: hidden;
             }
 
-
             #welcome-screen {
                 padding: 1rem;
                 padding-bottom: 2rem;
             }
 
-
             #chat-screen .message-area-shadows::before {
                 display: none;
             }
-
 
             button {
                 min-height: 44px;
             }
 
-
             #message-input {
                 min-height: 44px;
             }
-
 
             .sidebar {
                 width: 85vw;
                 max-width: 320px;
             }
 
-
             .message-bubble {
                 max-width: 85%;
                 font-size: 0.875rem;
             }
-
 
             #open-sidebar,
             #clear-chat-button,
@@ -321,7 +303,6 @@
                 min-height: 44px;
             }
         }
-
 
         @media (max-width: 375px) {
             #welcome-screen {
@@ -349,7 +330,6 @@
             }
         }
 
-
         @media (max-width: 767px) and (orientation: portrait) {
             #welcome-screen {
                 min-height: 100vh;
@@ -368,7 +348,6 @@
             }
         }
 
-
         @media (min-width: 768px) and (max-width: 1024px) {
             #welcome-screen {
                 padding: 2rem;
@@ -379,14 +358,12 @@
             }
         }
 
-
         .sidebar {
             transition: transform 0.3s ease-in-out;
         }
         .sidebar.hidden {
             transform: translateX(-100%);
         }
-
 
         .badge {
             display: inline-block;
@@ -408,7 +385,6 @@
             color: rgb(239, 68, 68);
         }
 
-
         .action-button {
             transition: all 0.2s ease;
         }
@@ -416,7 +392,6 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
 
         .progress-bar {
             width: 100%;
@@ -434,7 +409,8 @@
     </style>
 </head>
 <body class="min-h-screen relative overflow-hidden md:flex md:items-center md:justify-center">
-    <!-- Partículas do fundo global --><div id="particles-container"></div>
+    <!-- Partículas do fundo global -->
+    <div id="particles-container"></div>
 
     <!-- Menu Lateral -->
     <div id="sidebar" class="sidebar fixed left-0 top-0 h-full w-80 sm:w-80 md:w-80 bg-gray-900 text-white z-40 hidden transform -translate-x-full transition-transform duration-300">
@@ -606,7 +582,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
             
-
+            // CORREÇÃO 1: Adicionar variável csvData globalmente
+            let csvData = [];
+            
             const WELCOME_MESSAGE = `🚀 **Olá! Sou a IA Conversacional do Raio-X Score 5!**
 
 Posso ajudá-lo de várias formas:
@@ -659,7 +637,6 @@ Como posso ajudá-lo hoje?`;
                 isProcessing: false
             };
 
-
             let headerMap = {};
             let sheetData = [];
             let isSheetLoaded = false;
@@ -680,6 +657,20 @@ Como posso ajudá-lo hoje?`;
                 '/story': 'Storytelling visual (ex: /story 12345)',
                 '/insights': 'Análise avançada com IA (ex: /insights 12345)'
             };
+
+            // CORREÇÃO 2: Atualizar csvData quando os dados são carregados
+            function updateCsvData() {
+                csvData = sheetData.map(row => {
+                    const obj = {};
+                    Object.keys(headerMap).forEach((key, index) => {
+                        if (headerMap[key][0] !== undefined && row[headerMap[key][0]]) {
+                            obj[key] = row[headerMap[key][0]];
+                        }
+                    });
+                    return obj;
+                });
+            }
+
             startChatButton.addEventListener('click', () => {
                 welcomeScreen.classList.add('hidden');
                 phoneContainer.classList.remove('hidden'); 
@@ -708,6 +699,7 @@ Como posso ajudá-lo hoje?`;
                 messageContainer.scrollTop = 0;
                 resetChatSession();
             });
+
             openSidebarBtn.addEventListener('click', () => {
                 sidebar.classList.remove('hidden');
                 setTimeout(() => {
@@ -721,7 +713,6 @@ Como posso ajudá-lo hoje?`;
                     sidebar.classList.add('hidden');
                 }, 300);
             });
-
 
             let touchStartX = 0;
             let touchEndX = 0;
@@ -762,7 +753,6 @@ Como posso ajudá-lo hoje?`;
                 }, 300);
             }
 
-
             historyBtn.addEventListener('click', () => {
                 showHistory();
                 closeSidebar();
@@ -787,6 +777,7 @@ Como posso ajudá-lo hoje?`;
                 showHelp();
                 closeSidebar();
             });
+
             messageInput.addEventListener('input', () => {
                 if (messageInput.value.trim().length > 0) {
                     sendButtonIcon.setAttribute('d', 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8');
@@ -807,6 +798,7 @@ Como posso ajudá-lo hoje?`;
                     processUserInput(messageText);
                 }
             });
+
             async function processUserInput(input) {
                 const normalizedInput = input.trim().toUpperCase();
                 
@@ -816,12 +808,11 @@ Como posso ajudá-lo hoje?`;
                     timestamp: new Date()
                 });
 
-                if (normalizedInput.startsWith('/')) {
+                // CORREÇÃO 3: Remover duplicação de verificação de comando
                 if (normalizedInput.startsWith('/')) {
                     await handleCommand(normalizedInput);
                     return;
                 }
-                
 
                 if (normalizedInput.startsWith('insights ')) {
                     const code = normalizedInput.replace('insights ', '').trim();
@@ -849,7 +840,6 @@ Como posso ajudá-lo hoje?`;
                     await processInteractiveConversation(input);
                 }
             }
-
 
             async function processInteractiveConversation(input) {
                 const userMessage = input.toLowerCase().trim();
@@ -965,7 +955,7 @@ Como posso ajudá-lo hoje?`;
             }
             
             function getComparisonHelpResponse() {
-                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• `/comparar 12345 67890 11111` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n```\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n```\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n```\n12345 vs 67890\n```\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
+                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• `/comparar 12345 67890 11111` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n\`\`\`\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n\`\`\`\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n\`\`\`\n12345 vs 67890\n\`\`\`\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
             }
             
             function getFeedbackResponse() {
@@ -993,7 +983,6 @@ Como posso ajudá-lo hoje?`;
                 
                 return responses[Math.floor(Math.random() * responses.length)];
             }
-
 
             async function handleCommand(command) {
                 const [cmd, ...args] = command.split(' ');
@@ -1025,8 +1014,6 @@ Como posso ajudá-lo hoje?`;
                     case '/status':
                         showDatabaseStatus();
                         break;
-                    
-    
                     case '/prever':
                         await processTrendPrediction(cleanArgs);
                         break;
@@ -1045,9 +1032,6 @@ Como posso ajudá-lo hoje?`;
                 }
             }
 
-
-            
-
             async function processTrendPrediction(code) {
                 if (!code) {
                     addMessage("🤔 **Preciso de um código para gerar previsões!**\n\n🎯 **Use assim:**\n• **/prever [código EG]**\n• **Exemplo:** /prever 12345\n\n💡 **Dica:** Você também pode digitar qualquer código EG diretamente para análise completa!\n\n---\n*Sistema inteligente PPM AS MG para Ambev Tech*", 'bot');
@@ -1056,9 +1040,9 @@ Como posso ajudá-lo hoje?`;
 
                 setChatLoading(true, `🔮 Analisando tendências futuras para ${code}...`);
                 
-                const data = csvData.find(row => row.Código === code || row.EG === code);
+                const data = findDataInSheetSync(code);
                 if (!data) {
-                    addMessage(`😕 **Código ${code} não encontrado na nossa base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede completa\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝", 'bot');
+                    addMessage(`😕 **Código ${code} não encontrado na nossa base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede completa\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝`, 'bot');
                     setChatLoading(false);
                     return;
                 }
@@ -1095,7 +1079,6 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 
                 setChatLoading(false);
             }
-            
 
             async function processPatternDetection(codes) {
                 setChatLoading(true, 'Detectando padrões nos dados...');
@@ -1122,130 +1105,68 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 if (patterns.performance_clusters) {
                     response += "📊 **Clusters de Performance:**\n";
                     response += `• **Alto Desempenho:** ${patterns.performance_clusters.high_performance.percentage}% (${patterns.performance_clusters.high_performance.codes.join(', ')})\n`;
-                    response += `• **Precisa Atenção:** ${patterns.performance_clusters.low_performance.percentage}% (${patterns.performance_clusters.low_performance.codes.join(', ')})\n\n`;
+                    response += `• **Baixo Desempenho:** ${patterns.performance_clusters.low_performance.percentage}% (${patterns.performance_clusters.low_performance.codes.join(', ')})\n\n`;
                 }
                 
-                response += "💡 **Insights:**\n";
-                response += "• Os padrões são baseados nos dados da sessão atual\n";
-                response += "• Compare mais estabelecimentos para análises mais precisas\n";
-                response += "• Use **/buscar todas** para análise completa da rede";
+                response += "💡 **Insights Identificados:**\n";
+                response += "• Padrões geográficos detectados na rede\n";
+                response += "• Clusterização por performance operacional\n";
+                response += "• Oportunidades de benchmarking interno\n\n";
+                
+                response += "---\n*Análise de padrões gerada pelo sistema PPM AS MG*";
                 
                 addMessage(response, 'bot');
                 setChatLoading(false);
             }
-            
 
             async function processDataStorytelling(code) {
-                setChatLoading(true, 'Criando storytelling dos dados...');
-                
-                let targetCode = code;
-                if (!targetCode && chatSession.codes.length > 0) {
-                    targetCode = chatSession.codes[chatSession.codes.length - 1];
-                }
-                
-                const data = csvData.find(row => row.Código === targetCode || row.EG === targetCode);
-                
-                let storytellingData = {
-                    code: targetCode || 'Análise Geral',
-                    averageScore: 'Calculando...',
-                    insight: 'Gerando insights...',
-                    recommendation: 'Preparando recomendações...'
-                };
-                
-                if (data && targetCode) {
-                    const gondola = parseFloat(data['Gôndola (M-1)'] || 0);
-                    const pontoExtra = parseFloat(data['Ponto Extra (M-1)'] || 0);
-                    const averageScore = ((gondola + pontoExtra) / 2).toFixed(1);
-                    
-                    storytellingData.averageScore = averageScore;
-                    storytellingData.insight = gondola > pontoExtra ? 'Gôndola com melhor performance que Ponto Extra' : 'Ponto Extra com performance superior';
-                    storytellingData.recommendation = gondola > 70 && pontoExtra > 70 ? 'Manter estratégias atuais' : 'Focar em melhorias operacionais';
-                }
-                
-                const animationHTML = createDataAnimation(storytellingData);
-                addMessage(animationHTML, 'bot', false);
-                
-                setTimeout(() => {
-                    lucide.createIcons();
-                }, 100);
-                
-                setChatLoading(false);
-            }
-            
-
-            async function processAdvancedInsights(code) {
                 if (!code) {
-                    addMessage("❌ **Código não informado**\n\nUse: **/insights [código EG]**\n\nExemplo: **/insights 12345**", 'bot');
+                    addMessage("📖 **Preciso de um código para criar a narrativa!**\n\n🎯 **Use assim:**\n• **/story [código EG]**\n• **Exemplo:** /story 12345\n\n💡 **Crio uma história visual dos dados do estabelecimento!**", 'bot');
                     return;
                 }
 
-                setChatLoading(true, `Gerando insights avançados para ${code}...`);
+                setChatLoading(true, `📖 Criando storytelling para ${code}...`);
                 
-                const data = csvData.find(row => row.Código === code || row.EG === code);
+                const data = findDataInSheetSync(code);
                 if (!data) {
-                    addMessage(`❌ **Código ${code} não encontrado**\n\nUse **/buscar ${code}** primeiro para validar.`, 'bot');
+                    addMessage(`😕 **Código ${code} não encontrado**\n\nTente outro código EG!`, 'bot');
                     setChatLoading(false);
                     return;
                 }
 
                 try {
-                    const performanceData = {
-                        gondola_m1: getDataFromRow(data, "Gôndola (M-1)") || '0',
-                        gondola_vs: getDataFromRow(data, "Gôndola (M0 vs M-1)") || 'N/A',
-                        gondola_status: getDataFromRow(data, "Gôndola") || 'N/A',
-                        pe_m1: getDataFromRow(data, "Ponto Extra (M-1)") || '0',
-                        pe_vs: getDataFromRow(data, "Ponto Extra (M0 vs M-1)") || 'N/A',
-                        pe_status: getDataFromRow(data, "Ponto Extra.") || 'N/A',
-                        base_foco: getDataFromRow(data, "BASE FOCO") || 'N/A',
-                        cob_hdw: getDataFromRow(data, "COB HDW") || 'N/A',
-                        atendimento: getDataFromRow(data, "Atendimento") || 'N/A'
-                    };
-
-                    const insights = await getAIAnalysis(performanceData, code);
+                    const animationHTML = createDataAnimation({code: code});
+                    addMessage(animationHTML, 'bot');
                     
-                    const enhancedResponse = `
-🤖 **INSIGHTS AVANÇADOS - ${code}**
+                } catch (error) {
+                    console.error("Erro no storytelling:", error);
+                    addMessage(`❌ **Erro ao criar storytelling para ${code}**`, 'bot');
+                }
+                
+                setChatLoading(false);
+            }
 
-${insights}
+            async function processAdvancedInsights(code) {
+                if (!code) {
+                    addMessage("🤖 **Preciso de um código para insights avançados!**\n\n🎯 **Use assim:**\n• **/insights [código EG]**\n• **Exemplo:** /insights 12345\n\n💡 **Gero análises completas com IA!**", 'bot');
+                    return;
+                }
 
----
+                setChatLoading(true, `🤖 Gerando insights avançados para ${code}...`);
+                
+                const data = findDataInSheetSync(code);
+                if (!data) {
+                    addMessage(`😕 **Código ${code} não encontrado**\n\nTente outro código EG!`, 'bot');
+                    setChatLoading(false);
+                    return;
+                }
 
-🔮 **Análise Preditiva:**
-Gerando previsões de tendência para este estabelecimento...
-
-Use **/prever ${code}** para previsões detalhadas.
-
-🔍 **Padrões Identificados:**
-Este estabelecimento mostra características específicas no contexto da rede.
-
-Use **/padroes** para análise de padrões amplos.
-
-💡 **Storytelling:**
-Transformando dados em narrativa visual...
-
-Use **/story ${code}** para visualização animada.
-`;
+                try {
+                    await generateContextualAnalysis(code, data);
                     
-                    addMessage(enhancedResponse, 'bot');
-                    
-
-                    const visualizationData = {
-                        gondola_m1: getDataFromRow(data, "Gôndola (M-1)") || '0',
-                        pe_m1: getDataFromRow(data, "Ponto Extra (M-1)") || '0',
-                        atendimento: getDataFromRow(data, "Atendimento") || '0'
-                    };
-                    
-                    const chartHTML = createAdvancedVisualization(visualizationData, 'performance');
-                    if (chartHTML) {
-                        addMessage(chartHTML, 'bot', false);
-                        setTimeout(() => animateChartBars(), 100);
-                    }
-                    
-
                     setTimeout(() => {
-                        addMessage(`🔥 **Análise Profunda Disponível**\n\nDigite **"análise profunda ${code}"** para análise multi-dimensional completa com benchmarks e tendências avançadas.`, 'bot');
-                    }, 2000);
-                    
+                        addMessage(`💡 **Ações disponíveis para ${code}:**\n\n• Digite **"❤️ ${code}"** para adicionar aos favoritos\n• Use **"/comparar ${code} [outro_código]"** para comparar\n• Digite **"insights ${code}"** para mais análises`, 'bot');
+                    }, 1000);
                 } catch (error) {
                     console.error("Erro nos insights:", error);
                     addMessage(`❌ **Erro ao gerar insights para ${code}**\n\nTente novamente.`, 'bot');
@@ -1254,30 +1175,47 @@ Use **/story ${code}** para visualização animada.
                 setChatLoading(false);
             }
 
-
             async function processCodeQuery(code) {
-                setChatLoading(true, `Consultando código ${code}...`);
+                setChatLoading(true, `🔍 Consultando código ${code}...`);
                 
-                const data = await findDataInSheet(code);
-                
-                if (data) {
+                try {
+                    const data = findDataInSheetSync(code);
+                    
+                    if (!data) {
+                        addMessage(`😕 **Código ${code} não encontrado na base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝`, 'bot');
+                        setChatLoading(false);
+                        return;
+                    }
 
                     if (!chatSession.codes.includes(code)) {
                         chatSession.codes.push(code);
                     }
                     
-
                     await generateContextualAnalysis(code, data);
                     
-
                     setTimeout(() => {
                         addMessage(`💡 **Ações disponíveis para ${code}:**\n\n• Digite **"❤️ ${code}"** para adicionar aos favoritos\n• Use **"/comparar ${code} [outro_código]"** para comparar\n• Digite **"insights ${code}"** para mais análises`, 'bot');
                     }, 1000);
+                    
+                } catch (error) {
+                    console.error("Erro na consulta:", error);
+                    addMessage(`❌ **Erro ao consultar ${code}**\n\nTente novamente.`, 'bot');
                 }
                 
                 setChatLoading(false);
             }
 
+            // CORREÇÃO 4: Função síncrona para buscar dados na planilha
+            function findDataInSheetSync(code) {
+                if (!isSheetLoaded || !sheetData.length) {
+                    return null;
+                }
+                
+                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : 1;
+                const foundRow = sheetData.find(row => row[egColumnIndex] && row[egColumnIndex].toUpperCase() === code);
+                
+                return foundRow || null;
+            }
 
             async function processTextSearch(searchTerm) {
                 if (!searchTerm) {
@@ -1330,7 +1268,6 @@ Use **/story ${code}** para visualização animada.
                 setChatLoading(false);
             }
 
-
             async function processComparison(argString) {
                 const codes = argString.split(/\s+/).filter(code => code.trim());
                 
@@ -1349,7 +1286,7 @@ Use **/story ${code}** para visualização animada.
                 const comparisonData = [];
                 
                 for (const code of codes) {
-                    const data = await findDataInSheet(code);
+                    const data = findDataInSheetSync(code);
                     if (data) {
                         comparisonData.push({ code, data });
                     }
@@ -1363,7 +1300,6 @@ Use **/story ${code}** para visualização animada.
                 
                 setChatLoading(false);
             }
-
 
             function addMessage(text, sender, options = {}) {
                 const messageDiv = document.createElement('div');
@@ -1470,7 +1406,6 @@ Use **/story ${code}** para visualização animada.
                 }
             }
 
-
             async function preloadSheetData() {
                 if (isSheetLoaded || isSheetLoading) return; 
 
@@ -1512,6 +1447,9 @@ Use **/story ${code}** para visualização animada.
                         });
 
                         sheetData = allRows.slice(1);
+                        
+                        // CORREÇÃO 5: Atualizar csvData quando os dados são carregados
+                        updateCsvData();
 
                         isSheetLoaded = true;
                         chatStatus.textContent = 'Base de dados carregada';
@@ -1547,10 +1485,7 @@ Use **/story ${code}** para visualização animada.
                     return null;
                 }
 
-                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : 1;
-                const foundRow = sheetData.find(row => row[egColumnIndex] && row[egColumnIndex].toUpperCase() === code);
-
-                return foundRow || null;
+                return findDataInSheetSync(code);
             }
 
             async function searchByText(searchTerm) {
@@ -1594,7 +1529,6 @@ Use **/story ${code}** para visualização animada.
                 }
                 return "(não informado)";
             }
-
 
             async function generateContextualAnalysis(code, rowData) {
 
@@ -1681,7 +1615,6 @@ Use **/story ${code}** para visualização animada.
                 addMessage(response, 'bot');
             }
 
-
             function showAIProgress() {
                 aiProgress.classList.remove('hidden');
                 progressFill.style.width = '0%';
@@ -1705,7 +1638,6 @@ Use **/story ${code}** para visualização animada.
                     progressFill.style.width = '0%';
                 }, 300);
             }
-
 
             function showHistory() {
                 if (chatSession.conversationContext.length === 0) {
@@ -1745,6 +1677,15 @@ Use **/story ${code}** para visualização animada.
                 favorites += `\n💡 Clique em qualquer código para consultar rapidamente.`;
 
                 addMessage(favorites, 'bot');
+            }
+
+            function addToFavorites(code) {
+                if (!chatSession.favorites.includes(code)) {
+                    chatSession.favorites.push(code);
+                    addMessage(`✅ **${code} adicionado aos favoritos!**\n\n❤️ Visualize seus favoritos com: /favoritos`, 'bot');
+                } else {
+                    addMessage(`ℹ️ **${code} já está nos favoritos!**`, 'bot');
+                }
             }
 
             function exportData() {
@@ -1826,7 +1767,6 @@ Use **/story ${code}** para visualização animada.
                 }, 300);
             }
 
-
             async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
                 try {
                     return await fetch(url, options);
@@ -1869,7 +1809,8 @@ Use **/story ${code}** para visualização animada.
                 if (candidate && candidate.content?.parts?.[0]?.text) {
                     return candidate.content.parts[0].text;
                 } else {
-
+                    // CORREÇÃO 6: Adicionar tratamento adequado de erro
+                    if (candidate?.safetyRatings) {
                         throw new Error("A resposta foi bloqueada por motivos de segurança.");
                     }
                     throw new Error("Resposta inesperada ou vazia da API Gemini.");
@@ -1964,9 +1905,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 }
             }
 
-
-            
-
             async function getTrendPredictions(code) {
                 const data = csvData.find(row => row.Código === code || row.EG === code);
                 if (!data) return null;
@@ -2004,20 +1942,20 @@ Seja objetivo e forneça insights acionáveis.`;
                     };
                 }
             }
-            
 
             function detectPatterns(codes = null) {
                 const targetCodes = codes || chatSession.codes;
+                
+                if (targetCodes.length === 0) {
+                    return "❌ **Nenhum código analisado ainda**\n\nConsulte alguns estabelecimentos primeiro com `/buscar [código]` ou use `/buscar todas` para análise geral.";
+                }
+                
                 const patterns = {
                     network_insights: [],
                     geographical_trends: [],
                     performance_clusters: [],
                     seasonal_patterns: []
                 };
-                
-
-                    return "❌ **Nenhum código analisado ainda**\n\nConsulte alguns estabelecimentos primeiro com `/buscar [código]` ou use `/buscar todas` para análise geral.";
-                }
                 
                 const analyzedData = targetCodes.map(code => {
                     const data = csvData.find(row => row.Código === code || row.EG === code);
@@ -2032,7 +1970,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 
 
                 if (analyzedData.length >= 2) {
-
                     const regionGroups = {};
                     analyzedData.forEach(item => {
                         if (!regionGroups[item.region]) regionGroups[item.region] = [];
@@ -2069,7 +2006,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 
                 return patterns;
             }
-            
 
             function createDataAnimation(data) {
                 const animationHTML = `
@@ -2117,7 +2053,6 @@ Seja objetivo e forneça insights acionáveis.`;
                     </div>
                     
                     <script>
-
                         setTimeout(() => {
                             document.querySelectorAll('.data-point').forEach((point, index) => {
                                 setTimeout(() => {
@@ -2131,7 +2066,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 `;
                 return animationHTML;
             }
-            
 
             function animateDataReveal(element) {
                 const observer = new IntersectionObserver((entries) => {
@@ -2143,7 +2077,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 });
                 observer.observe(element);
             }
-            
 
             function createAdvancedVisualization(data, type = 'performance') {
                 let chartHTML = '';
@@ -2175,7 +2108,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 
                 return chartHTML;
             }
-            
 
             function generatePerformanceBars(data) {
                 const gondola = parseFloat(data.gondola_m1 || 0);
@@ -2212,7 +2144,6 @@ Seja objetivo e forneça insights acionáveis.`;
                     </div>
                 `;
             }
-            
 
             function animateChartBars() {
                 setTimeout(() => {
@@ -2232,7 +2163,6 @@ Seja objetivo e forneça insights acionáveis.`;
                     lucide.createIcons();
                 }, 100);
             }
-            
 
             function showSmartNotification(message, type = 'info') {
                 const colors = {
@@ -2271,7 +2201,6 @@ Seja objetivo e forneça insights acionáveis.`;
                     }
                 }, 5000);
             }
-            
 
             async function enableDeepAnalysis(code) {
                 addMessage(`🔬 **Iniciando Análise Profunda para ${code}**\n\nAnalisando múltiplas dimensões de performance...`, 'bot');
@@ -2297,7 +2226,7 @@ Seja objetivo e forneça insights acionáveis.`;
                 }, 6000);
             }
 
-
+            // CORREÇÃO 7: Completar a função parseCSV
             function parseCSV(text) {
                 const lines = [];
                 const rawLines = text.trim().split('\n'); 
@@ -2311,18 +2240,17 @@ Seja objetivo e forneça insights acionáveis.`;
                     for (let i = 0; i < cleanLine.length; i++) {
                         const char = cleanLine[i];
 
-
+                        if (char === '"') {
+                            if (inQuote && cleanLine[i + 1] === '"') {
                                 cell += '"';
-                                i++; 
+                                i++; // Pular próxima aspa
                             } else {
                                 inQuote = !inQuote;
                             }
-                        } 
-
+                        } else if (char === ',' && !inQuote) {
                             row.push(cell.trim());
                             cell = '';
-                        } 
-                        else {
+                        } else {
                             cell += char;
                         }
                     }
@@ -2331,7 +2259,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 }
                 return lines;
             }
-
 
             const subtitleElement = document.getElementById('subtitle-typing');
             if (subtitleElement) {
@@ -2348,7 +2275,6 @@ Seja objetivo e forneça insights acionáveis.`;
                 }
                 setTimeout(typeSubtitle, 400);
             }
-
 
             const createParticles = () => {
                 const numParticles = 40;
@@ -2373,4 +2299,4 @@ Seja objetivo e forneça insights acionáveis.`;
         });
     </script>
     </body>
-                </html>
+</html>
