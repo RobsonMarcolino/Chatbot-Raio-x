@@ -8,7 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- REMOVIDO: lucide-react (é para React) -->
     <!-- ADICIONADO: lucide (para HTML/JS) -->
-    <script src="https://unpkg.com/lucide@latest/dist/lucide.js"></script>
+    <!-- CORREÇÃO: Alterado para a versão UMD (Universal Module Definition) que funciona em browsers -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -577,10 +578,7 @@
         // ADICIONADO: Log para confirmar que o script mais recente (v6) está a ser executado
         console.log('✅ Versão Corrigida (v6) - Aguardando DOMContentLoaded');
         
-        // CORREÇÃO: Mudar de DOMContentLoaded para window.onload
-        // O evento 'load' garante que TODOS os scripts (como lucide.js) 
-        // foram carregados antes de tentar usá-los.
-        window.onload = () => {
+        document.addEventListener('DOMContentLoaded', () => {
             console.log('✅ DOM carregado');
             
             const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
@@ -683,6 +681,14 @@ Como posso ajudá-lo hoje?`;
                     return obj;
                 });
                 console.log('📊 csvData atualizado:', csvData.length, 'registros');
+                
+                // ADICIONADO: Log dos headers disponíveis para debug
+                console.log('📋 Headers disponíveis:', Object.keys(headerMap));
+                
+                // ADICIONADO: Log de alguns exemplos de dados
+                if (csvData.length > 0) {
+                    console.log('📝 Primeiro registro:', csvData[0]);
+                }
             }
 
             // Função parseCSV completa
@@ -1252,6 +1258,10 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 setChatLoading(true, `🔍 Consultando código ${code}...`);
                 
                 try {
+                    console.log(`📊 processCodeQuery iniciado para código: ${code}`);
+                    console.log(`📊 csvData disponível: ${csvData.length > 0 ? 'SIM' : 'NÃO'}`);
+                    console.log(`📊 isSheetLoaded: ${isSheetLoaded}`);
+                    
                     const data = findDataInSheetSync(code);
                     
                     if (!data) {
@@ -1278,17 +1288,32 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 setChatLoading(false);
             }
 
-            // Função síncrona para buscar dados na planilha
+            // CORREÇÃO: Função síncrona para buscar dados na planilha (simplificada)
             function findDataInSheetSync(code) {
-                if (!isSheetLoaded || !sheetData.length) {
+                console.log(`🔍 Buscando código ${code}, csvData tem ${csvData.length} registros`);
+                
+                if (!isSheetLoaded || !csvData.length) {
+                    console.log('❌ Base de dados não carregada ou vazia');
                     return null;
                 }
                 
-                // Tenta encontrar pelo header "eg" ou "código" (mais comum)
-                const egColumnIndex = headerMap["eg"] ? headerMap["eg"][0] : (headerMap["código"] ? headerMap["código"][0] : 1); // Default 1 se não achar
-                const foundRow = sheetData.find(row => row[egColumnIndex] && row[egColumnIndex].toUpperCase() === code.toUpperCase());
+                // Método mais direto: usar csvData.find() com várias possíveis colunas
+                const possibleColumns = ['código', 'eg', 'Código', 'EG', 'code', 'Code'];
                 
-                return foundRow || null;
+                for (const colName of possibleColumns) {
+                    const foundRow = csvData.find(row => {
+                        const cellValue = row[colName];
+                        return cellValue && cellValue.toString().trim().toUpperCase() === code.toUpperCase();
+                    });
+                    
+                    if (foundRow) {
+                        console.log(`✅ Código ${code} encontrado na coluna ${colName}`);
+                        return foundRow;
+                    }
+                }
+                
+                console.log(`❌ Código ${code} não encontrado em nenhuma coluna`);
+                return null;
             }
 
             async function processTextSearch(searchTerm) {
@@ -2380,7 +2405,7 @@ Seja objetivo e forneça insights acionáveis.`;
             
             // CORREÇÃO: Chamar createIcons() no final para renderizar ícones estáticos
             lucide.createIcons();
-        };
+        });
     </script>
     </body>
 </html>
