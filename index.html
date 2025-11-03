@@ -597,11 +597,9 @@ Posso ajudá-lo de várias formas:
 • Use **"/buscar [termo]"** para consultas específicas
 
 **🛠️ COMANDOS:**
-• **"/histórico"** - Ver consultas anteriores
-• **"/favoritos"** - Estabelecimentos salvos
-• **"/comparar EG1 EG2"** - Comparar códigos
-• **"/exportar"** - Baixar dados
-• **"/ajuda"** - Ver todos os comandos
+• Digite um **código EG** (ex: 12345)
+• Use **"/buscar [termo]"** para consultas específicas
+• **"/ajuda"** - Ver ajuda completa
 
 **🧠 IA AVANÇADA:**
 Posso analisar padrões, tendências e gerar insights personalizados sobre os dados.
@@ -656,26 +654,22 @@ Como posso ajudá-lo hoje?`;
             let filteredData = [];
             const COMMANDS = {
                 '/buscar': 'Buscar por nome/rede (ex: /buscar ambev)',
-                '/comparar': 'Comparar códigos (ex: /comparar 123 456)',
-                '/histórico': 'Ver histórico da sessão',
-                '/favoritos': 'Gerenciar favoritos',
-                '/exportar': 'Exportar dados',
                 '/ajuda': 'Mostrar comandos disponíveis',
                 '/limpar': 'Limpar contexto da sessão',
-                '/status': 'Status da base de dados',
-
-                '/prever': 'Previsões de tendência (ex: /prever 12345)',
-                '/padroes': 'Detecção de padrões (ex: /padroes ou /padroes 123 456)',
-                '/story': 'Storytelling visual (ex: /story 12345)',
-                '/insights': 'Análise avançada com IA (ex: /insights 12345)'
+                '/status': 'Status da base de dados'
             };
 
             function updateCsvData() {
+                console.log('🔧 Atualizando csvData...');
+                console.log('📋 headerMap atual:', headerMap);
+                
                 csvData = sheetData.map(row => {
                     const obj = {};
                     Object.keys(headerMap).forEach((key, index) => {
-                        if (headerMap[key][0] !== undefined && row[headerMap[key][0]]) {
-                            obj[key] = row[headerMap[key][0]];
+                        const colIndex = headerMap[key][0];
+                        if (colIndex !== undefined) {
+                            obj[key] = row[colIndex];
+                            console.log(`🔧 Mapeando: ${key} -> coluna ${colIndex} -> "${row[colIndex]}"`);
                         }
                     });
                     return obj;
@@ -688,6 +682,7 @@ Como posso ajudá-lo hoje?`;
                 // ADICIONADO: Log de alguns exemplos de dados
                 if (csvData.length > 0) {
                     console.log('📝 Primeiro registro:', csvData[0]);
+                    console.log('📝 Colunas do primeiro registro:', Object.keys(csvData[0]));
                 }
             }
 
@@ -829,7 +824,7 @@ Como posso ajudá-lo hoje?`;
             });
 
             favoritesBtn.addEventListener('click', () => {
-                showFavorites();
+                addMessage('ℹ️ Funcionalidade de favoritos foi removida para simplificar o sistema.', 'bot');
                 closeSidebar();
             });
 
@@ -874,6 +869,10 @@ Como posso ajudá-lo hoje?`;
             async function processUserInput(input) {
                 const normalizedInput = input.trim().toUpperCase();
                 
+                // ADICIONADO: Log de debug para mostrar detecção
+                console.log(`🔍 DEBUG: User input: "${input}"`);
+                console.log(`🔍 DEBUG: Normalized: "${normalizedInput}"`);
+                
                 chatSession.conversationContext.push({
                     type: 'user_input',
                     message: input,
@@ -897,13 +896,25 @@ Como posso ajudá-lo hoje?`;
                     return;
                 }
                 
-                if (normalizedInput.startsWith('❤️ ')) {
-                    const code = normalizedInput.replace('❤️ ', '').trim();
-                    addToFavorites(code);
+                // Funcionalidade de favoritos removida - simplificação do sistema
+
+                // NOVA LÓGICA: Verificar se é uma saudação primeiro
+                const greetings = ['OLA', 'OLÁ', 'OI', 'HEY', 'HI', 'HELLO', 'BOM DIA', 'BOA TARDE', 'BOA NOITE', 'Obrigado', 'OBRIGADA'];
+                if (greetings.includes(normalizedInput)) {
+                    await processInteractiveConversation(input);
                     return;
                 }
 
-                const isCodeLookup = /^[A-Z0-9-]{2,20}$/i.test(normalizedInput);
+                // MELHORADA: Detectar códigos EG com padrão mais específico
+                // EG deve ter pelo menos 3 dígitos ou seguir formato 12345, 12345-1, ABC123, etc.
+                const isCodeLookup = /^([0-9]{3,}|[A-Z]{2,}[0-9]{1,}|[0-9]{2,}-[0-9]{1,2})$/i.test(normalizedInput) && 
+                                   normalizedInput.length >= 3 && 
+                                   normalizedInput.length <= 15;
+                
+                console.log(`🔍 DEBUG: Saudações detectadas? ${greetings.includes(normalizedInput) ? 'SIM' : 'NÃO'}`);
+                console.log(`🔍 DEBUG: É código EG? ${isCodeLookup ? 'SIM' : 'NÃO'}`);
+                console.log(`🔍 DEBUG: Regex test: ${/^([0-9]{3,}|[A-Z]{2,}[0-9]{1,}|[0-9]{2,}-[0-9]{1,2})$/i.test(normalizedInput)}`);
+                console.log(`🔍 DEBUG: Comprimento: ${normalizedInput.length} (entre 3-15)`);
                 
                 if (isCodeLookup) {
                     await processCodeQuery(normalizedInput);
@@ -914,6 +925,7 @@ Como posso ajudá-lo hoje?`;
 
             async function processInteractiveConversation(input) {
                 const userMessage = input.toLowerCase().trim();
+                console.log(`🔍 DEBUG: processInteractiveConversation chamada para "${userMessage}"`);
                 setChatLoading(true, 'Processando sua pergunta...');
                 
                 const intent = analyzeUserIntent(userMessage);
@@ -1063,18 +1075,12 @@ Como posso ajudá-lo hoje?`;
                     case '/buscar':
                         await processTextSearch(cleanArgs);
                         break;
-                    case '/comparar':
-                        await processComparison(cleanArgs);
-                        break;
+                    // Comando '/comparar' removido - simplificação do sistema
                     case '/histórico':
                         showHistory();
                         break;
-                    case '/favoritos':
-                        showFavorites();
-                        break;
-                    case '/exportar':
-                        exportData();
-                        break;
+                    // Comando '/favoritos' removido - simplificação do sistema
+                    // Comando '/exportar' removido - simplificação do sistema
                     case '/ajuda':
                         showHelp();
                         break;
@@ -1085,18 +1091,10 @@ Como posso ajudá-lo hoje?`;
                     case '/status':
                         showDatabaseStatus();
                         break;
-                    case '/prever':
-                        await processTrendPrediction(cleanArgs);
-                        break;
-                    case '/padroes':
-                        await processPatternDetection(cleanArgs);
-                        break;
-                    case '/story':
-                        await processDataStorytelling(cleanArgs);
-                        break;
-                    case '/insights':
-                        await processAdvancedInsights(cleanArgs);
-                        break;
+                    // Comando '/prever' removido - simplificação do sistema
+                    // Comando '/padroes' removido - simplificação do sistema
+                    // Comando '/story' removido - simplificação do sistema
+                    // Comando '/insights' removido - simplificação do sistema
                     
                     default:
                         addMessage(`❌ Comando não reconhecido: **${cmd}**\n\nDigite **/ajuda** para ver os comandos disponíveis.`, 'bot');
@@ -1243,9 +1241,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 try {
                     await generateContextualAnalysis(code, data);
                     
-                    setTimeout(() => {
-                        addMessage(`💡 **Ações disponíveis para ${code}:**\n\n• Digite **"❤️ ${code}"** para adicionar aos favoritos\n• Use **"/comparar ${code} [outro_código]"** para comparar\n• Digite **"insights ${code}"** para mais análises`, 'bot');
-                    }, 1000);
+                    // Removido - ações extras que atrapalhavam a funcionalidade
                 } catch (error) {
                     console.error("Erro nos insights:", error);
                     addMessage(`❌ **Erro ao gerar insights para ${code}**\n\nTente novamente.`, 'bot');
@@ -1263,6 +1259,9 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                     console.log(`📊 isSheetLoaded: ${isSheetLoaded}`);
                     
                     const data = findDataInSheetSync(code);
+                    console.log(`📊 Dados retornados pela busca:`, data);
+                    console.log(`📊 Tipo dos dados: ${typeof data}`);
+                    console.log(`📊 É objeto? ${data && typeof data === 'object' ? 'SIM' : 'NÃO'}`);
                     
                     if (!data) {
                         addMessage(`😕 **Código ${code} não encontrado na base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝`, 'bot');
@@ -1270,15 +1269,17 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                         return;
                     }
 
+                    console.log(`✅ Código ${code} encontrado! Preparando análise...`);
+                    console.log(`📋 Dados disponíveis:`, Object.keys(data));
+                    
                     if (!chatSession.codes.includes(code)) {
                         chatSession.codes.push(code);
                     }
                     
+                    console.log(`🔮 Chamando generateContextualAnalysis para ${code} com dados:`, data);
                     await generateContextualAnalysis(code, data);
                     
-                    setTimeout(() => {
-                        addMessage(`💡 **Ações disponíveis para ${code}:**\n\n• Digite **"❤️ ${code}"** para adicionar aos favoritos\n• Use **"/comparar ${code} [outro_código]"** para comparar\n• Digite **"insights ${code}"** para mais análises`, 'bot');
-                    }, 1000);
+                    // Removido - ações extras que atrapalhavam a funcionalidade
                     
                 } catch (error) {
                     console.error("Erro na consulta:", error);
@@ -1291,23 +1292,37 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
             // CORREÇÃO: Função síncrona para buscar dados na planilha (simplificada)
             function findDataInSheetSync(code) {
                 console.log(`🔍 Buscando código ${code}, csvData tem ${csvData.length} registros`);
+                console.log(`📊 isSheetLoaded: ${isSheetLoaded}`);
                 
                 if (!isSheetLoaded || !csvData.length) {
                     console.log('❌ Base de dados não carregada ou vazia');
+                    console.log(`📋 Headers disponíveis: ${csvData.length > 0 ? Object.keys(csvData[0]).join(', ') : 'Nenhum'}`);
                     return null;
                 }
                 
-                // Método mais direto: usar csvData.find() com várias possíveis colunas
-                const possibleColumns = ['código', 'eg', 'Código', 'EG', 'code', 'Code'];
+                // CORREÇÃO: Usar nomes em lowercase (conforme headerMap)
+                const possibleColumns = ['eg']; // headerMap usa lowercase
+                
+                console.log(`🔍 Tentando colunas: ${possibleColumns.join(', ')}`);
+                
+                // ADICIONADO: Log para verificar estrutura dos dados
+                if (csvData.length > 0) {
+                    console.log(`📝 Primeira linha: ${JSON.stringify(csvData[0])}`);
+                    console.log(`📋 Headers da primeira linha: ${Object.keys(csvData[0]).join(', ')}`);
+                }
                 
                 for (const colName of possibleColumns) {
+                    console.log(`🔍 Tentando coluna: ${colName}`);
+                    
                     const foundRow = csvData.find(row => {
                         const cellValue = row[colName];
+                        console.log(`   📄 Valor na coluna ${colName}: "${cellValue}" (compara com "${code}")`);
                         return cellValue && cellValue.toString().trim().toUpperCase() === code.toUpperCase();
                     });
                     
                     if (foundRow) {
                         console.log(`✅ Código ${code} encontrado na coluna ${colName}`);
+                        console.log(`📊 Dados completos: ${JSON.stringify(foundRow, null, 2)}`);
                         return foundRow;
                     }
                 }
@@ -1792,30 +1807,9 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 addMessage(history, 'bot');
             }
 
-            function showFavorites() {
-                if (chatSession.favorites.length === 0) {
-                    addMessage("❤️ **Favoritos:**\n\nNenhum estabelecimento salvo.\n\nPara salvar: Digite \"❤️ CÓDIGO\" após uma consulta.", 'bot');
-                    return;
-                }
+            // Função showFavorites removida - simplificação do sistema
 
-                let favorites = "❤️ **Estabelecimentos Favoritos:**\n\n";
-                chatSession.favorites.forEach((code, index) => {
-                    favorites += `${index + 1}. **EG ${code}**\n`;
-                });
-
-                favorites += `\n💡 Clique em qualquer código para consultar rapidamente.`;
-
-                addMessage(favorites, 'bot');
-            }
-
-            function addToFavorites(code) {
-                if (!chatSession.favorites.includes(code)) {
-                    chatSession.favorites.push(code);
-                    addMessage(`✅ **${code} adicionado aos favoritos!**\n\n❤️ Visualize seus favoritos com: /favoritos`, 'bot');
-                } else {
-                    addMessage(`ℹ️ **${code} já está nos favoritos!**`, 'bot');
-                }
-            }
+            // Função addToFavorites removida - simplificação do sistema
 
             function exportData() {
                 if (chatSession.codes.length === 0) {
@@ -1855,13 +1849,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
 
                 help += "\n**💡 EXEMPLOS PRÁTICOS:**\n";
                 help += "• **/buscar ambev** - Encontra nossa rede\n";
-                help += "• **12345** - Análise direta do código EG\n";
-                help += "• **/comparar 12345 67890** - Comparar estabelecimentos\n";
-                help += "• **/insights 12345** - Análise completa com IA\n";
-                help += "• **❤️ 12345** - Adicionar aos favoritos\n";
-                help += "• **/prever 12345** - Previsões de tendência\n";
-                help += "• **/story 12345** - Storytelling visual\n";
-                help += "• **/padroes** - Detectar padrões\n\n";
+                help += "• **12345** - Análise direta do código EG\n\n";
 
                 help += "**🎯 DICA DE OURO:**\n";
                 help += "Digite qualquer **código EG** para análise instantânea!\n\n";
@@ -1914,7 +1902,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 // Você precisa colocar sua própria chave de API da Gemini aqui para o chat funcionar.
                 // Obtenha sua chave em: https://aistudio.google.com/app/apikey
                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                const apiKey = "AIzaSyD2pxOWP4KczI3x7OV67-ZrjDNGyCgdv20"; // <-- COLOQUE SUA CHAVE DE API AQUI
+                const apiKey = "AIzaSyCNHygq_D3meacHFbZcJ9BF9I59xGWouCw"; // <-- API KEY GOOGLE ATUALIZADA
                 
                 // CORREÇÃO: Corrigido erro de digitação na URL (era 'generativela-language')
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
