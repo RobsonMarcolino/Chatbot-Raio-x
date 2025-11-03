@@ -6,7 +6,7 @@
     <title>Raio-X Score 5 - IA Conversacional</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -579,11 +579,17 @@
     </div>
 
     <script>
+        console.log('🚀 Iniciando carregamento do chatbot...');
+        
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ DOM carregado');
+            
             const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
             
             // CORREÇÃO 1: Adicionar variável csvData globalmente
             let csvData = [];
+            
+            console.log('📋 Inicializando variáveis...');
             
             const WELCOME_MESSAGE = `🚀 **Olá! Sou a IA Conversacional do Raio-X Score 5!**
 
@@ -606,6 +612,9 @@ Posso analisar padrões, tendências e gerar insights personalizados sobre os da
 
 Como posso ajudá-lo hoje?`;
             const SUBTITLE_TEXT = "IA Conversacional para análise de dados da Direta MG";
+            
+            console.log('🔍 Buscando elementos DOM...');
+            
             const welcomeScreen = document.getElementById('welcome-screen');
             const phoneContainer = document.getElementById('phone-container'); 
             const startChatButton = document.getElementById('start-chat-button');
@@ -629,6 +638,13 @@ Como posso ajudá-lo hoje?`;
             const compareBtn = document.getElementById('compare-btn');
             const exportBtn = document.getElementById('export-btn');
             const helpBtn = document.getElementById('help-btn');
+            
+            console.log('✅ Elementos encontrados:', {
+                welcomeScreen: !!welcomeScreen,
+                phoneContainer: !!phoneContainer,
+                startChatButton: !!startChatButton,
+                chatForm: !!chatForm
+            });
             let chatSession = {
                 codes: [],
                 conversationContext: [],
@@ -669,23 +685,70 @@ Como posso ajudá-lo hoje?`;
                     });
                     return obj;
                 });
+                console.log('📊 csvData atualizado:', csvData.length, 'registros');
             }
 
+            // CORREÇÃO 3: Função parseCSV completa
+            function parseCSV(text) {
+                const lines = [];
+                const rawLines = text.trim().split('\n');
+                for (const line of rawLines) {
+                    const row = [];
+                    let cell = '';
+                    let inQuote = false;
+                    const cleanLine = line.replace(/\r$/, '');
+                    for (let i = 0; i < cleanLine.length; i++) {
+                        const char = cleanLine[i];
+                        if (char === '"') {
+                            if (inQuote && cleanLine[i + 1] === '"') {
+                                cell += '"';
+                                i++;
+                            } else {
+                                inQuote = !inQuote;
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            row.push(cell.trim());
+                            cell = '';
+                        } else {
+                            cell += char;
+                        }
+                    }
+                    row.push(cell.trim());
+                    lines.push(row);
+                }
+                console.log('📋 CSV parseado:', lines.length, 'linhas');
+                return lines;
+            }
+
+            console.log('⚡ Configurando event listeners...');
+            
             startChatButton.addEventListener('click', () => {
+                console.log('🔄 Botão Iniciar clicado!');
+                console.log('📱 Tela atual:', welcomeScreen.classList.contains('hidden') ? 'Chat' : 'Bem-vindas');
+                
                 welcomeScreen.classList.add('hidden');
                 phoneContainer.classList.remove('hidden'); 
                 phoneContainer.classList.add('flex'); 
                 
-                messageInput.focus();
+                console.log('🎯 Mudança de tela concluída');
+                
+                if (messageInput) {
+                    messageInput.focus();
+                    console.log('⌨️ Foco no input de mensagem');
+                }
 
                 if (messageContainer.children.length === 0) {
+                    console.log('💬 Adicionando mensagem de boas-vindas');
                     addMessage(WELCOME_MESSAGE, 'bot');
                 }
 
                 if (!isSheetLoaded && !isSheetLoading) {
+                    console.log('📊 Iniciando carregamento da planilha');
                     preloadSheetData();
                 }
             });
+            
+            console.log('✅ Event listeners configurados');
 
             closeChatButton.addEventListener('click', () => {
                 phoneContainer.classList.add('hidden'); 
