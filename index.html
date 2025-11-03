@@ -829,7 +829,7 @@ Como posso ajudá-lo hoje?`;
             });
 
             compareBtn.addEventListener('click', () => {
-                addMessage("💡 Para comparar códigos, use o comando:\n\n**/comparar EG1 EG2 EG3**\n\nExemplo: /comparar 12345 67890 11111", 'bot');
+                addMessage("💡 Funcionalidade de comparação foi removida para simplificar o sistema.", 'bot');
                 closeSidebar();
             });
 
@@ -943,7 +943,7 @@ Como posso ajudá-lo hoje?`;
                         response = await getDataRelatedResponse(userMessage);
                         break;
                     case 'question_about_ambev':
-                        response = getAmbevRelatedResponse();
+                        response = getDiretaMgResponse();
                         break;
                     case 'help_request':
                         response = getHelpResponse();
@@ -964,7 +964,7 @@ Como posso ajudá-lo hoje?`;
                 }
                 
                 if (intent.type !== 'greeting') {
-                    response += `\n\n---\n*Este sistema foi desenvolvido especialmente para a **Ambev Tech** pelo nosso time de **PPM AS MG** com foco na excelência operacional.*`;
+                    response += `\n\n---\n*Este sistema foi desenvolvido especialmente para a **DIRETA MG** pelo nosso time de **PPM AS MG** com foco na excelência operacional.*`;
                 }
                 
                 setTimeout(() => {
@@ -1012,33 +1012,33 @@ Como posso ajudá-lo hoje?`;
             }
             
             function getGreetingResponse() {
-                return `👋 **Olá! Bem-vindo ao Raio-X Score 5!**\n\nSou sua assistente de dados da **Ambev Tech**! 🚀\n\nEstou aqui para ajudar você a analisar a performance dos nossos estabelecimentos com dados inteligentes e insights valiosos.\n\n💡 **Como posso ajudar você hoje?**\n\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [nome]** para encontrar estabelecimentos\n• Experimente **/insights [código]** para análises avançadas\n• Digite **/ajuda** para ver todos os comandos\n\nVamos explorar nossos dados juntos! 🎯`;
+                return `👋 **Olá! Bem-vindo ao Raio-X Score 5!**\n\nSou sua assistente de dados da **DIRETA MG**! 🚀\n\nEstou aqui para ajudar você a analisar a performance das Lojas de atendimento da DIRETA MG com dados inteligentes e insights valiosos.\n\n💡 **Como posso ajudar você hoje?**\n\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [nome]** para encontrar estabelecimentos\n• Digite **/ajuda** para ver todos os comandos\n\nVamos explorar nossos dados juntos! 🎯`;
             }
             
             function getSystemInfoResponse() {
-                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance da **Ambev Tech**! \n\n**✨ O que eu faço:**\n• Analiso performance de estabelecimentos EG\n• Gero insights com inteligência artificial\n• Faço comparações entre códigos\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• \`/insights [código]\` - Análise completa com IA\n• \`/prever [código]\` - Previsões de tendência\n• \`/comparar [códigos]\` - Comparações inteligentes\n• \`/story [código]\` - Storytelling visual dos dados\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
+                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance das **Lojas de atendimento da DIRETA MG**! \n\n**✨ O que eu faço:**\n• Analiso performance das Lojas de atendimento EG\n• Gero insights com inteligência artificial\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• Digite um código EG - Análise completa\n• \`/buscar [cidade]\` - Encontrar estabelecimentos\n• \`/ajuda\` - Ver comandos disponíveis\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
             }
             
             async function getDataRelatedResponse(message) {
                 const responses = [
-                    `📊 **Ótima pergunta sobre dados!**\n\nOs dados que analiso são da nossa base oficial da **Ambev Tech**, incluindo:\n\n• **Gôndola (M-1)** - Performance do mês anterior\n• **Ponto Extra** - Indicadores de expansão\n• **Atendimento** - Qualidade do serviço\n• **COB HDW** - Controle operacional\n• **BASE FOCO** - Estratégias prioritárias\n\n💡 **Dica:** Para ver dados específicos, digite um **código EG** ou use **/buscar [termo]**\n\nGostaria de analisar algum estabelecimento em particular?`,
+                    `📊 **Ótima pergunta sobre dados!**\n\nOs dados que analiso são da nossa base oficial das **Lojas de atendimento da DIRETA MG**, incluindo:\n\n• **Gôndola (M-1)** - Performance do mês anterior\n• **Ponto Extra** - Indicadores de expansão\n• **Atendimento** - Qualidade do serviço\n• **COB HDW** - Controle operacional\n• **BASE FOCO** - Estratégias prioritárias\n\n💡 **Dica:** Para ver dados específicos, digite um **código EG** ou use **/buscar [termo]**\n\nGostaria de analisar alguma loja em particular?`,
                     
-                    `🎯 **Dados da Ambev Tech à sua disposição!**\n\nPosso acessar informações detalhadas de:\n• Performance mensal dos estabelecimentos\n• Comparações entre códigos EG\n• Tendências e padrões da rede\n• Análises preditivas com IA\n\n**Comece digitando:**\n• Um código EG (ex: 12345)\n• **/buscar [cidade/rede]** para encontrar estabelecimentos\n• **/status** para ver o status da base\n\nQue estabelecimento gostaria de analisar?`
+                    `🎯 **Dados das Lojas da DIRETA MG à sua disposição!**\n\nPosso acessar informações detalhadas de:\n• Performance mensal das Lojas de atendimento\n• Tendências e padrões da rede\n• Análises com IA\n\n**Comece digitando:**\n• Um código EG (ex: 12345)\n• **/buscar [cidade/rede]** para encontrar estabelecimentos\n• **/status** para ver o status da base\n\nQue loja gostaria de analisar?`
                 ];
                 
                 return responses[Math.floor(Math.random() * responses.length)];
             }
             
-            function getAmbevRelatedResponse() {
-                return `🍺 **Sim! Somos da Ambev Tech!** 🏆\n\nEste sistema foi desenvolvido especificamente para nossa rede de distribuidores **Ambev Tech**, analisando:\n\n• **Performance operacional** de todos os estabelecimentos\n• **Tendências de vendas** e oportunidades de crescimento\n• **Comparações inteligentes** entre códigos EG\n• **Análises preditivas** para decisões estratégicas\n\n🎯 **Focados na excelência operacional da Ambev Tech**\n\n**Comece sua análise:**\n• Digite um código EG\n• Use **/buscar ambev** para encontrar nossa rede\n• **/comparar [códigos]** para benchmark interno\n\nQual estabelecimento da Ambev Tech gostaria de analisar?`;
+            function getDiretaMgResponse() {
+                return `🍺 **Sim! Somos da DIRETA MG!** 🏆\n\nEste sistema foi desenvolvido especificamente para as **Lojas de atendimento da DIRETA MG**, analisando:\n\n• **Performance operacional** de todas as lojas\n• **Tendências de vendas** e oportunidades de crescimento\n• **Análises com IA** para decisões estratégicas\n\n🎯 **Focados na excelência operacional das Lojas da DIRETA MG**\n\n**Comece sua análise:**\n• Digite um código EG\n• Use **/buscar [cidade]** para encontrar nossa rede\n\nQual loja da DIRETA MG gostaria de analisar?`;
             }
             
             function getHelpResponse() {
-                return "🆘 **Vamos juntos explorar o sistema!**\\n\\n**🚦 COMANDOS PRINCIPAIS:**\\n• `/buscar [termo]` - Buscar estabelecimentos\\n• Código EG - Análise direta\\n• `/insights [código]` - Análise com IA\\n• `/prever [código]` - Previsões\\n• `/ajuda` - Lista completa de comandos\\n\\n**💡 DICAS PARA COMEÇAR:**\\n1. Digite qualquer código EG\\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\\n3. Digite **/ajuda** para ver tudo\\n\\n**Estou aqui para ajudar!** 😊\\n\\nO que gostaria de fazer primeiro?";
+                return "🆘 **Vamos juntos explorar o sistema!**\\n\\n**🚦 COMANDOS PRINCIPAIS:**\\n• `/buscar [termo]` - Buscar estabelecimentos\\n• Código EG - Análise direta\\n• `/ajuda` - Lista completa de comandos\\n\\n**💡 DICAS PARA COMEÇAR:**\\n1. Digite qualquer código EG\\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\\n3. Digite **/ajuda** para ver tudo\\n\\n**Estou aqui para ajudar!** 😊\\n\\nO que gostaria de fazer primeiro?";
             }
             
             function getComparisonHelpResponse() {
-                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• \`/comparar 12345 67890 11111\` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n\`\`\`\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n\`\`\`\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n\`\`\`\n12345 vs 67890\n\`\`\`\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
+                return `📊 **Funcionalidade de comparação foi removida para simplificar o sistema!**`;
             }
             
             function getFeedbackResponse() {
@@ -1047,9 +1047,9 @@ Como posso ajudá-lo hoje?`;
             
             function getSmallTalkResponse() {
                 const responses = [
-                    `😊 **Que bom que está gostando!**\n\nEstou aqui para tornar sua análise de dados da **Ambev Tech** mais eficiente e divertida!\n\nO que mais posso ajudar você a descobrir hoje? 🚀`,
+                    `😊 **Que bom que está gostando!**\n\nEstou aqui para tornar sua análise de dados das **Lojas da DIRETA MG** mais eficiente e divertida!\n\nO que mais posso ajudar você a descobrir hoje? 🚀`,
                     
-                    `🎉 **fico feliz que está funcionando bem!**\n\nLembre-se que somos **Desenvolvido pelo time PPM AS MG** especialmente para **Ambev Tech**!\n\nQue tal analisar alguns estabelecimentos? Digite um código EG! 📊`,
+                    `🎉 **fico feliz que está funcionando bem!**\n\nLembre-se que somos **Desenvolvido pelo time PPM AS MG** especialmente para **DIRETA MG**!\n\nQue tal analisar algumas lojas? Digite um código EG! 📊`,
                     
                     `🌟 **Show de bola!** \n\nEsse é o objetivo - tornar a análise de dados **AmBEV** mais inteligente e acessível!\n\nQuer explorar mais funcionalidades? **/ajuda** mostra tudo que posso fazer! 🚀`
                 ];
@@ -1059,9 +1059,9 @@ Como posso ajudá-lo hoje?`;
             
             function getUnknownResponse(message) {
                 const responses = [
-                    `🤔 **Interessante... Vou ajudar você a encontrar o que precisa!**\n\n**PARA DADOS DA AMBEV TECH:**\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• **/insights [código]** para análise completa\n\n**ATALHOS RÁPIDOS:**\n• **/comparar [códigos]** - Comparar até 5 estabelecimentos\n• **/padroes** - Detectar padrões na rede\n• **/story [código]** - Storytelling visual\n\n**Porque você mencionou:** "${message}"\n\nPoderia ser mais específico? Estou aqui para ajudar com dados da Ambev Tech! 😊`,
+                    `🤔 **Interessante... Vou ajudar você a encontrar o que precisa!**\n\n**PARA DADOS DA DIRETA MG:**\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• **/ajuda** para ver comandos disponíveis\n\n**ATALHOS RÁPIDOS:**\n• **/buscar [cidade]** - Encontrar lojas por cidade\n• **/status** - Ver status da base\n• **/limpar** - Limpar sessão\n\n**Porque você mencionou:** "${message}"\n\nPoderia ser mais específico? Estou aqui para ajudar com dados da DIRETA MG! 😊`,
                     
-                    `🔍 **Entendi sua pergunta!**\n\nAunque não seja meu forte, posso ajudar com dados e análises da **Ambev Tech**!\n\n**O que posso fazer para você:**\n• Analisar códigos EG específicos\n• Comparar estabelecimentos\n• Gerar insights com IA\n• Detectar padrões e tendências\n• Criar visualizações\n\n**Experimente:**\n• Digitar um código EG\n• **/buscar ambev** para encontrar nossa rede\n• **/ajuda** para ver todos os recursos\n\nComo posso ajudar com dados da Ambev Tech hoje? 🎯`
+                    `🔍 **Entendi sua pergunta!**\n\nAunque não seja meu forte, posso ajudar com dados e análises das **Lojas da DIRETA MG**!\n\n**O que posso fazer para você:**\n• Analisar códigos EG específicos\n• Gerar insights com IA\n• Detectar padrões e tendências\n• Criar visualizações\n\n**Experimente:**\n• Digitar um código EG\n• **/buscar [cidade]** para encontrar nossa rede\n• **/ajuda** para ver todos os recursos\n\nComo posso ajudar com dados da DIRETA MG hoje? 🎯`
                 ];
                 
                 return responses[Math.floor(Math.random() * responses.length)];
@@ -1103,7 +1103,7 @@ Como posso ajudá-lo hoje?`;
 
             async function processTrendPrediction(code) {
                 if (!code) {
-                    addMessage("🤔 **Preciso de um código para gerar previsões!**\n\n🎯 **Use assim:**\n• **/prever [código EG]**\n• **Exemplo:** /prever 12345\n\n💡 **Dica:** Você também pode digitar qualquer código EG diretamente para análise completa!\n\n---\n*Sistema inteligente PPM AS MG para Ambev Tech*", 'bot');
+                    addMessage("🤔 **Preciso de um código para gerar previsões!**\n\n🎯 **Use assim:**\n• **/buscar [código]**\n• **Exemplo:** /buscar 12345\n\n💡 **Dica:** Você também pode digitar qualquer código EG diretamente para análise completa!\n\n---\n*Sistema inteligente PPM AS MG para DIRETA MG*", 'bot');
                     return;
                 }
 
@@ -1121,7 +1121,7 @@ Como posso ajudá-lo hoje?`;
                     
                     const response = `
 🔮 **ANÁLISE PREDITIVA - ${code}**
-*Baseado em dados inteligentes da Ambev Tech*
+*Baseado em dados inteligentes da DIRETA MG*
 
 📊 **Direção da Tendência:** ${predictions.trend_direction}
 🎯 **Nível de Confiança:** ${predictions.confidence_level}%
@@ -1225,7 +1225,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
 
             async function processAdvancedInsights(code) {
                 if (!code) {
-                    addMessage("🤖 **Preciso de um código para insights avançados!**\n\n🎯 **Use assim:**\n• **/insights [código EG]**\n• **Exemplo:** /insights 12345\n\n💡 **Gero análises completas com IA!**", 'bot');
+                    addMessage("🤖 **Preciso de um código EG para análise!**\n\n🎯 **Digite assim:**\n• **67285-8** (ou qualquer código EG)\n• **/buscar [termo]** para buscar estabelecimentos\n\n💡 **Gero análises completas com IA!**", 'bot');
                     return;
                 }
 
@@ -1289,60 +1289,82 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 setChatLoading(false);
             }
 
-            // CORREÇÃO: Função síncrona para buscar dados na planilha (simplificada)
+            // CORREÇÃO: Função síncrona para buscar dados na planilha (com mais debug)
             function findDataInSheetSync(code) {
-                console.log(`🔍 Buscando código ${code}, csvData tem ${csvData.length} registros`);
-                console.log(`📊 isSheetLoaded: ${isSheetLoaded}`);
+                console.log(`🔍 [DEBUG] Buscando código ${code}`);
+                console.log(`📊 [DEBUG] isSheetLoaded: ${isSheetLoaded}`);
+                console.log(`📊 [DEBUG] csvData.length: ${csvData.length}`);
                 
                 if (!isSheetLoaded || !csvData.length) {
-                    console.log('❌ Base de dados não carregada ou vazia');
-                    console.log(`📋 Headers disponíveis: ${csvData.length > 0 ? Object.keys(csvData[0]).join(', ') : 'Nenhum'}`);
+                    console.log('❌ [DEBUG] Base de dados não carregada ou vazia');
+                    console.log(`📋 [DEBUG] Headers disponíveis: ${csvData.length > 0 ? Object.keys(csvData[0]).join(', ') : 'Nenhum'}`);
                     return null;
                 }
+                
+                // Log da estrutura dos dados
+                console.log(`📋 [DEBUG] Estrutura do primeiro registro:`, csvData[0]);
+                console.log(`📋 [DEBUG] Colunas disponíveis:`, Object.keys(csvData[0]));
                 
                 // CORREÇÃO: Usar nomes em lowercase (conforme headerMap)
                 const possibleColumns = ['eg']; // headerMap usa lowercase
                 
-                console.log(`🔍 Tentando colunas: ${possibleColumns.join(', ')}`);
-                
-                // ADICIONADO: Log para verificar estrutura dos dados
-                if (csvData.length > 0) {
-                    console.log(`📝 Primeira linha: ${JSON.stringify(csvData[0])}`);
-                    console.log(`📋 Headers da primeira linha: ${Object.keys(csvData[0]).join(', ')}`);
-                }
+                console.log(`🔍 [DEBUG] Tentando colunas: ${possibleColumns.join(', ')}`);
                 
                 for (const colName of possibleColumns) {
-                    console.log(`🔍 Tentando coluna: ${colName}`);
+                    console.log(`🔍 [DEBUG] Verificando coluna: ${colName}`);
                     
                     const foundRow = csvData.find(row => {
                         const cellValue = row[colName];
-                        console.log(`   📄 Valor na coluna ${colName}: "${cellValue}" (compara com "${code}")`);
-                        return cellValue && cellValue.toString().trim().toUpperCase() === code.toUpperCase();
+                        console.log(`   📄 [DEBUG] Valor na coluna ${colName}: "${cellValue}" (compara com "${code}")`);
+                        
+                        if (!cellValue) {
+                            console.log(`   ⚠️ [DEBUG] Valor vazio na coluna ${colName}`);
+                            return false;
+                        }
+                        
+                        const normalizedCell = cellValue.toString().trim().toUpperCase();
+                        const normalizedCode = code.toString().trim().toUpperCase();
+                        const match = normalizedCell === normalizedCode;
+                        
+                        console.log(`   ✅ [DEBUG] Comparação: "${normalizedCell}" === "${normalizedCode}" = ${match}`);
+                        return match;
                     });
                     
                     if (foundRow) {
-                        console.log(`✅ Código ${code} encontrado na coluna ${colName}`);
-                        console.log(`📊 Dados completos: ${JSON.stringify(foundRow, null, 2)}`);
+                        console.log(`✅ [DEBUG] Código ${code} ENCONTRADO!`);
+                        console.log(`📊 [DEBUG] Dados completos:`, foundRow);
                         return foundRow;
                     }
                 }
                 
-                console.log(`❌ Código ${code} não encontrado em nenhuma coluna`);
+                // Tentar busca em todas as colunas
+                console.log(`🔍 [DEBUG] Tentando busca em todas as colunas...`);
+                for (const row of csvData) {
+                    for (const [key, value] of Object.entries(row)) {
+                        if (value && value.toString().trim().toUpperCase() === code.toString().trim().toUpperCase()) {
+                            console.log(`✅ [DEBUG] Código ${code} ENCONTRADO na coluna ${key}!`);
+                            console.log(`📊 [DEBUG] Dados completos:`, row);
+                            return row;
+                        }
+                    }
+                }
+                
+                console.log(`❌ [DEBUG] Código ${code} não encontrado em nenhuma coluna`);
                 return null;
             }
 
             async function processTextSearch(searchTerm) {
                 if (!searchTerm) {
-                    addMessage("🤔 **Hmm, preciso de um termo para buscar!** 😊\n\n**Na base da Ambev Tech você pode buscar:**\n• **/buscar ambev** - Nossa rede\n• **/buscar belo horizonte** - Por cidade\n• **/buscar [nome da rede]** - Estabelecimentos específicos\n• Ou digite um **código EG** diretamente\n\nQue tipo de estabelecimento da **Ambev Tech** gostaria de encontrar? 🚀", 'bot');
+                    addMessage("🤔 **Hmm, preciso de um termo para buscar!** 😊\n\n**Na base da DIRETA MG você pode buscar:**\n• **/buscar belo horizonte** - Por cidade\n• **/buscar [nome da rede]** - Estabelecimentos específicos\n• Ou digite um **código EG** diretamente\n\nQue tipo de loja da **DIRETA MG** gostaria de encontrar? 🚀", 'bot');
                     return;
                 }
 
-                setChatLoading(true, `🔍 Buscando "${searchTerm}" na base da Ambev Tech...`);
+                setChatLoading(true, `🔍 Buscando "${searchTerm}" na base da DIRETA MG...`);
                 
                 const results = await searchByText(searchTerm);
                 
                 if (results.length > 0) {
-                    let response = `🎯 **Encontrei ${results.length} estabelecimento${results.length > 1 ? 's' : ''} da Ambev Tech!**\n\n`;
+                    let response = `🎯 **Encontrei ${results.length} loja${results.length > 1 ? 's' : ''} da DIRETA MG!**\n\n`;
                     
                     response += `**Para "${searchTerm}":**\n\n`;
                     
@@ -1360,13 +1382,13 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                         response += `📊 **+ ${results.length - 5} resultados não mostrados**\n\n`;
                     }
                     
-                    response += `---\n*Desenvolvido pelo time PPM AS MG para a Ambev Tech*`;
+                    response += `---\n*Desenvolvido pelo time PPM AS MG para a DIRETA MG*`;
                     
                     addMessage(response, 'bot');
                     
 
                     setTimeout(() => {
-                        addMessage(`💡 **Próximos passos:**\n• Clique em qualquer **código EG** para análise completa\n• Use **/insights [código]** para insights avançados\n• **/comparar [códigos]** para comparar estabelecimentos\n\nQue tal analisar um deles? 🎯`, 'bot');
+                        addMessage(`💡 **Próximos passos:**\n• Clique em qualquer **código EG** para análise completa\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• Digite **/ajuda** para ver todos os comandos\n\nQue tal analisar um deles? 🎯`, 'bot');
                     }, 1500);
                 } else {
                     const suggestions = [
@@ -1376,7 +1398,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                         "Ou digite um **código EG** diretamente!"
                     ];
                     
-                    addMessage(`😅 **Não encontrei estabelecimentos para "${searchTerm}"**\n\n🤔 **Vamos tentar juntos:**\n\n${suggestions.map(s => `• ${s}`).join('\n')}\n\n**SUGESTÃO:** Digite **/buscar ambev** para ver nossa rede completa da **Ambev Tech**! 🚀\n\n---\n*Desenvolvido pelo time PPM AS MG especialmente para Ambev Tech*`, 'bot');
+                    addMessage(`😅 **Não encontrei estabelecimentos para "${searchTerm}"**\n\n🤔 **Vamos tentar juntos:**\n\n${suggestions.map(s => `• ${s}`).join('\n')}\n\n**SUGESTÃO:** Digite **/buscar [cidade]** para ver nossa rede completa da **DIRETA MG**! 🚀\n\n---\n*Desenvolvido pelo time PPM AS MG especialmente para DIRETA MG*`, 'bot');
                 }
                 
                 setChatLoading(false);
@@ -1386,7 +1408,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 const codes = argString.split(/\s+/).filter(code => code.trim());
                 
                 if (codes.length < 2) {
-                    addMessage("❌ Preciso de pelo menos 2 códigos para comparar.\n\n**Exemplo:** /comparar 123 456", 'bot');
+                    addMessage("❌ Funcionalidade de comparação foi removida para simplificar o sistema.", 'bot');
                     return;
                 }
 
@@ -1422,7 +1444,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 
                 let formattedText = text.replace(/\n/g, '<br>');
                 formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                formattedText = formattedText.replace(/❤️\s*(\w+)/g, '<span class="text-red-500">❤️ $1</span>');
+                // Funcionalidade de favoritos removida - emoji processador removido
                 
                 // Formatação de Tabelas Markdown (simples)
                 formattedText = formattedText.replace(/\|(.*?)\|\n\|(.*?)\|/g, (match) => {
@@ -1557,25 +1579,61 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 isSheetLoading = true;
                 chatStatus.textContent = 'Carregando base de dados...';
 
-                const proxiedUrl = `${GOOGLE_SHEET_CSV_URL}&_cachebust=${new Date().getTime()}`;
-                const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(proxiedUrl)}`;
+                // Múltiplos proxies como fallback
+                const proxies = [
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`,
+                    `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`,
+                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`
+                ];
 
-                try {
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        mode: 'cors', 
-                        cache: 'no-store', 
-                    });
+                let csvText = '';
+                let lastError = null;
 
-                    if (!response.ok) {
-                        throw new Error(`Erro de rede: ${response.statusText} (${response.status})`);
+                // Tentar cada proxy
+                for (const url of proxies) {
+                    try {
+                        console.log(`🔄 Tentando proxy: ${url.split('?')[0]}`);
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            mode: 'cors', 
+                            cache: 'no-store', 
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Erro de rede: ${response.statusText} (${response.status})`);
+                        }
+
+                        const text = await response.text();
+                        
+                        if (text && text.length > 50 && !text.startsWith("<") && !text.toLowerCase().includes("error")) {
+                            csvText = text;
+                            console.log(`✅ Sucesso com proxy: ${url.split('?')[0]}`);
+                            break;
+                        } else {
+                            throw new Error("Resposta inválida do proxy");
+                        }
+                    } catch (error) {
+                        console.log(`❌ Falha com proxy ${url.split('?')[0]}: ${error.message}`);
+                        lastError = error;
+                        continue;
                     }
+                }
 
-                    const csvText = await response.text();
+                // Se nenhum proxy funcionou, usar dados simulados
+                if (!csvText) {
+                    console.warn("⚠️ Nenhum proxy funcionou, usando dados simulados para teste");
                     
-                    if (!csvText || csvText.length < 50 || csvText.startsWith("<") || csvText.toLowerCase().includes("error")) { 
-                         throw new Error("Proxy (allorigins) não conseguiu buscar a URL ou resposta inválida.");
-                    }
+                    // Dados simulados para teste (baseado no teste anterior que funcionou)
+                    csvText = `EG,Rede,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
+75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1
+37649-3,Rede B,Estabelecimento 2,Maria Costa,Ana Lima,1002,BH Sul,15,18,20,15%,10,7,BASE FOCO 2,CORONA 2,SPATEN 2,STELLA 2,COB HDW 2,Atendimento 2,Visita 2,LOJA 2
+75512-5,Rede C,Estabelecimento 3,Carlos Oliveira,Lucia Rocha,1003,Contagem,18,20,22,12%,12,8,BASE FOCO 3,CORONA 3,SPATEN 3,STELLA 3,COB HDW 3,Atendimento 3,Visita 3,LOJA 3
+91784-2,Rede D,Estabelecimento 4,Ana Paula,Ricardo Mota,1004,BH Centro,20,22,25,10%,14,10,BASE FOCO 4,CORONA 4,SPATEN 4,STELLA 4,COB HDW 4,Atendimento 4,Visita 4,LOJA 4
+70696-5,Rede E,Estabelecimento 5,Roberto Silva,Fernanda Lima,1005,Barreiro,22,25,28,8%,16,12,BASE FOCO 5,CORONA 5,SPATEN 5,STELLA 5,COB HDW 5,Atendimento 5,Visita 5,LOJA 5
+67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6`;
+
+                    addMessage("⚠️ **Usando dados de teste:** Conexão com planilha indisponível. Mostrando dados simulados para demonstração.", 'bot');
+                }
 
                     const allRows = parseCSV(csvText);
 
@@ -1665,12 +1723,25 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
 
             function getDataFromRow(row, headerName, occurrence = 0) {
                 const headerKey = headerName.trim().toLowerCase();
+                console.log(`🔍 [DEBUG getDataFromRow] Procurando: "${headerName}" (key: "${headerKey}")`);
+                console.log(`🔍 [DEBUG getDataFromRow] headerMap:`, headerMap);
+                
                 if (headerMap[headerKey] && headerMap[headerKey].length > occurrence) {
                     const index = headerMap[headerKey][occurrence];
+                    console.log(`🔍 [DEBUG getDataFromRow] Index encontrado: ${index}`);
+                    
                     if (row[index] && row[index].trim() !== "") {
-                        return row[index];
+                        const value = row[index];
+                        console.log(`✅ [DEBUG getDataFromRow] Valor encontrado: "${value}"`);
+                        return value;
+                    } else {
+                        console.log(`⚠️ [DEBUG getDataFromRow] Valor vazio no index ${index}`);
                     }
+                } else {
+                    console.log(`❌ [DEBUG getDataFromRow] Header "${headerKey}" não encontrado no headerMap`);
                 }
+                
+                console.log(`❌ [DEBUG getDataFromRow] Retornando "(não informado)" para "${headerName}"`);
                 return "(não informado)";
             }
 
@@ -1840,7 +1911,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
             }
 
             function showHelp() {
-                let help = `🤖 **COMANDOS DO RAIO-X SCORE 5**\n*Desenvolvido pelo time PPM AS MG para Ambev Tech*\n\n`;
+                let help = `🤖 **COMANDOS DO RAIO-X SCORE 5**\n*Desenvolvido pelo time PPM AS MG para DIRETA MG*\n\n`;
                 
                 help += "**🚀 COMANDOS PRINCIPAIS:**\n\n";
                 Object.entries(COMMANDS).forEach(([cmd, desc]) => {
@@ -1854,15 +1925,15 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
                 help += "**🎯 DICA DE OURO:**\n";
                 help += "Digite qualquer **código EG** para análise instantânea!\n\n";
                 
-                help += "*Sistema inteligente focado na performance da Ambev Tech* 🍺";
+                help += "*Sistema inteligente focado na performance das Lojas da DIRETA MG* 🍺";
 
                 addMessage(help, 'bot');
             }
 
             function showDatabaseStatus() {
                 const status = isSheetLoaded ? 
-                    `✅ **Sistema Operacional!**\n\n📊 **Base de dados:** ${sheetData.length.toLocaleString()} estabelecimentos carregados\n🔍 **Sua sessão:** ${chatSession.codes.length} código${chatSession.codes.length !== 1 ? 's' : ''} analisado${chatSession.codes.length !== 1 ? 's' : ''}\n\n*Sistema PPM AS MG - Ambev Tech* 🚀` :
-                    `⚙️ **Carregando sistema...**\n\n🔄 Verificando conexão com a base da Ambev Tech\n⏳ Isso demora alguns segundos...\n\n*Desenvolvido especialmente pelo time PPM AS MG*`;
+                    `✅ **Sistema Operacional!**\n\n📊 **Base de dados:** ${sheetData.length.toLocaleString()} lojas carregadas\n🔍 **Sua sessão:** ${chatSession.codes.length} código${chatSession.codes.length !== 1 ? 's' : ''} analisado${chatSession.codes.length !== 1 ? 's' : ''}\n\n*Sistema PPM AS MG - DIRETA MG* 🚀` :
+                    `⚙️ **Carregando sistema...**\n\n🔄 Verificando conexão com a base da DIRETA MG\n⏳ Isso demora alguns segundos...\n\n*Desenvolvido especialmente pelo time PPM AS MG*`;
 
                 addMessage(status, 'bot');
             }
@@ -1941,7 +2012,7 @@ ${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
             }
 
             async function getAIAnalysis(performanceData, code) {
-                const systemInstruction = `Você é o 'Raio-X Score 5', um analista de performance de vendas da Ambev Tech. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de um estabelecimento específico.
+                const systemInstruction = `Você é o 'Raio-X Score 5', um analista de performance das Lojas de atendimento da DIRETA MG. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de uma loja específica.
 
 Instruções:
 1. Analise os dados de performance fornecidos
@@ -1995,7 +2066,7 @@ Gere uma análise completa seguindo o formato solicitado.`;
             }
 
             async function getComparisonAnalysis(comparisonData) {
-                const systemInstruction = `Você é um analista de performance da Ambev Tech especializado em comparações entre estabelecimentos.
+                const systemInstruction = `Você é um analista de performance das Lojas de atendimento da DIRETA MG especializado em comparações entre estabelecimentos.
 
 Compare os dados dos estabelecimentos fornecidos e identifique:
 1. Melhores performances
@@ -2034,7 +2105,7 @@ Seja objetivo e forneça insights acionáveis.`;
                     const data = csvData.find(row => row.código === code || row.eg === code);
                     if (!data) return null;
                     
-                    const systemInstruction = `Você é um analista de dados da Ambev Tech especializado em previsões e tendências de performance. Analise os dados históricos e gere previsões inteligentes.
+                    const systemInstruction = `Você é um analista de dados das Lojas de atendimento da DIRETA MG especializado em previsões e tendências de performance. Analise os dados históricos e gere previsões inteligentes.
 
                     Responda no formato JSON:
                     {
