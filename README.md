@@ -29,15 +29,15 @@ Um chatbot inteligente para consulta de performance e análise de dados de estab
 
 O Raio-X Score 5 é uma aplicação web (PWA) de página única (SPA) desenhada para fornecer acesso rápido e inteligente aos dados de performance de vendas da Direta MG.
 
-O utilizador (vendedor, supervisor) pode simplesmente digitar o Código EG de um estabelecimento e o chatbot retorna:
+O utilizador (GN, SN, SL) pode simplesmente digitar o Código EG de um estabelecimento e o chatbot retorna:
 
-Informações cadastrais (Rede, Nome Fantasia).
+  Informações cadastrais (Rede, Nome Fantasia).
 
-Dados da Equipe responsável (Coordenador, Supervisor).
+  Dados da Equipe responsável (Coordenador, Supervisor).
 
-Métricas de Performance e Execução (Share, Atendimento, COB HDW, etc.).
+  Métricas de Performance e Execução (Share, Atendimento, COB HDW, etc.).
 
-Uma análise de IA (via Google Gemini) com Pontos Fortes e Pontos de Atenção.
+  Uma análise de IA (via Google Gemini) com Pontos Fortes e Pontos de Atenção.
 
 Este projeto foi construído inteiramente em HTML, CSS (Tailwind) e JavaScript puro, sem a necessidade de frameworks complexos, e é totalmente responsivo (mobile-first).
 
