@@ -709,8 +709,8 @@
 
             // Função principal para chamar η API da IA
             async function callGeminiAPI(prompt, systemInstruction) {
-                // A chave de API é deixada em branco, pois será fornecida pelo ambiente
-                const apiKey = ""; 
+                // Chave de API fornecida pelo usuário
+                const apiKey = "AIzaSyDrKj7epX5wg6sg1gSed5_ygum3RjJfvNs"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
                 const payload = {
@@ -722,6 +722,7 @@
 
                 const options = {
                     method: 'POST',
+                    mode: 'cors', // ADICIONADO: Garante a política de CORS
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 };
@@ -738,6 +739,10 @@
                 if (candidate && candidate.content?.parts?.[0]?.text) {
                     return candidate.content.parts[0].text;
                 } else {
+                    // Tenta verificar se foi bloqueado por segurança
+                    if (candidate && candidate.finishReason === 'SAFETY') {
+                        throw new Error("A resposta foi bloqueada por motivos de segurança.");
+                    }
                     throw new Error("Resposta inesperada ou vazia da API Gemini.");
                 }
             }
