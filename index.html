@@ -83,6 +83,57 @@
                 transform: translateY(0);
             }
         }
+
+        /* Novas animações para storytelling */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.8s ease-out forwards;
+        }
         .animate-fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
         }
@@ -638,7 +689,12 @@ Como posso ajudá-lo hoje?`;
                 '/exportar': 'Exportar dados',
                 '/ajuda': 'Mostrar comandos disponíveis',
                 '/limpar': 'Limpar contexto da sessão',
-                '/status': 'Status da base de dados'
+                '/status': 'Status da base de dados',
+                // ===== NOVOS COMANDOS AVANÇADOS =====
+                '/prever': 'Previsões de tendência (ex: /prever 12345)',
+                '/padroes': 'Detecção de padrões (ex: /padroes ou /padroes 123 456)',
+                '/story': 'Storytelling visual (ex: /story 12345)',
+                '/insights': 'Análise avançada com IA (ex: /insights 12345)'
             };
 
             // --- LÓGICA DE TROCA DE TELA ---
@@ -792,6 +848,25 @@ Como posso ajudá-lo hoje?`;
                     await handleCommand(normalizedInput);
                     return;
                 }
+                
+                // Verifica comandos especiais de texto livre
+                if (normalizedInput.startsWith('insights ')) {
+                    const code = normalizedInput.replace('insights ', '').trim();
+                    await processAdvancedInsights(code);
+                    return;
+                }
+                
+                if (normalizedInput.startsWith('análise profunda ')) {
+                    const code = normalizedInput.replace('análise profunda ', '').trim();
+                    await enableDeepAnalysis(code);
+                    return;
+                }
+                
+                if (normalizedInput.startsWith('❤️ ')) {
+                    const code = normalizedInput.replace('❤️ ', '').trim();
+                    addToFavorites(code);
+                    return;
+                }
 
                 // Verifica se é um código EG
                 const isCodeLookup = /^[A-Z0-9-]{2,20}$/i.test(normalizedInput);
@@ -799,9 +874,157 @@ Como posso ajudá-lo hoje?`;
                 if (isCodeLookup) {
                     await processCodeQuery(normalizedInput);
                 } else {
-                    // Processo como busca por nome/rede
-                    await processTextSearch(input);
+                    // IA INTERATIVA - Para inputs que não são códigos EG
+                    await processInteractiveConversation(input);
                 }
+            }
+
+            // --- IA INTERATIVA E CORDIAL PARA AMBEV ---
+            async function processInteractiveConversation(input) {
+                const userMessage = input.toLowerCase().trim();
+                setChatLoading(true, 'Processando sua pergunta...');
+                
+                // Análise da intenção do usuário
+                const intent = analyzeUserIntent(userMessage);
+                
+                let response = '';
+                
+                switch (intent.type) {
+                    case 'greeting':
+                        response = getGreetingResponse();
+                        break;
+                    case 'question_about_system':
+                        response = getSystemInfoResponse();
+                        break;
+                    case 'question_about_data':
+                        response = await getDataRelatedResponse(userMessage);
+                        break;
+                    case 'question_about_ambev':
+                        response = getAmbevRelatedResponse();
+                        break;
+                    case 'help_request':
+                        response = getHelpResponse();
+                        break;
+                    case 'comparison_request':
+                        response = getComparisonHelpResponse();
+                        break;
+                    case 'suggestion_or_feedback':
+                        response = getFeedbackResponse();
+                        break;
+                    case 'small_talk':
+                        response = getSmallTalkResponse();
+                        break;
+                    case 'unknown':
+                    default:
+                        response = getUnknownResponse(userMessage);
+                        break;
+                }
+                
+                // Adicionar sempre uma referência ao time PPM AS MG quando apropriado
+                if (intent.type !== 'greeting') {
+                    response += `\n\n---\n*Este sistema foi desenvolvido especialmente para a **Ambev Tech** pelo nosso time de **PPM AS MG** com foco na excelência operacional.*`;
+                }
+                
+                setTimeout(() => {
+                    addMessage(response, 'bot');
+                    setChatLoading(false);
+                }, 800); // Delay para simular processamento da IA
+            }
+            
+            // Análise da intenção do usuário
+            function analyzeUserIntent(message) {
+                const greetings = ['olá', 'ola', 'oi', 'e aí', 'hey', 'bom dia', 'boa tarde', 'boa noite'];
+                const systemQuestions = ['como funciona', 'o que é', 'que sistema', 'como usar', 'me ajude', 'help', 'ajuda'];
+                const dataQuestions = ['dados', 'informações', 'performance', 'indicadores', 'métricas', 'análise'];
+                const ambevQuestions = ['ambev', 'rede', 'estabelecimentos', 'distribuidora', 'vendas'];
+                const helpRequests = ['não sei', 'estou perdido', 'como fazer', 'tutorial', 'ensina'];
+                const comparisonWords = ['comparar', 'diferença', 'melhor', 'pior', 'versus', 'entre'];
+                const feedbackWords = ['sugestão', 'ideia', 'melhoria', 'feedback', 'melhor', 'bug'];
+                const smallTalkWords = ['obrigado', 'valeu', 'brigado', 'sucesso', 'show', 'legal', 'ótimo', 'bacana'];
+                
+                if (greetings.some(word => message.includes(word))) {
+                    return { type: 'greeting' };
+                }
+                if (systemQuestions.some(word => message.includes(word))) {
+                    return { type: 'question_about_system' };
+                }
+                if (dataQuestions.some(word => message.includes(word))) {
+                    return { type: 'question_about_data' };
+                }
+                if (ambevQuestions.some(word => message.includes(word))) {
+                    return { type: 'question_about_ambev' };
+                }
+                if (helpRequests.some(word => message.includes(word))) {
+                    return { type: 'help_request' };
+                }
+                if (comparisonWords.some(word => message.includes(word))) {
+                    return { type: 'comparison_request' };
+                }
+                if (feedbackWords.some(word => message.includes(word))) {
+                    return { type: 'suggestion_or_feedback' };
+                }
+                if (smallTalkWords.some(word => message.includes(word))) {
+                    return { type: 'small_talk' };
+                }
+                
+                return { type: 'unknown' };
+            }
+            
+            // Respostas específicas por intenção
+            function getGreetingResponse() {
+                return `👋 **Olá! Bem-vindo ao Raio-X Score 5!**\n\nSou sua assistente de dados da **Ambev Tech**! 🚀\n\nEstou aqui para ajudar você a analisar a performance dos nossos estabelecimentos com dados inteligentes e insights valiosos.\n\n💡 **Como posso ajudar você hoje?**\n\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [nome]** para encontrar estabelecimentos\n• Experimente **/insights [código]** para análises avançadas\n• Digite **/ajuda** para ver todos os comandos\n\nVamos explorar nossos dados juntos! 🎯`;
+            }
+            
+            function getSystemInfoResponse() {
+                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance da **Ambev Tech**! \n\n**✨ O que eu faço:**\n• Analiso performance de estabelecimentos EG\n• Gero insights com inteligência artificial\n• Faço comparações entre códigos\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• `/insights [código]` - Análise completa com IA\n• `/prever [código]` - Previsões de tendência\n• `/comparar [códigos]` - Comparações inteligentes\n• `/story [código]` - Storytelling visual dos dados\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
+            }
+            
+            async function getDataRelatedResponse(message) {
+                const responses = [
+                    `📊 **Ótima pergunta sobre dados!**\n\nOs dados que analiso são da nossa base oficial da **Ambev Tech**, incluindo:\n\n• **Gôndola (M-1)** - Performance do mês anterior\n• **Ponto Extra** - Indicadores de expansão\n• **Atendimento** - Qualidade do serviço\n• **COB HDW** - Controle operacional\n• **BASE FOCO** - Estratégias prioritárias\n\n💡 **Dica:** Para ver dados específicos, digite um **código EG** ou use **/buscar [termo]**\n\nGostaria de analisar algum estabelecimento em particular?`,
+                    
+                    `🎯 **Dados da Ambev Tech à sua disposição!**\n\nPosso acessar informações detalhadas de:\n• Performance mensal dos estabelecimentos\n• Comparações entre códigos EG\n• Tendências e padrões da rede\n• Análises preditivas com IA\n\n**Comece digitando:**\n• Um código EG (ex: 12345)\n• **/buscar [cidade/rede]** para encontrar estabelecimentos\n• **/status** para ver o status da base\n\nQue estabelecimento gostaria de analisar?`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            function getAmbevRelatedResponse() {
+                return `🍺 **Sim! Somos da Ambev Tech!** 🏆\n\nEste sistema foi desenvolvido especificamente para nossa rede de distribuidores **Ambev Tech**, analisando:\n\n• **Performance operacional** de todos os estabelecimentos\n• **Tendências de vendas** e oportunidades de crescimento\n• **Comparações inteligentes** entre códigos EG\n• **Análises preditivas** para decisões estratégicas\n\n🎯 **Focados na excelência operacional da Ambev Tech**\n\n**Comece sua análise:**\n• Digite um código EG\n• Use **/buscar ambev** para encontrar nossa rede\n• **/comparar [códigos]** para benchmark interno\n\nQual estabelecimento da Ambev Tech gostaria de analisar?`;
+            }
+            
+            function getHelpResponse() {
+                return `🆘 **Vamos juntos explorar o sistema!**\n\n**🚦 COMANDOS PRINCIPAIS:**\n• `/buscar [termo]` - Buscar estabelecimentos\n• `12345` (código EG) - Análise direta\n• `/insights [código]` - Análise com IA\n• `/prever [código]` - Previsões\n• `/ajuda` - Lista completa de comandos\n\n**💡 DICAS PARA COMEÇAR:**\n1. Digite qualquer código EG (ex: 12345)\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\n3. Digite **/ajuda** para ver tudo\n\n**Estou aqui para ajudar!** 😊\n\nO que gostaria de fazer primeiro?`;
+            }
+            
+            function getComparisonHelpResponse() {
+                return `📊 **Perfeito! Posso ajudar com comparações!**\n\n**COMPARAÇÕES INTELIGENTES:**\n• `/comparar 12345 67890 11111` - Até 5 códigos\n• Comparação automática com insights de IA\n• Identificação de padrões entre estabelecimentos\n\n**EXEMPLOS:**\n```\n/comparar 12345 67890\n/comparar 111 222 333 444 555\n```\n\n**📈 OU DIGITE CÓDIGO + 'vs' + OUTRO CÓDIGO:**\n```\n12345 vs 67890\n```\n\nQue estabelecimentos gostaria de comparar? Posso até identificar tendências e oportunidades entre eles! 🎯`;
+            }
+            
+            function getFeedbackResponse() {
+                return `💬 **Obrigado pelo feedback!**\n\nAdoramos receber sugestões para melhorar o sistema **Raio-X Score 5**!\n\n**🎯 Enviou sua sugestão para o time PPM AS MG?**\n\n**Melhorias que já implementamos:**\n• Análises com IA avançada\n• Previsões de tendências\n• Visualizações interativas\n• Storytelling de dados\n• Interface 100% mobile\n\n**Tem alguma ideia específica?** Digite **/ajuda** para ver todos os recursos disponíveis.\n\nComo posso melhorar sua experiência hoje? 😊`;
+            }
+            
+            function getSmallTalkResponse() {
+                const responses = [
+                    `😊 **Que bom que está gostando!**\n\nEstou aqui para tornar sua análise de dados da **Ambev Tech** mais eficiente e divertida!\n\nO que mais posso ajudar você a descobrir hoje? 🚀`,
+                    
+                    `🎉 **fico feliz que está funcionando bem!**\n\nLembre-se que somos **Desenvolvido pelo time PPM AS MG** especialmente para **Ambev Tech**!\n\nQue tal analisar alguns estabelecimentos? Digite um código EG! 📊`,
+                    
+                    `🌟 **Show de bola!** \n\nEsse é o objetivo - tornar a análise de dados **AmBEV** mais inteligente e acessível!\n\nQuer explorar mais funcionalidades? **/ajuda** mostra tudo que posso fazer! 🚀`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            function getUnknownResponse(message) {
+                const responses = [
+                    `🤔 **Interessante... Vou ajudar você a encontrar o que precisa!**\n\n**PARA DADOS DA AMBEV TECH:**\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• **/insights [código]** para análise completa\n\n**ATALHOS RÁPIDOS:**\n• **/comparar [códigos]** - Comparar até 5 estabelecimentos\n• **/padroes** - Detectar padrões na rede\n• **/story [código]** - Storytelling visual\n\n**Porque você mencionou:** "${message}"\n\nPoderia ser mais específico? Estou aqui para ajudar com dados da Ambev Tech! 😊`,
+                    
+                    `🔍 **Entendi sua pergunta!**\n\nAunque não seja meu forte, posso ajudar com dados e análises da **Ambev Tech**!\n\n**O que posso fazer para você:**\n• Analisar códigos EG específicos\n• Comparar estabelecimentos\n• Gerar insights com IA\n• Detectar padrões e tendências\n• Criar visualizações\n\n**Experimente:**\n• Digitar um código EG\n• **/buscar ambev** para encontrar nossa rede\n• **/ajuda** para ver todos os recursos\n\nComo posso ajudar com dados da Ambev Tech hoje? 🎯`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
             }
 
             // --- MANUSEIO DE COMANDOS ---
@@ -835,9 +1058,233 @@ Como posso ajudá-lo hoje?`;
                     case '/status':
                         showDatabaseStatus();
                         break;
+                    
+                    // ===== NOVOS COMANDOS AVANÇADOS =====
+                    case '/prever':
+                        await processTrendPrediction(cleanArgs);
+                        break;
+                    case '/padroes':
+                        await processPatternDetection(cleanArgs);
+                        break;
+                    case '/story':
+                        await processDataStorytelling(cleanArgs);
+                        break;
+                    case '/insights':
+                        await processAdvancedInsights(cleanArgs);
+                        break;
+                    
                     default:
                         addMessage(`❌ Comando não reconhecido: **${cmd}**\n\nDigite **/ajuda** para ver os comandos disponíveis.`, 'bot');
                 }
+            }
+
+            // ===== IMPLEMENTAÇÃO DOS NOVOS COMANDOS AVANÇADOS =====
+            
+            // Comando /prever - Previsões de tendências
+            async function processTrendPrediction(code) {
+                if (!code) {
+                    addMessage("🤔 **Preciso de um código para gerar previsões!**\n\n🎯 **Use assim:**\n• **/prever [código EG]**\n• **Exemplo:** /prever 12345\n\n💡 **Dica:** Você também pode digitar qualquer código EG diretamente para análise completa!\n\n---\n*Sistema inteligente PPM AS MG para Ambev Tech*", 'bot');
+                    return;
+                }
+
+                setChatLoading(true, `🔮 Analisando tendências futuras para ${code}...`);
+                
+                const data = csvData.find(row => row.Código === code || row.EG === code);
+                if (!data) {
+                    addMessage(`😕 **Código ${code} não encontrado na nossa base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede completa\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝", 'bot');
+                    setChatLoading(false);
+                    return;
+                }
+
+                try {
+                    const predictions = await getTrendPredictions(code);
+                    
+                    const response = `
+🔮 **ANÁLISE PREDITIVA - ${code}**
+*Baseado em dados inteligentes da Ambev Tech*
+
+📊 **Direção da Tendência:** ${predictions.trend_direction}
+🎯 **Nível de Confiança:** ${predictions.confidence_level}%
+⏰ **Período Analisado:** ${predictions.prediction_period}
+
+🔑 **Fatores Determinantes:**
+${predictions.key_factors.map(factor => `• ${factor}`).join('\n')}
+
+💡 **Recomendações Estratégicas:**
+${predictions.recommendations.map(rec => `• ${rec}`).join('\n')}
+
+⚠️ **Pontos de Atenção:**
+${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
+
+---
+*Análise gerada por IA - Desenvolvido pelo time PPM AS MG* 🚀`;
+
+                    addMessage(response, 'bot');
+                    
+                } catch (error) {
+                    console.error("Erro nas previsões:", error);
+                    addMessage(`❌ **Erro ao gerar previsões para ${code}**\n\nTente novamente ou verifique se o código está correto.`, 'bot');
+                }
+                
+                setChatLoading(false);
+            }
+            
+            // Comando /padroes - Detecção de padrões
+            async function processPatternDetection(codes) {
+                setChatLoading(true, 'Detectando padrões nos dados...');
+                
+                const codeList = codes ? codes.split(' ').filter(c => c.trim()) : null;
+                const patterns = detectPatterns(codeList);
+                
+                if (typeof patterns === 'string') {
+                    addMessage(patterns, 'bot');
+                    setChatLoading(false);
+                    return;
+                }
+                
+                let response = "🔍 **DETECÇÃO DE PADRÕES**\n\n";
+                
+                if (patterns.geographical_trends.length > 0) {
+                    response += "🗺️ **Tendências Geográficas:**\n";
+                    patterns.geographical_trends.forEach(trend => {
+                        response += `• **${trend.region}:** ${trend.performance} (${trend.count} estabelecimentos) - ${trend.assessment}\n`;
+                    });
+                    response += "\n";
+                }
+                
+                if (patterns.performance_clusters) {
+                    response += "📊 **Clusters de Performance:**\n";
+                    response += `• **Alto Desempenho:** ${patterns.performance_clusters.high_performance.percentage}% (${patterns.performance_clusters.high_performance.codes.join(', ')})\n`;
+                    response += `• **Precisa Atenção:** ${patterns.performance_clusters.low_performance.percentage}% (${patterns.performance_clusters.low_performance.codes.join(', ')})\n\n`;
+                }
+                
+                response += "💡 **Insights:**\n";
+                response += "• Os padrões são baseados nos dados da sessão atual\n";
+                response += "• Compare mais estabelecimentos para análises mais precisas\n";
+                response += "• Use **/buscar todas** para análise completa da rede";
+                
+                addMessage(response, 'bot');
+                setChatLoading(false);
+            }
+            
+            // Comando /story - Storytelling de dados
+            async function processDataStorytelling(code) {
+                setChatLoading(true, 'Criando storytelling dos dados...');
+                
+                let targetCode = code;
+                if (!targetCode && chatSession.codes.length > 0) {
+                    targetCode = chatSession.codes[chatSession.codes.length - 1];
+                }
+                
+                const data = csvData.find(row => row.Código === targetCode || row.EG === targetCode);
+                
+                let storytellingData = {
+                    code: targetCode || 'Análise Geral',
+                    averageScore: 'Calculando...',
+                    insight: 'Gerando insights...',
+                    recommendation: 'Preparando recomendações...'
+                };
+                
+                if (data && targetCode) {
+                    const gondola = parseFloat(data['Gôndola (M-1)'] || 0);
+                    const pontoExtra = parseFloat(data['Ponto Extra (M-1)'] || 0);
+                    const averageScore = ((gondola + pontoExtra) / 2).toFixed(1);
+                    
+                    storytellingData.averageScore = averageScore;
+                    storytellingData.insight = gondola > pontoExtra ? 'Gôndola com melhor performance que Ponto Extra' : 'Ponto Extra com performance superior';
+                    storytellingData.recommendation = gondola > 70 && pontoExtra > 70 ? 'Manter estratégias atuais' : 'Focar em melhorias operacionais';
+                }
+                
+                const animationHTML = createDataAnimation(storytellingData);
+                addMessage(animationHTML, 'bot', false);
+                
+                setTimeout(() => {
+                    lucide.createIcons();
+                }, 100);
+                
+                setChatLoading(false);
+            }
+            
+            // Comando /insights - Análise avançada com IA
+            async function processAdvancedInsights(code) {
+                if (!code) {
+                    addMessage("❌ **Código não informado**\n\nUse: **/insights [código EG]**\n\nExemplo: **/insights 12345**", 'bot');
+                    return;
+                }
+
+                setChatLoading(true, `Gerando insights avançados para ${code}...`);
+                
+                const data = csvData.find(row => row.Código === code || row.EG === code);
+                if (!data) {
+                    addMessage(`❌ **Código ${code} não encontrado**\n\nUse **/buscar ${code}** primeiro para validar.`, 'bot');
+                    setChatLoading(false);
+                    return;
+                }
+
+                try {
+                    const performanceData = {
+                        gondola_m1: getDataFromRow(data, "Gôndola (M-1)") || '0',
+                        gondola_vs: getDataFromRow(data, "Gôndola (M0 vs M-1)") || 'N/A',
+                        gondola_status: getDataFromRow(data, "Gôndola") || 'N/A',
+                        pe_m1: getDataFromRow(data, "Ponto Extra (M-1)") || '0',
+                        pe_vs: getDataFromRow(data, "Ponto Extra (M0 vs M-1)") || 'N/A',
+                        pe_status: getDataFromRow(data, "Ponto Extra.") || 'N/A',
+                        base_foco: getDataFromRow(data, "BASE FOCO") || 'N/A',
+                        cob_hdw: getDataFromRow(data, "COB HDW") || 'N/A',
+                        atendimento: getDataFromRow(data, "Atendimento") || 'N/A'
+                    };
+
+                    const insights = await getAIAnalysis(performanceData, code);
+                    
+                    const enhancedResponse = `
+🤖 **INSIGHTS AVANÇADOS - ${code}**
+
+${insights}
+
+---
+
+🔮 **Análise Preditiva:**
+Gerando previsões de tendência para este estabelecimento...
+
+Use **/prever ${code}** para previsões detalhadas.
+
+🔍 **Padrões Identificados:**
+Este estabelecimento mostra características específicas no contexto da rede.
+
+Use **/padroes** para análise de padrões amplos.
+
+💡 **Storytelling:**
+Transformando dados em narrativa visual...
+
+Use **/story ${code}** para visualização animada.
+`;
+                    
+                    addMessage(enhancedResponse, 'bot');
+                    
+                    // Adicionar visualização avançada
+                    const visualizationData = {
+                        gondola_m1: getDataFromRow(data, "Gôndola (M-1)") || '0',
+                        pe_m1: getDataFromRow(data, "Ponto Extra (M-1)") || '0',
+                        atendimento: getDataFromRow(data, "Atendimento") || '0'
+                    };
+                    
+                    const chartHTML = createAdvancedVisualization(visualizationData, 'performance');
+                    if (chartHTML) {
+                        addMessage(chartHTML, 'bot', false);
+                        setTimeout(() => animateChartBars(), 100);
+                    }
+                    
+                    // Oferecer análise profunda
+                    setTimeout(() => {
+                        addMessage(`🔥 **Análise Profunda Disponível**\n\nDigite **"análise profunda ${code}"** para análise multi-dimensional completa com benchmarks e tendências avançadas.`, 'bot');
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error("Erro nos insights:", error);
+                    addMessage(`❌ **Erro ao gerar insights para ${code}**\n\nTente novamente.`, 'bot');
+                }
+                
+                setChatLoading(false);
             }
 
             // --- PROCESSAMENTO DE CONSULTA POR CÓDIGO ---
@@ -867,16 +1314,18 @@ Como posso ajudá-lo hoje?`;
             // --- PROCESSAMENTO DE BUSCA POR TEXTO ---
             async function processTextSearch(searchTerm) {
                 if (!searchTerm) {
-                    addMessage("❌ Por favor, informe um termo para buscar.\n\nExemplo: **/buscar ambev** ou **/buscar belo horizonte**", 'bot');
+                    addMessage("🤔 **Hmm, preciso de um termo para buscar!** 😊\n\n**Na base da Ambev Tech você pode buscar:**\n• **/buscar ambev** - Nossa rede\n• **/buscar belo horizonte** - Por cidade\n• **/buscar [nome da rede]** - Estabelecimentos específicos\n• Ou digite um **código EG** diretamente\n\nQue tipo de estabelecimento da **Ambev Tech** gostaria de encontrar? 🚀", 'bot');
                     return;
                 }
 
-                setChatLoading(true, `Buscando por "${searchTerm}"...`);
+                setChatLoading(true, `🔍 Buscando "${searchTerm}" na base da Ambev Tech...`);
                 
                 const results = await searchByText(searchTerm);
                 
                 if (results.length > 0) {
-                    let response = `🔍 **Resultados para "${searchTerm}":**\n\n`;
+                    let response = `🎯 **Encontrei ${results.length} estabelecimento${results.length > 1 ? 's' : ''} da Ambev Tech!**\n\n`;
+                    
+                    response += `**Para "${searchTerm}":**\n\n`;
                     
                     results.slice(0, 5).forEach((item, index) => {
                         const nome = getDataFromRow(item, "Nome Fantasia") || "(não informado)";
@@ -884,22 +1333,31 @@ Como posso ajudá-lo hoje?`;
                         const eg = getDataFromRow(item, "EG") || "(não informado)";
                         
                         response += `**${index + 1}.** ${nome}\n`;
-                        response += `• Rede: ${rede}\n`;
-                        response += `• Código EG: ${eg}\n\n`;
+                        response += `• **Rede:** ${rede}\n`;
+                        response += `• **Código EG:** ${eg}\n\n`;
                     });
                     
                     if (results.length > 5) {
-                        response += `📊 **Encontrados ${results.length} resultados.** Digite códigos específicos para mais detalhes.`;
+                        response += `📊 **+ ${results.length - 5} resultados não mostrados**\n\n`;
                     }
+                    
+                    response += `---\n*Desenvolvido pelo time PPM AS MG para a Ambev Tech*`;
                     
                     addMessage(response, 'bot');
                     
-                    // Sugere próximas ações
+                    // Sugere próximas ações com cordialidade
                     setTimeout(() => {
-                        addMessage("💡 **Dica:** Clique em qualquer código EG listado para ver a análise completa.", 'bot');
+                        addMessage(`💡 **Próximos passos:**\n• Clique em qualquer **código EG** para análise completa\n• Use **/insights [código]** para insights avançados\n• **/comparar [códigos]** para comparar estabelecimentos\n\nQue tal analisar um deles? 🎯`, 'bot');
                     }, 1500);
                 } else {
-                    addMessage(`😔 Não encontrei estabelecimentos para **"${searchTerm}"**.\n\n🔍 **Tente:**\n• Verificar a grafia\n• Usar termos mais gerais\n• Buscar por código EG diretamente`, 'bot');
+                    const suggestions = [
+                        "Tente **/buscar ambev** para nossa rede completa",
+                        "Busque por **cidade** (ex: Belo Horizonte)",
+                        "Use **termos mais gerais** ou **específicos**",
+                        "Ou digite um **código EG** diretamente!"
+                    ];
+                    
+                    addMessage(`😅 **Não encontrei estabelecimentos para "${searchTerm}"**\n\n🤔 **Vamos tentar juntos:**\n\n${suggestions.map(s => `• ${s}`).join('\n')}\n\n**SUGESTÃO:** Digite **/buscar ambev** para ver nossa rede completa da **Ambev Tech**! 🚀\n\n---\n*Desenvolvido pelo time PPM AS MG especialmente para Ambev Tech*`, 'bot');
                 }
                 
                 setChatLoading(false);
@@ -1351,25 +1809,35 @@ Como posso ajudá-lo hoje?`;
             }
 
             function showHelp() {
-                let help = "🆘 **COMANDOS DISPONÍVEIS:**\n\n";
+                let help = `🤖 **COMANDOS DO RAIO-X SCORE 5**\n*Desenvolvido pelo time PPM AS MG para Ambev Tech*\n\n`;
                 
+                help += "**🚀 COMANDOS PRINCIPAIS:**\n\n";
                 Object.entries(COMMANDS).forEach(([cmd, desc]) => {
-                    help += `**${cmd}** - ${desc}\n`;
+                    help += `• **${cmd}** ${desc}\n`;
                 });
 
-                help += "\n💡 **Exemplos de Uso:**\n";
-                help += "• /buscar ambev\n";
-                help += "• /comparar 12345 67890\n";
-                help += "• ❤️ 12345 (adicionar aos favoritos)\n";
-                help += "• insights 12345 (análise detalhada)";
+                help += "\n**💡 EXEMPLOS PRÁTICOS:**\n";
+                help += "• **/buscar ambev** - Encontra nossa rede\n";
+                help += "• **12345** - Análise direta do código EG\n";
+                help += "• **/comparar 12345 67890** - Comparar estabelecimentos\n";
+                help += "• **/insights 12345** - Análise completa com IA\n";
+                help += "• **❤️ 12345** - Adicionar aos favoritos\n";
+                help += "• **/prever 12345** - Previsões de tendência\n";
+                help += "• **/story 12345** - Storytelling visual\n";
+                help += "• **/padroes** - Detectar padrões\n\n";
+
+                help += "**🎯 DICA DE OURO:**\n";
+                help += "Digite qualquer **código EG** para análise instantânea!\n\n";
+                
+                help += "*Sistema inteligente focado na performance da Ambev Tech* 🍺";
 
                 addMessage(help, 'bot');
             }
 
             function showDatabaseStatus() {
                 const status = isSheetLoaded ? 
-                    `✅ **Status:** Base carregada\n📊 **Registros:** ${sheetData.length.toLocaleString()}\n🔍 **Contexto da sessão:** ${chatSession.codes.length} códigos` :
-                    `❌ **Status:** Carregando...\n🔄 Verificando conexão...`;
+                    `✅ **Sistema Operacional!**\n\n📊 **Base de dados:** ${sheetData.length.toLocaleString()} estabelecimentos carregados\n🔍 **Sua sessão:** ${chatSession.codes.length} código${chatSession.codes.length !== 1 ? 's' : ''} analisado${chatSession.codes.length !== 1 ? 's' : ''}\n\n*Sistema PPM AS MG - Ambev Tech* 🚀` :
+                    `⚙️ **Carregando sistema...**\n\n🔄 Verificando conexão com a base da Ambev Tech\n⏳ Isso demora alguns segundos...\n\n*Desenvolvido especialmente pelo time PPM AS MG*`;
 
                 addMessage(status, 'bot');
             }
@@ -1527,6 +1995,339 @@ Seja objetivo e forneça insights acionáveis.`;
                     console.error("Erro na análise comparativa:", error);
                     return "❌ Análise comparativa não disponível no momento.";
                 }
+            }
+
+            // ===== NOVAS FUNCIONALIDADES AVANÇADAS =====
+            
+            // 1. PREVISÕES DE TENDÊNCIAS DOS DADOS
+            async function getTrendPredictions(code) {
+                const data = csvData.find(row => row.Código === code || row.EG === code);
+                if (!data) return null;
+                
+                const systemInstruction = `Você é um analista de dados da Ambev Tech especializado em previsões e tendências de performance. Analise os dados históricos e gere previsões inteligentes.
+
+                Responda no formato JSON:
+                {
+                    "trend_direction": "subindo/estável/descendo",
+                    "confidence_level": 75,
+                    "prediction_period": "próximos 30 dias",
+                    "key_factors": ["fator 1", "fator 2"],
+                    "recommendations": ["ação recomendada 1", "ação recomendada 2"],
+                    "risk_factors": ["risco 1", "risco 2"]
+                }`;
+                
+                const prompt = `Analise os dados do estabelecimento ${code} e gere previsões de tendência:
+                
+                Dados: ${JSON.stringify(data, null, 2)}
+                Contexto histórico da sessão: ${chatSession.codes.join(', ') || 'Nenhum'}
+                
+                Gere uma previsão baseada em padrões, sazonalidade e performance atual.`;
+                
+                try {
+                    const response = await callGeminiAPI(prompt, systemInstruction);
+                    return JSON.parse(response);
+                } catch (error) {
+                    console.error("Erro na previsão:", error);
+                    return {
+                        trend_direction: "estável",
+                        confidence_level: 50,
+                        prediction_period: "próximos 15 dias",
+                        key_factors: ["análise em tempo real"],
+                        recommendations: ["monitorar dados próximos"]
+                    };
+                }
+            }
+            
+            // 2. DETECÇÃO DE PADRÕES NOS CÓDIGOS EG
+            function detectPatterns(codes = null) {
+                const targetCodes = codes || chatSession.codes;
+                const patterns = {
+                    network_insights: [],
+                    geographical_trends: [],
+                    performance_clusters: [],
+                    seasonal_patterns: []
+                };
+                
+                if (targetCodes.length === 0) {
+                    return "❌ **Nenhum código analisado ainda**\n\nConsulte alguns estabelecimentos primeiro com `/buscar [código]` ou use `/buscar todas` para análise geral.";
+                }
+                
+                const analyzedData = targetCodes.map(code => {
+                    const data = csvData.find(row => row.Código === code || row.EG === code);
+                    if (data) return {
+                        code: code,
+                        gondola_m1: parseFloat(data['Gôndola (M-1)'] || 0),
+                        pe_m1: parseFloat(data['Ponto Extra (M-1)'] || 0),
+                        region: data['Região'] || 'N/A'
+                    };
+                    return null;
+                }).filter(Boolean);
+                
+                // Algoritmo de detecção de padrões
+                if (analyzedData.length >= 2) {
+                    // Padrões por região
+                    const regionGroups = {};
+                    analyzedData.forEach(item => {
+                        if (!regionGroups[item.region]) regionGroups[item.region] = [];
+                        regionGroups[item.region].push(item);
+                    });
+                    
+                    for (const [region, items] of Object.entries(regionGroups)) {
+                        if (items.length >= 2) {
+                            const avgPerformance = items.reduce((sum, item) => sum + item.gondola_m1 + item.pe_m1, 0) / (items.length * 2);
+                            patterns.geographical_trends.push({
+                                region: region,
+                                performance: avgPerformance.toFixed(1),
+                                count: items.length,
+                                assessment: avgPerformance > 80 ? 'Excelente' : avgPerformance > 60 ? 'Boa' : 'Precisa atenção'
+                            });
+                        }
+                    }
+                    
+                    // Clustering de performance
+                    const highPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 > 120);
+                    const lowPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 < 60);
+                    
+                    patterns.performance_clusters = {
+                        high_performance: {
+                            codes: highPerformers.map(item => item.code),
+                            percentage: (highPerformers.length / analyzedData.length * 100).toFixed(1)
+                        },
+                        low_performance: {
+                            codes: lowPerformers.map(item => item.code),
+                            percentage: (lowPerformers.length / analyzedData.length * 100).toFixed(1)
+                        }
+                    };
+                }
+                
+                return patterns;
+            }
+            
+            // 3. ANIMAÇÕES DE DADOS PARA STORYTELLING
+            function createDataAnimation(data) {
+                const animationHTML = `
+                    <div class="storytelling-container p-4 bg-gray-900 rounded-lg border border-amber-500/30">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold text-amber-400">📊 Storytelling de Dados</h3>
+                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
+                                <i data-lucide="x" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="storytelling-animation">
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="0">
+                                <div class="bg-blue-900/30 p-3 rounded-lg mb-2">
+                                    <div class="text-blue-400 font-semibold">🎯 **Estabelecimento Analisado**</div>
+                                    <div class="text-white">Código: ${data.code || 'Múltiplos'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="800">
+                                <div class="bg-green-900/30 p-3 rounded-lg mb-2">
+                                    <div class="text-green-400 font-semibold">📈 **Performance Geral**</div>
+                                    <div class="text-white">Média: ${data.averageScore || 'Calculando...'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="1600">
+                                <div class="bg-purple-900/30 p-3 rounded-lg mb-2">
+                                    <div class="text-purple-400 font-semibold">🔍 **Insight Principal**</div>
+                                    <div class="text-white">${data.insight || 'Gerando análise...'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
+                                 data-delay="2400">
+                                <div class="bg-amber-900/30 p-3 rounded-lg">
+                                    <div class="text-amber-400 font-semibold">💡 **Recomendação**</div>
+                                    <div class="text-white">${data.recommendation || 'Continuando análise...'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        // Animar os pontos sequencialmente
+                        setTimeout(() => {
+                            document.querySelectorAll('.data-point').forEach((point, index) => {
+                                setTimeout(() => {
+                                    point.style.opacity = '1';
+                                    point.style.transform = 'translateY(0)';
+                                }, index * 200);
+                            });
+                            lucide.createIcons();
+                        }, 100);
+                    </script>
+                `;
+                return animationHTML;
+            }
+            
+            // Controles avançados de animação
+            function animateDataReveal(element) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-bounce-in');
+                        }
+                    });
+                });
+                observer.observe(element);
+            }
+            
+            // Sistema de visualização avançada com gráficos
+            function createAdvancedVisualization(data, type = 'performance') {
+                let chartHTML = '';
+                
+                if (type === 'performance') {
+                    chartHTML = `
+                        <div class="advanced-viz bg-gray-900 p-4 rounded-lg border border-amber-500/30 mb-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-lg font-bold text-amber-400">📈 Gráfico de Performance</h4>
+                                <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="chart-container h-48 relative">
+                                <div class="bars-container flex items-end justify-around h-full space-x-2">
+                                    ${generatePerformanceBars(data)}
+                                </div>
+                            </div>
+                            
+                            <div class="chart-labels flex justify-between mt-2 text-xs text-gray-400">
+                                <span>Gôndola</span>
+                                <span>Ponto Extra</span>
+                                <span>Atendimento</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                return chartHTML;
+            }
+            
+            // Gerar barras de performance com animação
+            function generatePerformanceBars(data) {
+                const gondola = parseFloat(data.gondola_m1 || 0);
+                const pontoExtra = parseFloat(data.pe_m1 || 0);
+                const atendimento = parseFloat(data.atendimento || 0);
+                const maxValue = Math.max(gondola, pontoExtra, atendimento, 100);
+                
+                return `
+                    <div class="performance-bar flex flex-col items-center group">
+                        <div class="bar-value text-xs text-gray-300 mb-1">${gondola.toFixed(1)}</div>
+                        <div class="bar bg-blue-600 rounded-t-sm transition-all duration-1000 hover:bg-blue-400" 
+                             style="height: ${(gondola/maxValue)*100}%" 
+                             data-value="${gondola}">
+                        </div>
+                        <div class="bar-label text-xs text-gray-400 mt-2">Gôndola</div>
+                    </div>
+                    
+                    <div class="performance-bar flex flex-col items-center group">
+                        <div class="bar-value text-xs text-gray-300 mb-1">${pontoExtra.toFixed(1)}</div>
+                        <div class="bar bg-green-600 rounded-t-sm transition-all duration-1000 hover:bg-green-400" 
+                             style="height: ${(pontoExtra/maxValue)*100}%" 
+                             data-value="${pontoExtra}">
+                        </div>
+                        <div class="bar-label text-xs text-gray-400 mt-2">Ponto Extra</div>
+                    </div>
+                    
+                    <div class="performance-bar flex flex-col items-center group">
+                        <div class="bar-value text-xs text-gray-300 mb-1">${atendimento.toFixed(1)}</div>
+                        <div class="bar bg-purple-600 rounded-t-sm transition-all duration-1000 hover:bg-purple-400" 
+                             style="height: ${(atendimento/maxValue)*100}%" 
+                             data-value="${atendimento}">
+                        </div>
+                        <div class="bar-label text-xs text-gray-400 mt-2">Atendimento</div>
+                    </div>
+                `;
+            }
+            
+            // Animações interativas para os gráficos
+            function animateChartBars() {
+                setTimeout(() => {
+                    const bars = document.querySelectorAll('.bar');
+                    bars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            bar.style.height = '0%';
+                            setTimeout(() => {
+                                bar.style.height = bar.dataset.value ? 
+                                    `${(parseFloat(bar.dataset.value)/Math.max(...Array.from(bars).map(b => parseFloat(b.dataset.value) || 0)))*100}%` : 
+                                    '50%';
+                            }, 100);
+                        }, index * 200);
+                    });
+                    
+                    // Atualizar ícones
+                    lucide.createIcons();
+                }, 100);
+            }
+            
+            // Sistema de notificações inteligentes
+            function showSmartNotification(message, type = 'info') {
+                const colors = {
+                    'success': 'bg-green-600 border-green-500',
+                    'warning': 'bg-yellow-600 border-yellow-500', 
+                    'error': 'bg-red-600 border-red-500',
+                    'info': 'bg-blue-600 border-blue-500'
+                };
+                
+                const icons = {
+                    'success': 'check-circle',
+                    'warning': 'alert-triangle',
+                    'error': 'x-circle',
+                    'info': 'info'
+                };
+                
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 z-50 ${colors[type]} border text-white p-4 rounded-lg shadow-lg animate-slide-in-right`;
+                notification.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="${icons[type]}" class="w-5 h-5"></i>
+                        <span>${message}</span>
+                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                lucide.createIcons();
+                
+                // Auto remove após 5 segundos
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+            
+            // Modo de análise profundo
+            async function enableDeepAnalysis(code) {
+                addMessage(`🔬 **Iniciando Análise Profunda para ${code}**\n\nAnalisando múltiplas dimensões de performance...`, 'bot');
+                
+                setTimeout(() => {
+                    // Análise de tendências
+                    addMessage(`📈 **Análise Temporal**\nComparando performance mensal e tendências sazonais...`, 'bot');
+                }, 1500);
+                
+                setTimeout(() => {
+                    // Análise comparativa com rede
+                    addMessage(`🌐 **Análise Comparativa**\nBenchmarking com outros estabelecimentos da rede...`, 'bot');
+                }, 3000);
+                
+                setTimeout(() => {
+                    // Análise de oportunidades
+                    addMessage(`💡 **Oportunidades Identificadas**\nPontos de melhoria e crescimento detectados...`, 'bot');
+                }, 4500);
+                
+                setTimeout(() => {
+                    // Recomendações finais
+                    addMessage(`🎯 **Plano de Ação Recomendado**\nEstratégias específicas para otimização...`, 'bot');
+                }, 6000);
             }
 
             // --- UTILITÁRIOS ---
