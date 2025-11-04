@@ -1,1232 +1,1091 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raio-X Score 5 - DIRETA MG</title>
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Sistema de Inspeção Sanitária Raio-X Score 5 - Análise inteligente de estabelecimentos">
+    <meta name="theme-color" content="#1e40af">
+    <title>Raio-X Score 5 | Sistema de Inspeção Sanitária</title>
     
-    <!-- Particle Canvas Background -->
-    <canvas id="particles-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
-    
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle" style="
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--glass-bg);
-        backdrop-filter: var(--blur-medium);
-        border: 1px solid var(--glass-border);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition-smooth);
-        box-shadow: var(--shadow-soft);
-    ">
-        <span id="theme-icon" style="font-size: 1.2rem; transition: var(--transition-smooth);">🌙</span>
-    </button>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- React e ReactDOM via CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Root Variables for Theme System */
+        /* ============================================
+           SISTEMA RAIO-X SCORE 5 - DESIGN PROFISSIONAL
+           DIRETA MG - Interface Corporativa Moderna
+           ============================================ */
+
+        /* Reset e configurações base */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        html, body {
+          height: 100%;
+          font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          overflow-x: hidden;
+        }
+
+        /* Design System de Cores Profissional */
         :root {
-            --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 30%, #fbbf24 60%, #fcd34d 100%);
-            --secondary-gradient: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 100%);
-            --accent-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 30%, #d97706 60%, #92400e 100%);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --shadow-soft: 0 8px 32px rgba(251, 191, 36, 0.2);
-            --shadow-medium: 0 12px 40px rgba(251, 191, 36, 0.25);
-            --shadow-hard: 0 20px 60px rgba(251, 191, 36, 0.3);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.85);
-            --blur-heavy: blur(20px);
-            --blur-medium: blur(10px);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-spring: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          /* Tema Profissional (Padrão) */
+          --primary-color: #1e40af;
+          --primary-light: #3b82f6;
+          --primary-dark: #1e3a8a;
+          --secondary-color: #64748b;
+          --accent-color: #f59e0b;
+          --accent-light: #fbbf24;
+          --success-color: #10b981;
+          --warning-color: #f59e0b;
+          --error-color: #ef4444;
+          
+          /* Tons de cinza profissionais */
+          --gray-50: #f8fafc;
+          --gray-100: #f1f5f9;
+          --gray-200: #e2e8f0;
+          --gray-300: #cbd5e1;
+          --gray-400: #94a3b8;
+          --gray-500: #64748b;
+          --gray-600: #475569;
+          --gray-700: #334155;
+          --gray-800: #1e293b;
+          --gray-900: #0f172a;
+          
+          /* Backgrounds */
+          --bg-primary: #ffffff;
+          --bg-secondary: #f8fafc;
+          --bg-tertiary: #f1f5f9;
+          --bg-card: rgba(255, 255, 255, 0.95);
+          --bg-glass: rgba(255, 255, 255, 0.1);
+          
+          /* Textos */
+          --text-primary: #0f172a;
+          --text-secondary: #475569;
+          --text-tertiary: #64748b;
+          --text-inverse: #ffffff;
+          
+          /* Bordas e sombras */
+          --border-light: #e2e8f0;
+          --border-medium: #cbd5e1;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+          --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          
+          /* Transições */
+          --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+          --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          --transition-spring: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          
+          /* Spacing profissional */
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: 1.5rem;
+          --space-xl: 2rem;
+          --space-2xl: 3rem;
+          --space-3xl: 4rem;
+          
+          /* Border radius corporativo */
+          --radius-sm: 0.375rem;
+          --radius-md: 0.5rem;
+          --radius-lg: 0.75rem;
+          --radius-xl: 1rem;
+          --radius-2xl: 1.5rem;
         }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            /* Fundo geométrico com hexágonos */
-            background: 
-                linear-gradient(rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1)),
-                url('imgs/fundo_robô_amarelo_cinza_branco_2.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+
+        /* Temas alternativos */
+        .app.light {
+          --bg-primary: #f8fafc;
+          --bg-secondary: #ffffff;
+          --bg-tertiary: #f1f5f9;
+          --bg-card: rgba(255, 255, 255, 0.98);
+          --text-primary: #1e293b;
+          --text-secondary: #475569;
+          --text-tertiary: #64748b;
+          --primary-color: #3b82f6;
+          --accent-color: #10b981;
         }
-        
-        /* Overlay gradiente para melhorar legibilidade */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg, 
-                rgba(245, 158, 11, 0.05) 0%, 
-                rgba(255, 255, 255, 0.02) 30%,
-                rgba(251, 191, 36, 0.03) 60%, 
-                rgba(156, 163, 175, 0.05) 100%
-            );
-            z-index: -1;
-            pointer-events: none;
+
+        .app.dark {
+          --bg-primary: #0f172a;
+          --bg-secondary: #1e293b;
+          --bg-tertiary: #334155;
+          --bg-card: rgba(30, 41, 59, 0.95);
+          --text-primary: #f1f5f9;
+          --text-secondary: #cbd5e1;
+          --text-tertiary: #94a3b8;
+          --primary-color: #60a5fa;
+          --accent-color: #fbbf24;
+          --border-light: #334155;
+          --border-medium: #475569;
         }
-        
-        /* Animação de fundo removida - usando fundo estático */
-        
-        /* Sistema de Partículas Neon Avançado */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+
+        /* Aplicação do tema */
+        .app {
+          min-height: 100vh;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          transition: background-color var(--transition-normal), color var(--transition-normal);
+          position: relative;
         }
-        
-        .neon-particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particleFloat 15s infinite linear;
+
+        /* ============================================
+           SISTEMA DE PARTÍCULAS ELEGANTE
+           ============================================ */
+        .particles-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          pointer-events: none;
+          opacity: 0.6;
         }
-        
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(50px) rotate(360deg);
-                opacity: 0;
-            }
+
+        .app.light .particles-canvas {
+          opacity: 0.4;
         }
-        
-        /* Magnetic Cursor Effects */
-        .magnetic-element {
-            transition: var(--transition-smooth);
+
+        .app.dark .particles-canvas {
+          opacity: 0.8;
         }
-        
-        .magnetic-element:hover {
-            transform: scale(1.05) rotate(2deg);
-            filter: brightness(1.2) contrast(1.1);
+
+        /* ============================================
+           BOTÃO DE TEMA PROFISSIONAL
+           ============================================ */
+        .theme-toggle {
+          position: fixed;
+          top: var(--space-xl);
+          right: var(--space-xl);
+          z-index: 1000;
+          width: 48px;
+          height: 48px;
+          border: 1px solid var(--border-medium);
+          border-radius: var(--radius-xl);
+          background: var(--bg-card);
+          backdrop-filter: blur(20px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all var(--transition-normal);
+          box-shadow: var(--shadow-lg);
+          color: var(--text-primary);
         }
-        
-        /* Ripple Effect System */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(251, 191, 36, 0.4);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
+
+        .theme-toggle:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-xl);
+          border-color: var(--primary-color);
         }
-        
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+
+        .theme-toggle:active {
+          transform: translateY(0);
         }
-        
-        /* Breathing Animations */
-        .breathing {
-            animation: breathe 4s ease-in-out infinite;
+
+        .app.light .theme-toggle {
+          background: rgba(255, 255, 255, 0.9);
         }
-        
-        @keyframes breathe {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.02);
-                opacity: 1;
-            }
+
+        .app.dark .theme-toggle {
+          background: rgba(30, 41, 59, 0.9);
         }
-        
-        /* Parallax Scroll Effect */
-        .parallax {
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-        
-        /* Enhanced Glassmorphism */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur-heavy);
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                var(--shadow-medium);
-        }
-        
-        /* Theme Toggle Styles */
-        #theme-toggle:hover {
-            transform: scale(1.1) rotate(15deg);
-            box-shadow: var(--shadow-hard);
-        }
-        
-        #theme-toggle:hover #theme-icon {
-            transform: rotate(180deg);
-        }
-        
-        /* Animações */
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-        
-        .animate-bounce-gentle {
-            animation: bounceGentle 2s infinite;
-        }
-        
-        @keyframes bounceGentle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .animate-pulse-slow {
-            animation: pulseSlow 3s infinite;
-        }
-        
-        @keyframes pulseSlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .animate-glow {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
-            to { box-shadow: 0 0 40px rgba(251, 191, 36, 0.7); }
-        }
-        
-        .delay-1 { animation-delay: 0.3s; }
-        .delay-2\.5 { animation-delay: 0.8s; }
-        .delay-3 { animation-delay: 1.3s; }
-        
-        /* Welcome Screen */
-        /* Modern Impactful Welcome Screen */
+
+        /* ============================================
+           TELA DE BOAS-VINDAS PROFISSIONAL
+           ============================================ */
         .welcome-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem 1rem;
-            min-height: 100vh;
-            position: relative;
-            background: 
-                radial-gradient(ellipse 120% 80% at center -20%, 
-                    rgba(251, 191, 36, 0.25) 0%,
-                    rgba(255, 255, 255, 0.15) 25%,
-                    rgba(0, 0, 0, 0.1) 50%,
-                    rgba(255, 255, 255, 0.1) 75%,
-                    rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(25px);
-            border: 2px solid rgba(251, 191, 36, 0.4);
-            box-shadow: 
-                inset 0 1px 0 rgba(251, 191, 36, 0.3),
-                0 0 60px rgba(251, 191, 36, 0.3),
-                0 20px 80px rgba(0, 0, 0, 0.4),
-                0 0 120px rgba(251, 191, 36, 0.2);
-            animation: screenGlow 6s ease-in-out infinite;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding: var(--space-xl);
+          position: relative;
+          background: linear-gradient(135deg, 
+            var(--bg-primary) 0%, 
+            var(--bg-secondary) 50%, 
+            var(--bg-tertiary) 100%);
         }
-        
-        /* Modern Dynamic Background Pattern */
+
         .welcome-bg-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.4;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(251, 191, 36, 0.6) 0%, transparent 40%),
-                radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.5) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 30%),
-                radial-gradient(circle at 15% 85%, rgba(156, 163, 175, 0.4) 0%, transparent 35%),
-                radial-gradient(circle at 85% 15%, rgba(249, 115, 22, 0.4) 0%, transparent 40%);
-            animation: modernPatternFloat 20s ease-in-out infinite;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          opacity: 0.05;
+          background-image: 
+            radial-gradient(circle at 25% 25%, var(--primary-color) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, var(--accent-color) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, var(--secondary-color) 0%, transparent 30%);
+          animation: patternFloat 20s ease-in-out infinite;
         }
-        
-        @keyframes screenGlow {
-            0%, 100% { 
-                box-shadow: 
-                    inset 0 1px 0 rgba(251, 191, 36, 0.3),
-                    0 0 60px rgba(251, 191, 36, 0.3),
-                    0 20px 80px rgba(0, 0, 0, 0.4),
-                    0 0 120px rgba(251, 191, 36, 0.2);
-            }
-            50% { 
-                box-shadow: 
-                    inset 0 1px 0 rgba(251, 191, 36, 0.5),
-                    0 0 80px rgba(251, 191, 36, 0.4),
-                    0 25px 100px rgba(0, 0, 0, 0.5),
-                    0 0 160px rgba(251, 191, 36, 0.3);
-            }
+
+        @keyframes patternFloat {
+          0%, 100% { 
+            transform: translateY(0) scale(1); 
+            opacity: 0.05;
+          }
+          50% { 
+            transform: translateY(-20px) scale(1.02); 
+            opacity: 0.08;
+          }
         }
-        
-        @keyframes modernPatternFloat {
-            0%, 100% { 
-                transform: translateY(0) rotate(0deg) scale(1); 
-                opacity: 0.4;
-            }
-            20% { 
-                transform: translateY(-20px) rotate(72deg) scale(1.05); 
-                opacity: 0.5;
-            }
-            40% { 
-                transform: translateY(-15px) rotate(144deg) scale(1.02); 
-                opacity: 0.35;
-            }
-            60% { 
-                transform: translateY(-25px) rotate(216deg) scale(1.08); 
-                opacity: 0.45;
-            }
-            80% { 
-                transform: translateY(-10px) rotate(288deg) scale(1.03); 
-                opacity: 0.4;
-            }
+
+        .welcome-content {
+          text-align: center;
+          max-width: 600px;
+          z-index: 1;
         }
-        
+
+        .welcome-title {
+          font-size: 3.5rem;
+          font-weight: 800;
+          margin-bottom: var(--space-lg);
+          background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+        }
+
+        .subtitle-container {
+          height: 2.5rem;
+          margin-bottom: var(--space-2xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .welcome-subtitle {
+          font-size: 1.25rem;
+          font-weight: 500;
+          color: var(--text-secondary);
+          transition: all var(--transition-slow);
+        }
+
+        .robot-container {
+          margin: var(--space-2xl) 0;
+          display: flex;
+          justify-content: center;
+        }
+
         .robot-image {
-            max-width: 18rem;
-            max-height: 18rem;
-            filter: drop-shadow(0 8px 32px rgba(251, 191, 36, 0.4));
-            transition: all 0.3s ease;
+          width: 140px;
+          height: 140px;
+          border-radius: var(--radius-2xl);
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow-2xl);
+          transition: all var(--transition-normal);
         }
-        
+
         .robot-image:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 12px 48px rgba(251, 191, 36, 0.5));
+          transform: translateY(-4px) scale(1.05);
+          box-shadow: 0 30px 60px rgba(30, 64, 175, 0.3);
         }
-        
-        /* Chat Container */
+
+        .robot-icon {
+          color: white;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .company-info {
+          font-size: 1.125rem;
+          color: var(--text-tertiary);
+          margin-bottom: var(--space-2xl);
+          font-weight: 500;
+        }
+
+        .company-name {
+          color: var(--primary-color);
+          font-weight: 700;
+        }
+
+        .start-button {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-sm);
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+          color: white;
+          border: none;
+          padding: var(--space-lg) var(--space-2xl);
+          font-size: 1.125rem;
+          font-weight: 600;
+          border-radius: var(--radius-xl);
+          cursor: pointer;
+          transition: all var(--transition-normal);
+          box-shadow: var(--shadow-lg);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .start-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.6s;
+        }
+
+        .start-button:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-xl);
+        }
+
+        .start-button:hover::before {
+          left: 100%;
+        }
+
+        .start-button:active {
+          transform: translateY(0);
+        }
+
+        /* ============================================
+           CHAT CONTAINER PROFISSIONAL
+           ============================================ */
         .chat-container {
-            display: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          padding: var(--space-lg);
+          background: var(--bg-primary);
         }
-        
-        .phone-container {
-            display: flex;
-            flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-            background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
-            box-shadow: 
-                0 0 0 1px rgba(0, 0, 0, 0.1),
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-radius: 0;
-            overflow: hidden;
+
+        .phone-frame {
+          width: 100%;
+          max-width: 400px;
+          height: 90vh;
+          max-height: 700px;
+          background: var(--bg-card);
+          border-radius: var(--radius-2xl);
+          box-shadow: var(--shadow-2xl);
+          border: 1px solid var(--border-light);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          backdrop-filter: blur(20px);
+          position: relative;
         }
-        
+
         @media (min-width: 768px) {
-            .phone-container {
-                width: 28rem;
-                height: calc(100vh - 2rem);
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                border-radius: 1.75rem;
-                box-shadow: 
-                    0 0 0 1px rgba(0, 0, 0, 0.1),
-                    0 25px 80px rgba(0, 0, 0, 0.6),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            }
+          .phone-frame {
+            width: 420px;
+            height: 85vh;
+          }
         }
-        
-        /* Header */
+
+        /* Header profissional */
         .chat-header {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.15),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+          padding: var(--space-lg);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: white;
+          position: relative;
+          box-shadow: var(--shadow-md);
         }
-        
+
         .chat-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
         }
-        
+
         .header-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+          display: flex;
+          align-items: center;
+          gap: var(--space-md);
         }
-        
+
         .header-avatar {
-            width: 3rem;
-            height: 3rem;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 2px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+          width: 48px;
+          height: 48px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all var(--transition-normal);
         }
-        
+
         .header-avatar:hover {
-            transform: scale(1.05);
+          transform: scale(1.05);
+          background: rgba(255, 255, 255, 0.25);
         }
-        
-        .header-emoji {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
-        }
-        
+
         .header-text {
-            flex: 1;
+          flex: 1;
         }
-        
+
         .header-title {
-            font-size: 1.125rem;
-            font-weight: 800;
-            color: #000;
-            margin-bottom: 0.125rem;
-            letter-spacing: -0.025em;
+          font-size: 1.125rem;
+          font-weight: 700;
+          margin-bottom: 2px;
+          color: white;
         }
-        
+
         .header-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.8);
-            letter-spacing: 0.05em;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.8);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
-        
+
         .close-button {
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            color: #000;
-            font-size: 1.75rem;
-            font-weight: 300;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(4px);
+          width: 36px;
+          height: 36px;
+          border: none;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all var(--transition-normal);
+          color: white;
         }
-        
+
         .close-button:hover {
-            background: rgba(0, 0, 0, 0.3);
-            transform: scale(1.1);
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(1.1);
         }
-        
-        /* Messages */
-        .message-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            background: 
-                linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            scrollbar-width: thin;
-            scrollbar-color: #f59e0b transparent;
+
+        /* Container de mensagens */
+        .messages-container {
+          flex: 1;
+          overflow-y: auto;
+          padding: var(--space-lg);
+          background: var(--bg-secondary);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-md);
+          scrollbar-width: thin;
+          scrollbar-color: var(--primary-color) transparent;
         }
-        
-        .message-container::-webkit-scrollbar {
-            width: 6px;
+
+        .messages-container::-webkit-scrollbar {
+          width: 6px;
         }
-        
-        .message-container::-webkit-scrollbar-track {
-            background: transparent;
+
+        .messages-container::-webkit-scrollbar-track {
+          background: transparent;
         }
-        
-        .message-container::-webkit-scrollbar-thumb {
-            background: rgba(245, 158, 11, 0.3);
-            border-radius: 3px;
+
+        .messages-container::-webkit-scrollbar-thumb {
+          background: var(--primary-color);
+          border-radius: 3px;
+          opacity: 0.3;
         }
-        
+
+        /* Mensagens profissionais */
         .message {
-            max-width: 85%;
-            padding: 0.875rem 1rem;
-            border-radius: 1.25rem;
-            line-height: 1.5;
-            font-size: 0.875rem;
-            animation: messageSlide 0.4s ease-out;
-            position: relative;
-            word-wrap: break-word;
+          max-width: 85%;
+          padding: var(--space-md) var(--space-lg);
+          border-radius: var(--radius-xl);
+          line-height: 1.6;
+          font-size: 0.875rem;
+          animation: messageSlide 0.4s ease-out;
+          position: relative;
+          word-wrap: break-word;
+          box-shadow: var(--shadow-sm);
         }
-        
+
         @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-        
+
         .message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #000;
-            border-bottom-right-radius: 0.375rem;
-            box-shadow: 
-                0 4px 16px rgba(245, 158, 11, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            font-weight: 600;
+          align-self: flex-end;
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+          color: white;
+          border-bottom-right-radius: var(--radius-sm);
+          font-weight: 600;
         }
-        
+
+        .message.user strong {
+          color: white;
+        }
+
         .message.bot {
-            align-self: flex-start;
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-bottom-left-radius: 0.375rem;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          align-self: flex-start;
+          background: var(--bg-card);
+          color: var(--text-primary);
+          border: 1px solid var(--border-light);
+          border-bottom-left-radius: var(--radius-sm);
+          backdrop-filter: blur(10px);
         }
-        
+
         .message.bot strong {
-            color: #92400e;
-            font-weight: 700;
+          color: var(--primary-color);
+          font-weight: 700;
         }
-        
-        /* Typing Indicator */
+
+        /* Indicador de digitação */
         .typing-indicator {
-            display: none;
-            margin-bottom: 1rem;
-            padding: 0.875rem 1rem;
-            background: #fef3c7;
-            color: #92400e;
-            border-radius: 1.25rem;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            font-size: 0.875rem;
-            font-weight: 500;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-            align-self: flex-start;
-            max-width: fit-content;
+          display: flex;
+          align-items: center;
+          gap: var(--space-sm);
+          padding: var(--space-md) var(--space-lg);
+          background: var(--bg-card);
+          color: var(--text-secondary);
+          border-radius: var(--radius-xl);
+          border: 1px solid var(--border-light);
+          font-size: 0.875rem;
+          font-weight: 500;
+          align-self: flex-start;
+          max-width: fit-content;
+          backdrop-filter: blur(10px);
         }
-        
+
         .typing-dots {
-            display: inline-flex;
-            gap: 0.25rem;
-            margin-right: 0.5rem;
+          display: flex;
+          gap: 4px;
         }
-        
+
         .typing-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background-color: #f59e0b;
-            border-radius: 50%;
-            animation: typingPulse 1.4s infinite;
+          width: 6px;
+          height: 6px;
+          background: var(--primary-color);
+          border-radius: 50%;
+          animation: typingPulse 1.4s infinite;
         }
-        
+
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
+
         @keyframes typingPulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(1.2); 
-                opacity: 0.7; 
-            }
+          0%, 100% { 
+            transform: scale(1); 
+            opacity: 1; 
+          }
+          50% { 
+            transform: scale(1.2); 
+            opacity: 0.7; 
+          }
         }
-        
-        /* Input Container */
+
+        /* Input container profissional */
         .input-container {
-            background: #fff;
-            padding: 1rem;
-            border-top: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 
-                0 -4px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(0, 0, 0, 0.05);
+          background: var(--bg-card);
+          padding: var(--space-lg);
+          border-top: 1px solid var(--border-light);
+          backdrop-filter: blur(20px);
         }
-        
+
         .chat-form {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
+          display: flex;
+          gap: var(--space-md);
+          align-items: center;
         }
-        
+
         .message-input {
-            flex: 1;
-            padding: 0.875rem 1.25rem;
-            background: #f9fafb;
-            border: 2px solid transparent;
-            border-radius: 1.5rem;
-            color: #374151;
-            font-size: 0.875rem;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+          flex: 1;
+          padding: var(--space-md) var(--space-lg);
+          background: var(--bg-tertiary);
+          border: 2px solid transparent;
+          border-radius: var(--radius-xl);
+          color: var(--text-primary);
+          font-size: 0.875rem;
+          font-weight: 500;
+          outline: none;
+          transition: all var(--transition-normal);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        
+
         .message-input:focus {
-            border-color: #f59e0b;
-            background: #fff;
-            box-shadow: 
-                inset 0 1px 2px rgba(0, 0, 0, 0.05),
-                0 0 0 4px rgba(245, 158, 11, 0.1);
+          border-color: var(--primary-color);
+          background: var(--bg-secondary);
+          box-shadow: 
+            inset 0 1px 2px rgba(0, 0, 0, 0.05),
+            0 0 0 4px rgba(30, 64, 175, 0.1);
         }
-        
+
         .message-input::placeholder {
-            color: #9ca3af;
-            font-weight: 400;
+          color: var(--text-tertiary);
+          font-weight: 400;
         }
-        
+
         .send-button {
-            width: 3rem;
-            height: 3rem;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border: none;
-            border-radius: 50%;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 4px 16px rgba(245, 158, 11, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          width: 48px;
+          height: 48px;
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+          border: none;
+          border-radius: var(--radius-xl);
+          color: white;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all var(--transition-normal);
+          box-shadow: var(--shadow-md);
         }
-        
-        .send-button:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 6px 24px rgba(245, 158, 11, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+        .send-button:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-lg);
         }
-        
+
         .send-button:active {
-            transform: scale(0.95);
+          transform: translateY(0);
         }
-        
-        /* Loading states */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
+
+        .send-button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
-        
-        .loading .send-button {
-            animation: spin 1s linear infinite;
+
+        /* ============================================
+           ANIMAÇÕES PROFISSIONAIS
+           ============================================ */
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
         }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+
+        @keyframes fadeInUp {
+          from { 
+            opacity: 0; 
+            transform: translateY(40px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
         }
-        
-        /* Botões da tela de boas-vindas */
-        .start-button {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #fbbf24 100%);
-            background-size: 200% 200%;
-            color: #fff;
-            border: none;
-            padding: 1rem 2.5rem;
+
+        .animate-bounce-gentle {
+          animation: bounceGentle 3s ease-in-out infinite;
+        }
+
+        @keyframes bounceGentle {
+          0%, 100% { 
+            transform: translateY(0); 
+          }
+          50% { 
+            transform: translateY(-8px); 
+          }
+        }
+
+        .animate-message-slide {
+          animation: messageSlide 0.4s ease-out;
+        }
+
+        /* ============================================
+           RESPONSIVIDADE PROFISSIONAL
+           ============================================ */
+        @media (max-width: 640px) {
+          .welcome-title {
+            font-size: 2.5rem;
+          }
+          
+          .welcome-subtitle {
             font-size: 1.125rem;
-            font-weight: 700;
-            border-radius: 1.5rem;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 
-                0 8px 32px rgba(245, 158, 11, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            animation: buttonFloat 3s ease-in-out infinite;
+          }
+          
+          .robot-image {
+            width: 120px;
+            height: 120px;
+          }
+          
+          .chat-container {
+            padding: var(--space-sm);
+          }
+          
+          .phone-frame {
+            height: 95vh;
+            max-height: none;
+          }
+          
+          .message {
+            font-size: 0.8rem;
+          }
+          
+          .theme-toggle {
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 44px;
+            height: 44px;
+          }
         }
-        
-        @keyframes buttonFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+        /* Estados de loading */
+        .loading {
+          opacity: 0.7;
+          pointer-events: none;
         }
-        
-        /* Modern High-Impact Typography System */
-        .welcome-title {
-            background: linear-gradient(135deg, 
-                #1f2937 0%, 
-                #374151 20%, 
-                #4b5563 40%, 
-                #f59e0b 60%, 
-                #fbbf24 80%, 
-                #fde68a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 
-                0 8px 16px rgba(0, 0, 0, 0.4),
-                0 4px 8px rgba(251, 191, 36, 0.3),
-                0 0 40px rgba(251, 191, 36, 0.2),
-                0 0 80px rgba(251, 191, 36, 0.1);
-            position: relative;
-            filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.5));
-            animation: modernTitlePulse 4s ease-in-out infinite;
+
+        .loading .send-button {
+          animation: spin 1s linear infinite;
         }
-        
-        @keyframes modernTitlePulse {
-            0%, 100% { 
-                transform: scale(1); 
-                filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.5));
-            }
-            25% { 
-                transform: scale(1.03); 
-                filter: drop-shadow(0 0 40px rgba(251, 191, 36, 0.7));
-            }
-            50% { 
-                transform: scale(1.02); 
-                filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.6));
-            }
-            75% { 
-                transform: scale(1.01); 
-                filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.4));
-            }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        
-        .welcome-subtitle {
-            background: linear-gradient(135deg, 
-                #1f2937 0%, 
-                #374151 25%, 
-                #f59e0b 50%, 
-                #d97706 75%, 
-                #92400e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.3),
-                0 0 20px rgba(245, 158, 11, 0.4),
-                0 0 40px rgba(245, 158, 11, 0.2);
-            animation: modernSubtitleGlow 4s ease-in-out infinite alternate;
+
+        /* Melhorias de acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
         }
-        
-        @keyframes modernSubtitleGlow {
-            0% { 
-                filter: brightness(1) contrast(1.1);
-                text-shadow: 
-                    0 4px 8px rgba(0, 0, 0, 0.3),
-                    0 0 20px rgba(245, 158, 11, 0.4),
-                    0 0 40px rgba(245, 158, 11, 0.2);
-            }
-            100% { 
-                filter: brightness(1.3) contrast(1.2);
-                text-shadow: 
-                    0 6px 12px rgba(0, 0, 0, 0.4),
-                    0 0 30px rgba(245, 158, 11, 0.6),
-                    0 0 60px rgba(245, 158, 11, 0.3);
-            }
+
+        /* Estados de focus melhorados */
+        button:focus-visible,
+        input:focus-visible {
+          outline: 2px solid var(--primary-color);
+          outline-offset: 2px;
         }
-            overflow: hidden;
+
+        /* Melhorias para dispositivos de alta DPI */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+          .robot-image,
+          .header-avatar {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+          }
         }
-        
-        .start-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
-        }
-        
-        .start-button:hover::before {
-            left: 100%;
-        }
-        
-        .start-button:hover {
-            background-position: 100% 0;
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 
-                0 12px 40px rgba(245, 158, 11, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.3);
-        }
-        
-        .start-button:active {
-            transform: translateY(0) scale(0.98);
-        }
-        
-        /* Responsivo */
-        @media (max-width: 480px) {
-            .robot-image {
-                max-width: 14rem;
-                max-height: 14rem;
-            }
-            
-            .header-title {
-                font-size: 1rem;
-            }
-            
-            .header-subtitle {
-                font-size: 0.6875rem;
-            }
+
+        /* Print styles */
+        @media print {
+          .particles-canvas,
+          .theme-toggle,
+          .start-button,
+          .send-button,
+          .close-button {
+            display: none !important;
+          }
+          
+          .chat-container {
+            min-height: auto;
+          }
+          
+          .phone-frame {
+            box-shadow: none;
+            border: 1px solid #000;
+          }
         }
     </style>
 </head>
 <body>
-    <!-- Tela de Boas-vindas -->
-    <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-bg-pattern"></div>
-        
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up welcome-title">
-            Raio-X Score 5
-        </h1>
-        
-        <p id="subtitle-typing" class="text-xl sm:text-2xl text-amber-300 mb-8 h-8 font-semibold animate-fade-in-up delay-1 welcome-subtitle"></p>
-
-        <!-- GIF Robô -->
-        <img 
-            src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
-            alt="Robô IA DIRETA MG" 
-            class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto my-6 object-contain animate-bounce-gentle delay-2.5 robot-image"
-        />
-
-        <p class="text-lg text-white mb-12 font-semibold animate-fade-in-up delay-3 drop-shadow-lg">
-            🤖 Desenvolvido pela <span class="text-amber-400 font-bold text-xl drop-shadow-xl">DIRETA MG</span>
-        </p>
-
-        <!-- Botão Iniciar -->
-        <button 
-            id="start-chat-button" 
-            class="start-button animate-glow animate-fade-in-up delay-3"
-        >
-            🚀 Iniciar Conversa
-        </button>
-    </div>
-
-    <!-- Chat Container Mobile -->
-    <div id="phone-container" class="chat-container phone-container">
-        
-        <!-- Header -->
-        <div class="chat-header">
-            <div class="header-info">
-                <div class="header-avatar animate-pulse-slow">
-                    <span class="header-emoji">🤖</span>
-                </div>
-                <div class="header-text">
-                    <h1 class="header-title">Raio-X Score 5</h1>
-                    <p id="chat-status" class="header-subtitle">IA Conversacional Online</p>
-                </div>
-            </div>
-            
-            <!-- Botão Fechar -->
-            <button id="close-chat-button" class="close-button">
-                ×
-            </button>
-        </div>
-
-        <!-- Messages Container -->
-        <div id="message-container" class="message-container">
-            <!-- Messages appear here -->
-        </div>
-
-        <!-- Typing Indicator -->
-        <div id="typing-indicator" class="typing-indicator">
-            <span class="typing-dots">
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-            </span>
-            IA está digitando...
-        </div>
-
-        <!-- Input Container -->
-        <div class="input-container">
-            <form id="chat-form" class="chat-form">
-                <input 
-                    id="message-input" 
-                    type="text" 
-                    placeholder="Digite um código EG ou comando..." 
-                    class="message-input"
-                    autocomplete="off"
-                />
-                <button 
-                    type="submit" 
-                    class="send-button"
-                >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M21 4L13 21L11 13L3 11L21 4Z"/>
-                    </svg>
-                </button>
-
-            </form>
-        </div>
-    </div>
+    <div id="root"></div>
 
     <script>
-        // Configurações
-        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
-        
         // Dados de fallback baseados na planilha real
         const FALLBACK_DATA = [
-            {
-                eg: "105270-5",
-                rede: "Super Bh",
-                nome_fantasia: "Sbh 365 Sete Lagoas Sao Dimas",
-                coordenador: "Maurição",
-                supervisor_terceiro: "-",
-                gn: "-",
-                sl_sc: "-",
-                ae: "SIM",
-                m1: "66,20%",
-                m0: "67,10%",
-                vs_m1: "1,00%",
-                gondola: "59,30%",
-                ponto_extra: "75,00%",
-                base_foco: "T1",
-                corona: "NOK",
-                spaten: "NOK",
-                stella: "NOK",
-                cob_hdw: "NOK",
-                atendimento: "NÃO",
-                visita_quinzenal: "OK",
-                loja: "1"
-            },
-            {
-                eg: "75668-7",
-                rede: "Bahamas",
-                nome_fantasia: "Bahamas Emporio - Leopoldino",
-                coordenador: "Fernando",
-                supervisor_terceiro: "-",
-                gn: "-",
-                sl_sc: "-", 
-                ae: "NÃO",
-                m1: "",
-                m0: "49,10%",
-                vs_m1: "49,10%",
-                gondola: "23,10%",
-                ponto_extra: "75,00%",
-                base_foco: "T2",
-                corona: "NOK",
-                spaten: "NOK",
-                stella: "NOK",
-                cob_hdw: "NOK",
-                atendimento: "NÃO",
-                visita_quinzenal: "OK",
-                loja: "1"
-            },
-            {
-                eg: "67285-8",
-                rede: "Bahamas",
-                nome_fantasia: "Bahamas Emporio - Cascatinha",
-                coordenador: "Flávia",
-                supervisor_terceiro: "-",
-                gn: "-",
-                sl_sc: "-",
-                ae: "SIM",
-                m1: "54,10%",
-                m0: "39,30%",
-                vs_m1: "-14,80%",
-                gondola: "45,30%",
-                ponto_extra: "33,30%",
-                base_foco: "T1",
-                corona: "NOK",
-                spaten: "OK",
-                stella: "NOK",
-                cob_hdw: "OK",
-                atendimento: "SIM",
-                visita_quinzenal: "OK",
-                loja: "1"
-            }
+          {
+            eg: "105270-5",
+            rede: "Super Bh",
+            nome_fantasia: "Sbh 365 Sete Lagoas Sao Dimas",
+            coordenador: "Maurião",
+            supervisor_terceiro: "-",
+            gn: "-",
+            sl_sc: "-",
+            ae: "SIM",
+            m1: "66,20%",
+            m0: "67,10%",
+            vs_m1: "1,00%",
+            gondola: "59,30%",
+            ponto_extra: "75,00%",
+            base_foco: "T1",
+            corona: "NOK",
+            spaten: "NOK",
+            stella: "NOK",
+            cob_hdw: "NOK",
+            atendimento: "NÃO",
+            visita_quinzenal: "OK",
+            loja: "1"
+          },
+          {
+            eg: "75668-7",
+            rede: "Bahamas",
+            nome_fantasia: "Bahamas Emporio - Leopoldino",
+            coordenador: "Fernando",
+            supervisor_terceiro: "-",
+            gn: "-",
+            sl_sc: "-",
+            ae: "NÃO",
+            m1: "",
+            m0: "49,10%",
+            vs_m1: "49,10%",
+            gondola: "23,10%",
+            ponto_extra: "75,00%",
+            base_foco: "T2",
+            corona: "NOK",
+            spaten: "NOK",
+            stella: "NOK",
+            cob_hdw: "NOK",
+            atendimento: "NÃO",
+            visita_quinzenal: "OK",
+            loja: "1"
+          },
+          {
+            eg: "67285-8",
+            rede: "Bahamas",
+            nome_fantasia: "Bahamas Emporio - Cascatinha",
+            coordenador: "Flávia",
+            supervisor_terceiro: "-",
+            gn: "-",
+            sl_sc: "-",
+            ae: "SIM",
+            m1: "54,10%",
+            m0: "39,30%",
+            vs_m1: "-14,80%",
+            gondola: "45,30%",
+            ponto_extra: "33,30%",
+            base_foco: "T1",
+            corona: "NOK",
+            spaten: "OK",
+            stella: "NOK",
+            cob_hdw: "OK",
+            atendimento: "SIM",
+            visita_quinzenal: "OK",
+            loja: "1"
+          }
         ];
-        
-        // Variáveis globais
-        let csvData = [];
-        let isSheetLoaded = false;
-        let isSheetLoading = false;
-        let typingTimeout = null;
 
-        // Funções de Animação do Subtítulo
-        function animateSubtitle() {
-            const subtitle = document.getElementById('subtitle-typing');
-            const messages = [
-                "🤖 IA Conversacional da DIRETA MG",
-                "📊 Análise Completa de 238 Estabelecimentos", 
-                "🎯 Consultas Inteligentes de Código EG",
-                "⚡ Sistema Avançado de Performance"
-            ];
-            let currentIndex = 0;
-            
-            function typeMessage(message) {
-                subtitle.textContent = '';
-                let i = 0;
-                
-                function typeChar() {
-                    if (i < message.length) {
-                        subtitle.textContent += message.charAt(i);
-                        i++;
-                        setTimeout(typeChar, 50);
-                    } else {
-                        setTimeout(() => {
-                            eraseMessage(message);
-                        }, 3000);
-                    }
-                }
-                
-                typeChar();
-            }
-            
-            function eraseMessage(message) {
-                let i = message.length;
-                
-                function eraseChar() {
-                    if (i > 0) {
-                        subtitle.textContent = message.substring(0, i - 1);
-                        i--;
-                        setTimeout(eraseChar, 30);
-                    } else {
-                        currentIndex = (currentIndex + 1) % messages.length;
-                        setTimeout(() => {
-                            typeMessage(messages[currentIndex]);
-                        }, 500);
-                    }
-                }
-                
-                eraseChar();
-            }
-            
-            setTimeout(() => {
-                typeMessage(messages[currentIndex]);
-            }, 1000);
-        }
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
 
-        // Função para carregar planilha real
-        async function loadSheetData() {
-            if (isSheetLoading || isSheetLoaded) return;
-            
-            isSheetLoading = true;
-            
+        // Componente React principal
+        function App() {
+          const [isWelcomeScreen, setIsWelcomeScreen] = React.useState(true);
+          const [messages, setMessages] = React.useState([]);
+          const [inputValue, setInputValue] = React.useState('');
+          const [isLoading, setIsLoading] = React.useState(false);
+          const [csvData, setCsvData] = React.useState([]);
+          const [isSheetLoaded, setIsSheetLoaded] = React.useState(false);
+          const [isTyping, setIsTyping] = React.useState(false);
+          const [currentTheme, setCurrentTheme] = React.useState('professional');
+          const [subtitleIndex, setSubtitleIndex] = React.useState(0);
+
+          // Refs
+          const messagesEndRef = React.useRef(null);
+          const inputRef = React.useRef(null);
+
+          // Subtítulos animados
+          const subtitles = [
+            "Sistema de Análise de Performance",
+            "238 Estabelecimentos Monitorados",
+            "IA Conversacional Avançada",
+            "Relatórios Estratégicos Automáticos"
+          ];
+
+          // Função para adicionar mensagens
+          const addMessage = (content, sender) => {
+            const newMessage = {
+              content,
+              sender,
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, newMessage]);
+          };
+
+          // Função para scroll automático
+          const scrollToBottom = () => {
+            if (messagesEndRef.current) {
+              messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+          };
+
+          React.useEffect(() => {
+            scrollToBottom();
+          }, [messages, isTyping]);
+
+          // Função para animação do subtítulo
+          React.useEffect(() => {
+            const interval = setInterval(() => {
+              setSubtitleIndex(prev => (prev + 1) % subtitles.length);
+            }, 4000);
+
+            return () => clearInterval(interval);
+          }, []);
+
+          // Função para carregar dados da planilha
+          const loadSheetData = async () => {
+            if (isSheetLoaded) return;
+
             try {
-                console.log('📊 Carregando planilha real...');
-                
-                const response = await fetch(GOOGLE_SHEET_CSV_URL, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'text/csv',
-                    },
-                    timeout: 15000
-                });
+              console.log('📊 Carregando planilha real...');
+              const response = await fetch(GOOGLE_SHEET_CSV_URL, {
+                method: 'GET',
+                mode: 'cors',
+                headers: { 'Accept': 'text/csv' }
+              });
 
-                if (!response.ok) {
-                    throw new Error(`Erro de rede: ${response.statusText}`);
-                }
+              if (!response.ok) {
+                throw new Error(`Erro de rede: ${response.statusText}`);
+              }
 
-                const csvText = await response.text();
+              const csvText = await response.text();
+              
+              if (csvText && csvText.length > 100 && !csvText.startsWith('<') && !csvText.toLowerCase().includes('error')) {
+                const parsedData = parseCSV(csvText);
                 
-                if (csvText && csvText.length > 100 && !csvText.startsWith('<') && !csvText.toLowerCase().includes('error')) {
-                    const allRows = parseCSV(csvText);
+                if (parsedData.length > 1) {
+                  const processedData = parsedData.slice(1).map(row => {
+                    const obj = {};
+                    const headers = parsedData[0];
                     
-                    if (allRows.length > 1) {
-                        // Mapear dados da planilha real
-                        csvData = allRows.slice(1).map(row => {
-                            const obj = {};
-                            const headers = allRows[0];
-                            
-                            headers.forEach((header, index) => {
-                                const key = header.trim().toLowerCase();
-                                if (key === 'eg') obj.eg = row[index] || '';
-                                else if (key === 'nome fantasia') obj.nome_fantasia = row[index] || '';
-                                else if (key === 'rede') obj.rede = row[index] || '';
-                                else if (key === 'coordenador') obj.coordenador = row[index] || '';
-                                else if (key === 'supervisor terceiro') obj.supervisor_terceiro = row[index] || '';
-                                else if (key === 'gn') obj.gn = row[index] || '';
-                                else if (key === 'sl/sc') obj.sl_sc = row[index] || '';
-                                else if (key === 'ae') obj.ae = row[index] || '';
-                                else if (key === 'm-1') obj.m1 = row[index] || '';
-                                else if (key === 'm0') obj.m0 = row[index] || '';
-                                else if (key === 'vs m-1') obj.vs_m1 = row[index] || '';
-                                else if (key === 'gôndola') obj.gondola = row[index] || '';
-                                else if (key === 'ponto extra') obj.ponto_extra = row[index] || '';
-                                else if (key === 'base foco') obj.base_foco = row[index] || '';
-                                else if (key === 'corona') obj.corona = row[index] || '';
-                                else if (key === 'spaten') obj.spaten = row[index] || '';
-                                else if (key === 'stella') obj.stella = row[index] || '';
-                                else if (key === 'cob hdw') obj.cob_hdw = row[index] || '';
-                                else if (key === 'atendimento') obj.atendimento = row[index] || '';
-                                else if (key === 'visita quinzenal') obj.visita_quinzenal = row[index] || '';
-                                else if (key === 'loja') obj.loja = row[index] || '';
-                            });
-                            
-                            return obj;
-                        }).filter(item => item.eg && item.eg.trim() !== '');
-                        
-                        isSheetLoaded = true;
-                        console.log(`✅ Planilha carregada: ${csvData.length} estabelecimentos`);
-                        
-                        const chatStatus = document.getElementById('chat-status');
-                        chatStatus.textContent = `${csvData.length} estabelecimentos carregados!`;
-                        
-                        return;
-                    }
+                    headers.forEach((header, index) => {
+                      const key = header.trim().toLowerCase();
+                      if (key === 'eg') {
+                        obj.eg = (row[index] || '').trim();
+                        console.log('📋 Coluna EG encontrada:', obj.eg);
+                      } else if (key === 'nome fantasia') {
+                        obj.nome_fantasia = row[index] || '';
+                      } else if (key === 'rede') {
+                        obj.rede = row[index] || '';
+                      } else if (key === 'coordenador') {
+                        obj.coordenador = row[index] || '';
+                      } else if (key === 'supervisor terceiro') {
+                        obj.supervisor_terceiro = row[index] || '';
+                      } else if (key === 'gn') {
+                        obj.gn = row[index] || '';
+                      } else if (key === 'sl/sc') {
+                        obj.sl_sc = row[index] || '';
+                      } else if (key === 'ae') {
+                        obj.ae = row[index] || '';
+                      } else if (key === 'm-1') {
+                        obj.m1 = row[index] || '';
+                      } else if (key === 'm0') {
+                        obj.m0 = row[index] || '';
+                      } else if (key === 'vs m-1') {
+                        obj.vs_m1 = row[index] || '';
+                      } else if (key === 'gôndola') {
+                        obj.gondola = row[index] || '';
+                      } else if (key === 'ponto extra') {
+                        obj.ponto_extra = row[index] || '';
+                      } else if (key === 'base foco') {
+                        obj.base_foco = row[index] || '';
+                      } else if (key === 'corona') {
+                        obj.corona = row[index] || '';
+                      } else if (key === 'spaten') {
+                        obj.spaten = row[index] || '';
+                      } else if (key === 'stella') {
+                        obj.stella = row[index] || '';
+                      } else if (key === 'cob hdw') {
+                        obj.cob_hdw = row[index] || '';
+                      } else if (key === 'atendimento') {
+                        obj.atendimento = row[index] || '';
+                      } else if (key === 'visita quinzenal') {
+                        obj.visita_quinzenal = row[index] || '';
+                      } else if (key === 'loja') {
+                        obj.loja = row[index] || '';
+                      }
+                    });
+                    
+                    return obj;
+                  }).filter(item => item.eg && item.eg.trim() !== '');
+                  
+                  setCsvData(processedData);
+                  setIsSheetLoaded(true);
+                  console.log(`✅ Planilha carregada: ${processedData.length} estabelecimentos`);
+                  return;
                 }
-                
-                throw new Error("Dados inválidos ou planilha vazia");
-                
+              }
+              
+              throw new Error("Dados inválidos ou planilha vazia");
+              
             } catch (error) {
-                console.warn('⚠️ Erro ao carregar planilha, usando dados de fallback:', error.message);
-                
-                // Usar dados de fallback
-                csvData = [...FALLBACK_DATA];
-                isSheetLoaded = true;
-                
-                const chatStatus = document.getElementById('chat-status');
-                chatStatus.textContent = `${csvData.length} estabelecimentos (modo offline)`;
-            } finally {
-                isSheetLoading = false;
+              console.warn('⚠️ Erro ao carregar planilha, usando dados de fallback:', error.message);
+              setCsvData([...FALLBACK_DATA]);
+              setIsSheetLoaded(true);
             }
-        }
+          };
 
-        // Função parseCSV robusta
-        function parseCSV(text) {
+          // Função parseCSV robusta
+          const parseCSV = (text) => {
             const lines = [];
             const rawLines = text.trim().split('\n');
             
             for (const line of rawLines) {
-                const row = [];
-                let cell = '';
-                let inQuote = false;
-                const cleanLine = line.replace(/\r$/, '');
-                
-                for (let i = 0; i < cleanLine.length; i++) {
-                    const char = cleanLine[i];
-                    if (char === '"') {
-                        if (inQuote && cleanLine[i + 1] === '"') {
-                            cell += '"';
-                            i++;
-                        } else {
-                            inQuote = !inQuote;
-                        }
-                    } else if (char === ',' && !inQuote) {
-                        row.push(cell.trim());
-                        cell = '';
-                    } else {
-                        cell += char;
-                    }
+              const row = [];
+              let cell = '';
+              let inQuote = false;
+              const cleanLine = line.replace(/\r$/, '');
+              
+              for (let i = 0; i < cleanLine.length; i++) {
+                const char = cleanLine[i];
+                if (char === '"') {
+                  if (inQuote && cleanLine[i + 1] === '"') {
+                    cell += '"';
+                    i++;
+                  } else {
+                    inQuote = !inQuote;
+                  }
+                } else if (char === ',' && !inQuote) {
+                  row.push(cell.trim());
+                  cell = '';
+                } else {
+                  cell += char;
                 }
-                row.push(cell.trim());
-                lines.push(row);
+              }
+              row.push(cell.trim());
+              lines.push(row);
             }
             
             return lines;
-        }
+          };
 
-        // Função para buscar código EG
-        function findEstabelecimento(code) {
+          // Função para buscar estabelecimento
+          const findEstabelecimento = (code) => {
             const normalizedCode = code.trim().toUpperCase();
-            return csvData.find(estabelecimento => 
-                estabelecimento.eg.toUpperCase() === normalizedCode
-            );
-        }
-
-        // Função para adicionar mensagens
-        function addMessage(content, sender = 'bot') {
-            const messageContainer = document.getElementById('message-container');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = content.replace(/\n/g, '<br>');
-            messageContainer.appendChild(messageDiv);
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        // Função para mostrar typing indicator
-        function showTyping() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            const messageContainer = document.getElementById('message-container');
-            typingIndicator.style.display = 'block';
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        // Função para esconder typing indicator
-        function hideTyping() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            typingIndicator.style.display = 'none';
-        }
-
-        // Função para simular typing delay
-        function simulateTyping(callback, delay = 2000) {
-            showTyping();
+            console.log('🔍 Buscando código:', normalizedCode);
+            console.log('📊 Total de estabelecimentos:', csvData.length);
             
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                hideTyping();
-                callback();
-            }, delay);
-        }
+            if (csvData.length > 0) {
+              console.log('📝 Primeiros códigos disponíveis:', csvData.slice(0, 3).map(est => est.eg));
+            }
+            
+            const found = csvData.find(estabelecimento => {
+              const estabelecimentoCode = estabelecimento.eg.toUpperCase().trim();
+              console.log('🔄 Comparando:', estabelecimentoCode, '===', normalizedCode);
+              return estabelecimentoCode === normalizedCode;
+            });
+            
+            console.log('✅ Resultado da busca:', found);
+            return found;
+          };
 
-        // Função para buscar código EG
-        function findEstabelecimento(code) {
-            const normalizedCode = code.trim().toUpperCase();
-            return csvData.find(estabelecimento => 
-                estabelecimento.eg.toUpperCase() === normalizedCode
-            );
-        }
-
-        // IA LOCAL INTELIGENTE - SEMPRE FUNCIONA
-        function getIntelligentAnalysis(data, code) {
+          // Função para análise inteligente
+          const getIntelligentAnalysis = (data, code) => {
             const nome = data.nome_fantasia || 'Não informado';
             const rede = data.rede || 'Não informado';
             const ae = data.ae || '';
@@ -1237,6 +1096,7 @@
             const pontoExtra = data.ponto_extra || '';
             const coordenador = data.coordenador || 'Não informado';
             const sl_sc = data.sl_sc || '';
+            const gn = data.gn || '';
             const base_foco = data.base_foco || '';
             const corona = data.corona || '';
             const spaten = data.spaten || '';
@@ -1245,11 +1105,11 @@
             const atendimento = data.atendimento || '';
             const visita_quinzenal = data.visita_quinzenal || '';
             
-            // Converter valores numéricos se possível
+            // Converter valores numéricos
             const parsePercentage = (val) => {
-                if (!val || val === '') return 0;
-                const clean = val.replace('%', '').replace(',', '.');
-                return parseFloat(clean) || 0;
+              if (!val || val === '') return 0;
+              const clean = val.replace('%', '').replace(',', '.');
+              return parseFloat(clean) || 0;
             };
             
             const m0Value = parsePercentage(m0);
@@ -1263,27 +1123,27 @@
             
             // Análise POSITIVA
             if (vs_m1 && vs_m1Value > 0) {
-                positives.push(`📈 **Crescimento de ${vs_m1}** no período M0 vs M-1`);
+              positives.push(`📈 **Crescimento de ${vs_m1}** no período M0 vs M-1`);
             }
             
             if (m0 && m0Value > 60) {
-                positives.push(`🚀 **Performance M0 excelente** com ${m0}`);
+              positives.push(`🚀 **Performance M0 excelente** com ${m0}`);
             } else if (m0 && m0Value > 45) {
-                positives.push(`✅ **Performance M0 satisfatória** com ${m0}`);
+              positives.push(`✅ **Performance M0 satisfatória** com ${m0}`);
             }
             
             if (ae === 'SIM') {
-                positives.push(`⭐ **Atendimento Especial ativo** - Destaque no atendimento`);
+              positives.push(`⭐ **Atendimento Especial ativo** - Destaque no atendimento`);
             }
             
             if (gondola && gondolaValue > 50) {
-                positives.push(`🎯 **Gôndola excelente** com ${gondola}`);
+              positives.push(`🎯 **Gôndola excelente** com ${gondola}`);
             } else if (gondola && gondolaValue > 35) {
-                positives.push(`👍 **Gôndola boa** com ${gondola}`);
+              positives.push(`👍 **Gôndola boa** com ${gondola}`);
             }
             
             if (pontoExtra && pontoExtraValue > 50) {
-                positives.push(`💡 **Ponto Extra eficaz** com ${pontoExtra}`);
+              positives.push(`💡 **Ponto Extra eficaz** com ${pontoExtra}`);
             }
             
             if (corona === 'OK') positives.push(`✅ **Corona implementada** corretamente`);
@@ -1292,28 +1152,28 @@
             if (cob_hdw === 'OK') positives.push(`✅ **COB HDW implementado** corretamente`);
             
             if (visita_quinzenal === 'OK') {
-                positives.push(`📅 **Visitas quinzenais regulares** mantidas`);
+              positives.push(`📅 **Visitas quinzenais regulares** mantidas`);
             }
             
-            // Análise NEGATIVA e Oportunidades
+            // Análise NEGATIVA
             if (vs_m1 && vs_m1Value < 0) {
-                negatives.push(`⚠️ **Queda de ${Math.abs(vs_m1Value).toFixed(1)}%** no período vs M-1`);
+              negatives.push(`⚠️ **Queda de ${Math.abs(vs_m1Value).toFixed(1)}%** no período vs M-1`);
             }
             
             if (m0 && m0Value < 45) {
-                negatives.push(`🔻 **Performance M0 baixa** - apenas ${m0} (meta: 50%+)`);
+              negatives.push(`🔻 **Performance M0 baixa** - apenas ${m0} (meta: 50%+)`);
             }
             
             if (ae === 'NÃO') {
-                negatives.push(`📉 **Atendimento Especial inativo** - oportunidade de melhoria`);
+              negatives.push(`📉 **Atendimento Especial inativo** - oportunidade de melhoria`);
             }
             
             if (gondola && gondolaValue < 30) {
-                negatives.push(`❌ **Gôndola insuficiente** - apenas ${gondola} (meta: 50%+)`);
+              negatives.push(`❌ **Gôndola insuficiente** - apenas ${gondola} (meta: 50%+)`);
             }
             
             if (pontoExtra && pontoExtraValue < 30) {
-                negatives.push(`🚫 **Ponto Extra limitado** - apenas ${pontoExtra} (meta: 50%+)`);
+              negatives.push(`🚫 **Ponto Extra limitado** - apenas ${pontoExtra} (meta: 50%+)`);
             }
             
             if (corona === 'NOK') negatives.push(`❌ **Corona não implementada**`);
@@ -1323,25 +1183,25 @@
             
             if (atendimento === 'NÃO') negatives.push(`📋 **Atendimento em melhoria necessária**`);
             
-            // Recomendações inteligentes
+            // Recomendações
             if (vs_m1Value < 0) {
-                recommendations.push(`📋 **Plano de Recuperação**: Implementar estratégias para reverter a tendência negativa`);
+              recommendations.push(`📋 **Plano de Recuperação**: Implementar estratégias para reverter a tendência negativa`);
             }
             
             if (m0Value < 50) {
-                recommendations.push(`🎯 **Meta Performance**: Foco em atingir 50%+ pontos M0`);
+              recommendations.push(`🎯 **Meta Performance**: Foco em atingir 50%+ pontos M0`);
             }
             
             if (gondolaValue < 50) {
-                recommendations.push(`🏪 **Otimização Gôndola**: Revisar distribuição e produtos, meta 50%+`);
+              recommendations.push(`🏪 **Otimização Gôndola**: Revisar distribuição e produtos, meta 50%+`);
             }
             
             if (ae === 'NÃO') {
-                recommendations.push(`🤝 **Programa Especial**: Ativar Atendimento Especial AE`);
+              recommendations.push(`🤝 **Programa Especial**: Ativar Atendimento Especial AE`);
             }
             
             if (corona === 'NOK' || spaten === 'NOK' || stella === 'NOK') {
-                recommendations.push(`🍺 **Implementação Premium**: Resolver pendências Corona/Spaten/Stella`);
+              recommendations.push(`🍺 **Implementação Premium**: Resolver pendências Corona/Spaten/Stella`);
             }
             
             recommendations.push(`📞 **Acompanhamento**: Contatar coordenador ${coordenador} para planejamento`);
@@ -1355,31 +1215,31 @@
             response += `• <strong>SL/SC:</strong> ${sl_sc}<br>`;
             response += `• <strong>AE:</strong> ${ae}<br>`;
             response += `• <strong>M-1:</strong> ${m1} | <strong>M0:</strong> ${m0} | <strong>vs M-1:</strong> ${vs_m1}<br>`;
-            response += `• <strong>Gôndola:</strong> ${gondola} | <strong>Ponto Extra:</strong> ${pontoExtra}<br><br>`;
+            response += `• <strong>Gôndola:</strong> ${gondola} | <strong>GN:</strong> ${gn} | <strong>Ponto Extra:</strong> ${pontoExtra}<br><br>`;
             
             response += `<strong>✅ PONTOS FORTES (Positivos):</strong><br>`;
             if (positives.length > 0) {
-                positives.forEach(pos => {
-                    response += `${pos}<br>`;
-                });
+              positives.forEach(pos => {
+                response += `${pos}<br>`;
+              });
             } else {
-                response += `📋 Estabelecimento com base sólida, buscar incremento nos indicadores<br>`;
+              response += `📋 Estabelecimento com base sólida, buscar incremento nos indicadores<br>`;
             }
             response += `<br>`;
             
             response += `<strong>⚠️ OPORTUNIDADES (Pontos de Melhoria):</strong><br>`;
             if (negatives.length > 0) {
-                negatives.forEach(neg => {
-                    response += `${neg}<br>`;
-                });
+              negatives.forEach(neg => {
+                response += `${neg}<br>`;
+              });
             } else {
-                response += `🎉 Excelente performance! Todos os indicadores acima da média<br>`;
+              response += `🎉 Excelente performance! Todos os indicadores acima da média<br>`;
             }
             response += `<br>`;
             
             response += `<strong>💡 RECOMENDAÇÕES ESTRATÉGICAS:</strong><br>`;
             recommendations.forEach(rec => {
-                response += `${rec}<br>`;
+              response += `${rec}<br>`;
             });
             response += `<br>`;
             
@@ -1393,26 +1253,35 @@
             response += `<em>🤖 Análise DIRETA MG - Sistema Inteligente Raio-X Score 5</em>`;
             
             return response;
-        }
+          };
 
-        // Função para processar mensagens
-        async function processMessage(message) {
+          // Simular typing
+          const simulateTyping = (callback, delay = 2000) => {
+            setIsTyping(true);
+            setTimeout(() => {
+              setIsTyping(false);
+              callback();
+            }, delay);
+          };
+
+          // Processar mensagem
+          const processMessage = async (message) => {
             const messageLower = message.toLowerCase().trim();
             
-            // Verificar se é um código EG (padrão mais permissivo)
+            // Verificar se é um código EG
             const egPattern = /\d{2,6}-\d/;
             
             if (egPattern.test(message)) {
-                simulateTyping(() => {
-                    searchEstabelecimento(message);
-                }, 2500);
-                return;
+              simulateTyping(() => {
+                searchEstabelecimento(message);
+              }, 2500);
+              return;
             }
             
             // Comandos
             if (messageLower === '/ajuda' || messageLower === 'ajuda') {
-                simulateTyping(() => {
-                    addMessage(`<strong>💡 Comandos Disponíveis:</strong><br>
+              simulateTyping(() => {
+                addMessage(`<strong>💡 Comandos Disponíveis:</strong><br>
 • Digite um <strong>código EG</strong> (ex: 67285-8, 75668-7, 12345-6)<br>
 • <strong>/status</strong> para verificar status da base<br>
 • <strong>/dados</strong> para ver códigos disponíveis<br>
@@ -1423,103 +1292,100 @@
 • Recomendações estratégicas<br>
 • Próximos passos automáticos<br><br>
 <em>🚀 Sistema funcionando com análise completa!</em>`, 'bot');
-                }, 1200);
-                return;
+              }, 1200);
+              return;
             }
             
             if (messageLower === '/status' || messageLower === 'status') {
-                simulateTyping(() => {
-                    addMessage(`<strong>📊 Status do Sistema DIRETA MG:</strong><br>
+              simulateTyping(() => {
+                addMessage(`<strong>📊 Status do Sistema DIRETA MG:</strong><br>
 • Base de dados: ✅ <strong>${csvData.length} estabelecimentos carregados</strong><br>
 • Códigos EG: ✅ <strong>${csvData.length} códigos disponíveis</strong><br>
 • IA Análise: ✅ <strong>Automática - Sempre ativa</strong><br>
 • Interface: 🚀 <strong>Mobile-First</strong><br>
-• GIF Robô: 🤖 <strong>Funcionando perfeitamente</strong><br>
 • Sistema: ⚡ <strong>100% Operacional</strong><br><br>
 <strong>🎯 Códigos EG disponíveis para teste:</strong><br>
 ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><br>
 <em>DIRETA MG - Sistema funcionando com análise automática!</em>`, 'bot');
-                }, 1000);
-                return;
+              }, 1000);
+              return;
             }
 
             if (messageLower === '/dados' || messageLower === 'dados') {
-                simulateTyping(() => {
-                    let codesList = `<strong>📋 Códigos EG Disponíveis (${csvData.length}):</strong><br><br>`;
-                    csvData.forEach(est => {
-                        codesList += `<strong>${est.eg}</strong> - ${est.nome_fantasia} (${est.rede})<br>`;
-                    });
-                    codesList += `<br><em>💡 Digite qualquer código EG para análise completa!</em>`;
-                    
-                    addMessage(codesList, 'bot');
-                }, 800);
-                return;
+              simulateTyping(() => {
+                let codesList = `<strong>📋 Códigos EG Disponíveis (${csvData.length}):</strong><br><br>`;
+                csvData.forEach(est => {
+                  codesList += `<strong>${est.eg}</strong> - ${est.nome_fantasia} (${est.rede})<br>`;
+                });
+                codesList += `<br><em>💡 Digite qualquer código EG para análise completa!</em>`;
+                
+                addMessage(codesList, 'bot');
+              }, 800);
+              return;
             }
             
-            // IA conversacional para outras mensagens
+            // IA conversacional
             let response = '';
             
             // Saudações
-            if (messageLower.includes('oi') || messageLower.includes('olá') || messageLower.includes('hello') || messageLower.includes('hey')) {
-                response = `🤖 **Olá! Robô DIRETA MG online e funcionando!**
-                
-✅ **Sistema 100% operacional:**
+            if (messageLower.includes('oi') || messageLower.includes('olá') || messageLower.includes('hello')) {
+              response = `🤖 **Bem-vindo ao Raio-X Score 5!**
+              
+Sou o assistente de IA da DIRETA MG, especializado em análise de performance de estabelecimentos.
+
+🚀 **Sistema operacional:**
 • Base de dados com ${csvData.length} estabelecimentos
 • IA análise automática ativa
 • ${csvData.length} códigos EG disponíveis
 • Análises completas (positivos + negativos)
 
-🚀 **Como posso ajudar:**
-• Digite um código EG (ex: 67285-8) para análise completa
+💡 **Como posso ajudar:**
+• Digite um código EG para análise profissional
 • Use /ajuda para ver comandos
 • /dados para ver códigos disponíveis
 
-💡 **Experimente agora:** Digite "${csvData[0].eg}" para ver análise completa com dados positivos e negativos!`;
+🎯 **Experimente:** Digite "${csvData[0]?.eg || '67285-8'}" para ver análise completa!`;
             }
-            // Perguntas sobre funcionamento
             else if (messageLower.includes('como') && (messageLower.includes('vai') || messageLower.includes('está'))) {
-                response = `😊 **Estou funcionando PERFEITAMENTE!**
+              response = `😊 **Sistema funcionando perfeitamente!**
 
-🚀 **Status DIRETA MG - 100% Online:**
-• ✅ IA ativada e analisando automaticamente
-• ✅ Base de dados com ${csvData.length} estabelecimentos
-• ✅ Análises completas (positivos + negativos) ativas
-• ✅ ${csvData.length} códigos EG processando normalmente
+⚡ **Status DIRETA MG:**
+• ✅ IA ativada e processando dados
+• ✅ Base de ${csvData.length} estabelecimentos ativa
+• ✅ Análises automáticas funcionando
+• ✅ ${csvData.length} códigos EG disponíveis
 
 🎯 **Funcionalidades ativas:**
 • Análise automática de códigos EG
 • Identificação de pontos positivos
-• Detecção de oportunidades de melhoria
-• Recomendações estratégicas inteligentes
+• Detecção de oportunidades
+• Recomendações estratégicas
 
-💡 **Teste agora:** Digite "${csvData[0].eg}" e veja a análise completa aparecer!`;
+🧠 **Teste o sistema:** Digite "${csvData[0]?.eg || '67285-8'}" para ver a análise em ação!`;
             }
-            // Teste do sistema
-            else if (messageLower.includes('teste') || messageLower.includes('funciona') || messageLower.includes('testar')) {
-                response = `✅ **TESTE CONFIRMADO - SISTEMA 100% OPERACIONAL!**
+            else if (messageLower.includes('teste') || messageLower.includes('funciona')) {
+              response = `✅ **TESTE CONFIRMADO - Sistema 100% Operacional!**
 
-🧪 **Resultados dos testes:**
+🧪 **Verificação completa:**
 • ✅ Interface carregada e responsiva
-• ✅ Botão "Iniciar Conversa" funcional  
-• ✅ IA respondendo e analisando
-• ✅ Base de dados com ${csvData.length} estabelecimentos ativa
-• ✅ ${csvData.length} códigos EG processando
-• ✅ Análises automáticas (positivos + negativos) ativas
-• ✅ GIF robô animado funcionando
+• ✅ Botão "Iniciar Conversa" funcionando
+• ✅ IA respondendo normalmente
+• ✅ Base de ${csvData.length} estabelecimentos ativa
+• ✅ Análises automáticas operacionais
+• ✅ Sistema DIRETA MG online
 
-🎯 **Status:** TODOS OS SISTEMAS DIRETA MG FUNCIONANDO
+🎯 **Status:** TODOS OS SISTEMAS FUNCIONANDO NORMALMENTE
 
-🚀 **Demonstração ativa:** Digite "${csvData[0].eg}" para ver análise completa!`;
+🚀 **Demonstração:** Digite "${csvData[0]?.eg || '67285-8'}" para ver a análise completa!`;
             }
-            // Sobre análises
-            else if (messageLower.includes('análise') || messageLower.includes('analise') || messageLower.includes('dados')) {
-                response = `📊 **SISTEMA DE ANÁLISE DIRETA MG:**
+            else if (messageLower.includes('análise') || messageLower.includes('analise')) {
+              response = `📊 **SISTEMA DE ANÁLISE DIRETA MG:**
 
-🤖 **IA Automática funciona assim:**
+🤖 **Como funciona:**
 • Recebe código EG → Busca dados → Analisa automaticamente
 • Mostra **PONTOS POSITIVOS** (pontos fortes)
 • Mostra **PONTOS NEGATIVOS** (oportunidades de melhoria)
-• Fornece **RECOMENDAÇÕES estratégicas**
+• Fornece **RECOMENDAÇÕES** estratégicos
 • Sugere **PRÓXIMOS PASSOS** inteligentes
 
 ✅ **O que a IA analisa:**
@@ -1528,13 +1394,12 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
 • Atendimento especial e evolução
 • Coordenadores e supervisionamento
 
-💡 **Teste na prática:** Digite qualquer código EG e veja a magia acontecer!
+💡 **Teste na prática:** Digite qualquer código EG e veja a análise!
 
 🎯 **Códigos para testar:** ${csvData.slice(0, 3).map(est => est.eg).join(', ')}`;
             }
-            // Sobre a DIRETA MG
-            else if (messageLower.includes('diretamg') || messageLower.includes('sobre') || messageLower.includes('sistema')) {
-                response = `🏢 **DIRETA MG - RAIO-X SCORE 5**
+            else if (messageLower.includes('diretamg') || messageLower.includes('sobre')) {
+              response = `🏢 **DIRETA MG - RAIO-X SCORE 5**
 
 🎯 **Especialização:**
 • Análise de performance de estabelecimentos
@@ -1542,34 +1407,26 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
 • ${csvData.length} códigos EG processados automaticamente
 • IA analisa POSITIVOS e NEGATIVOS em tempo real
 
-🚀 **Características:**
+🚀 **Características principais:**
 • 🤖 IA conversacional avançada
 • 📊 Análises automáticas instantâneas
-• 📱 Interface mobile-first
-• 🎯 Sistema focado em performance
+• 📱 Interface mobile-first responsiva
+• 🎯 Sistema focado em performance`;
 
-💡 **Como usar:**
-1. Digite um código EG (ex: 67285-8)
-2. Veja dados completos do estabelecimento
-3. IA faz análise automática de positivos/negativos
-4. Receba recomendações estratégicas
-
-🚀 **DIRETA MG - Especialista em performance de estabelecimentos!`;
             }
-            // Resposta inteligente padrão
             else {
-                response = `🤖 **Robô DIRETA MG Respondeu!**
+              response = `🤖 **Robô DIRETA MG Respondeu!**
 
 Entendi sua mensagem: "${message}"
 
 🧠 **IA DIRETA MG processando:**
-Compreendo e estou aqui para ajudar com análises completas de estabelecimentos de estabelecimentos!
+Compreendo e estou aqui para ajudar com análises completas de estabelecimentos!
 
 💡 **Como posso ajudar especificamente:**
 • **${csvData.length} códigos EG disponíveis** → Dados completos + análise IA (positivos + negativos)
-• **/ajuda** → Ver todos os comandos e funcionalidades
+• **/ajuda** → Ver todos os comandos
 • **/dados** → Ver códigos EG disponíveis
-• **/status** → Verificar sistema completo
+• **/status** → Verificar sistema
 
 🎯 **Funcionalidade principal:** Digite qualquer código EG e a IA fará análise automática!
 
@@ -1579,17 +1436,17 @@ Compreendo e estou aqui para ajudar com análises completas de estabelecimentos 
             }
             
             simulateTyping(() => {
-                addMessage(response.replace(/\n/g, '<br>'), 'bot');
+              addMessage(response.replace(/\n/g, '<br>'), 'bot');
             }, 2000);
-        }
+          };
 
-        // Função para buscar estabelecimento com análise completa
-        function searchEstabelecimento(code) {
+          // Buscar estabelecimento
+          const searchEstabelecimento = (code) => {
             const data = findEstabelecimento(code);
             
             if (data) {
-                // Mostrar dados básicos primeiro
-                addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
+              // Dados básicos primeiro
+              addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
 <strong>📊 DADOS DO ESTABELECIMENTO:</strong><br>
 • <strong>EG:</strong> ${data.eg}<br>
 • <strong>Nome:</strong> ${data.nome_fantasia}<br>
@@ -1613,15 +1470,15 @@ Compreendo e estou aqui para ajudar com análises completas de estabelecimentos 
 • <strong>Visita:</strong> ${data.visita_quinzenal}<br>
 • <strong>Loja:</strong> ${data.loja}<br><br>
 <em>🚀 Agora vou fazer análise IA completa (positivos + negativos + recomendações)...</em>`, 'bot');
-                
-                // Análise automática após mostrar dados
-                setTimeout(() => {
-                    const analysis = getIntelligentAnalysis(data, code);
-                    addMessage(analysis, 'bot');
-                }, 1500);
-                
+              
+              // Análise após mostrar dados
+              setTimeout(() => {
+                const analysis = getIntelligentAnalysis(data, code);
+                addMessage(analysis, 'bot');
+              }, 1500);
+              
             } else {
-                addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
+              addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
 • Verifique se o código está correto<br>
 • Use <strong>/dados</strong> para ver códigos disponíveis<br>
 • Base de dados: <strong>${csvData.length} estabelecimentos carregados</strong><br><br>
@@ -1629,20 +1486,14 @@ Compreendo e estou aqui para ajudar com análises completas de estabelecimentos 
 ${csvData.slice(0, 3).map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><br>
 <em>DIRETA MG - Sistema de consultas inteligente</em>`, 'bot');
             }
-        }
+          };
 
-        // Event listeners para navegação
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Tela de boas-vindas
-            document.getElementById('start-chat-button').addEventListener('click', () => {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('phone-container').style.display = 'flex';
-                
-                // Mensagem de boas-vindas
-                setTimeout(() => {
-                    addMessage(`<strong>🚀 Bem-vindo ao Raio-X Score 5!</strong><br><br>
-Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em análise de performance de estabelecimentos.<br><br>
+          // Iniciar chat
+          const startChat = () => {
+            setIsWelcomeScreen(false);
+            setTimeout(() => {
+              addMessage(`<strong>🚀 Bem-vindo ao Raio-X Score 5!</strong><br><br>
+Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em análise de performance de estabelecimentos.<br><br>
 • Digite um <strong>código EG</strong> (ex: 105270-5, 75668-7, 67285-8)<br>
 • Use <strong>/ajuda</strong> para ver todos os comandos<br>
 • <strong>/dados</strong> para ver códigos disponíveis<br>
@@ -1653,433 +1504,504 @@ Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em 
 • Recomendações <strong>ESTRATÉGICAS</strong><br>
 • Próximos <strong>PASSOS</strong> inteligentes<br><br>
 Como posso ajudá-lo hoje?`, 'bot');
-                }, 500);
-                
-                // Carregar planilha em background
-                setTimeout(() => {
-                    loadSheetData();
-                }, 1000);
-            });
-
-            // Fechar chat
-            document.getElementById('close-chat-button').addEventListener('click', () => {
-                document.getElementById('phone-container').style.display = 'none';
-                document.getElementById('welcome-screen').style.display = 'flex';
-            });
-
-            // Form do chat
-            const chatForm = document.getElementById('chat-form');
-            const messageInput = document.getElementById('message-input');
-
-            chatForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const message = messageInput.value.trim();
-                
-                if (message) {
-                    addMessage(`<strong>👤 Você:</strong> ${message}`, 'user');
-                    await processMessage(message);
-                    messageInput.value = '';
-                }
-            });
-
-            // Enter no input
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    chatForm.dispatchEvent(new Event('submit'));
-                }
-            });
-
-            // Inicializar animações
-            animateSubtitle();
-        });
-
-        // ==================
-        // ULTRA-MODERN FEATURES
-        // ==================
-        
-        // Sistema de Partículas Neon
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.mouse = { x: 0, y: 0 };
-                this.colors = [
-                    'rgba(245, 158, 11, 0.8)',
-                    'rgba(251, 191, 36, 0.8)', 
-                    'rgba(252, 211, 77, 0.8)',
-                    'rgba(229, 231, 235, 0.6)',
-                    'rgba(156, 163, 175, 0.7)',
-                    'rgba(107, 114, 128, 0.8)',
-                    'rgba(255, 255, 255, 0.4)',
-                    'rgba(245, 158, 11, 0.6)'
-                ];
-                
-                this.init();
-                this.bindEvents();
-                this.animate();
-            }
+            }, 500);
             
-            init() {
-                this.resize();
-                this.createParticles();
-            }
-            
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            createParticles() {
-                const particleCount = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 15000));
-                
-                for (let i = 0; i < particleCount; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        size: Math.random() * 3 + 1,
-                        speedX: Math.random() * 3 - 1.5,
-                        speedY: Math.random() * 3 - 1.5,
-                        color: this.colors[Math.floor(Math.random() * this.colors.length)],
-                        opacity: Math.random() * 0.5 + 0.2,
-                        glowIntensity: Math.random() * 0.8 + 0.2
-                    });
-                }
-            }
-            
-            bindEvents() {
-                window.addEventListener('resize', () => this.resize());
-                
-                document.addEventListener('mousemove', (e) => {
-                    this.mouse.x = e.clientX;
-                    this.mouse.y = e.clientY;
-                });
-            }
-            
-            updateParticles() {
-                this.particles.forEach((particle, index) => {
-                    // Movimento suave com efeito magnético
-                    const dx = this.mouse.x - particle.x;
-                    const dy = this.mouse.y - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        const force = (100 - distance) / 100;
-                        particle.speedX += (dx / distance) * force * 0.02;
-                        particle.speedY += (dy / distance) * force * 0.02;
-                    }
-                    
-                    // Aplicar fricção
-                    particle.speedX *= 0.98;
-                    particle.speedY *= 0.98;
-                    
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-                    
-                    // Rebater nas bordas
-                    if (particle.x < 0 || particle.x > this.canvas.width) {
-                        particle.speedX *= -0.8;
-                        particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
-                    }
-                    if (particle.y < 0 || particle.y > this.canvas.height) {
-                        particle.speedY *= -0.8;
-                        particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
-                    }
-                    
-                    // Pulsação suave
-                    particle.pulse = Math.sin(Date.now() * 0.005 + index) * 0.3 + 0.7;
-                });
-            }
-            
-            drawParticles() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(particle => {
-                    this.ctx.save();
-                    
-                    // Efeito de brilho
-                    this.ctx.shadowBlur = 20;
-                    this.ctx.shadowColor = particle.color;
-                    
-                    // Desenhar partícula
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size * particle.pulse, 0, Math.PI * 2);
-                    this.ctx.fillStyle = particle.color;
-                    this.ctx.globalAlpha = particle.opacity;
-                    this.ctx.fill();
-                    
-                    // Linha conectiva para partículas próximas
-                    this.particles.forEach((otherParticle, otherIndex) => {
-                        if (index !== otherIndex) {
-                            const dx = particle.x - otherParticle.x;
-                            const dy = particle.y - otherParticle.y;
-                            const distance = Math.sqrt(dx * dx + dy * dy);
-                            
-                            if (distance < 100) {
-                                this.ctx.beginPath();
-                                this.ctx.moveTo(particle.x, particle.y);
-                                this.ctx.lineTo(otherParticle.x, otherParticle.y);
-                                this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
-                                this.ctx.lineWidth = 0.5;
-                                this.ctx.stroke();
-                            }
-                        }
-                    });
-                    
-                    this.ctx.restore();
-                });
-            }
-            
-            animate() {
-                this.updateParticles();
-                this.drawParticles();
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-        
-        // Sistema de Theme Toggle
-        class ThemeManager {
-            constructor() {
-                this.currentTheme = 'dark';
-                this.themes = {
-                    dark: {
-                        name: 'Escuro',
-                        icon: '🌙',
-                        gradients: ['#f59e0b', '#d97706', '#fbbf24', '#fcd34d', '#e5e7eb', '#9ca3af'],
-                        cssVars: {
-                            '--glass-bg': 'rgba(255, 255, 255, 0.15)',
-                            '--glass-border': 'rgba(255, 255, 255, 0.3)',
-                            '--text-primary': '#ffffff',
-                            '--text-secondary': 'rgba(255, 255, 255, 0.85)'
-                        }
-                    },
-                    light: {
-                        name: 'Claro',
-                        icon: '☀️',
-                        gradients: ['#ff9a9e', '#fecfef', '#ffecd2', '#fcb69f', '#a8edea', '#fed6e3'],
-                        cssVars: {
-                            '--glass-bg': 'rgba(0, 0, 0, 0.1)',
-                            '--glass-border': 'rgba(0, 0, 0, 0.2)',
-                            '--text-primary': '#2d3748',
-                            '--text-secondary': 'rgba(0, 0, 0, 0.7)'
-                        }
-                    },
-                    neon: {
-                        name: 'Neon',
-                        icon: '⚡',
-                        gradients: ['#00ff41', '#0080ff', '#ff0080', '#8000ff', '#ffff00', '#00ffff'],
-                        cssVars: {
-                            '--glass-bg': 'rgba(0, 255, 65, 0.1)',
-                            '--glass-border': 'rgba(0, 255, 65, 0.3)',
-                            '--text-primary': '#ffffff',
-                            '--text-secondary': 'rgba(255, 255, 255, 0.9)'
-                        }
-                    }
-                };
-                
-                this.init();
-            }
-            
-            init() {
-                // Detectar preferência do sistema
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    this.currentTheme = 'dark';
-                } else {
-                    this.currentTheme = 'light';
-                }
-                
-                // Carregar preferência salva
-                const saved = localStorage.getItem('raio-x-theme');
-                if (saved && this.themes[saved]) {
-                    this.currentTheme = saved;
-                }
-                
-                this.applyTheme();
-                this.bindEvents();
-            }
-            
-            bindEvents() {
-                const toggle = document.getElementById('theme-toggle');
-                toggle.addEventListener('click', () => this.cycleTheme());
-                
-                // Detectar mudanças no tema do sistema
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                    if (!localStorage.getItem('raio-x-theme')) {
-                        this.currentTheme = e.matches ? 'dark' : 'light';
-                        this.applyTheme();
-                    }
-                });
-            }
-            
-            cycleTheme() {
-                const themes = Object.keys(this.themes);
-                const currentIndex = themes.indexOf(this.currentTheme);
-                const nextIndex = (currentIndex + 1) % themes.length;
-                
-                this.currentTheme = themes[nextIndex];
-                this.applyTheme();
-                localStorage.setItem('raio-x-theme', this.currentTheme);
-                
-                // Animação de transição
-                document.body.style.transition = 'background 1s ease-in-out';
-                setTimeout(() => {
-                    document.body.style.transition = '';
-                }, 1000);
-            }
-            
-            applyTheme() {
-                const theme = this.themes[this.currentTheme];
-                
-                // Aplicar gradientes de fundo
-                const gradientStr = `linear-gradient(-45deg, ${theme.gradients.join(', ')})`;
-                document.body.style.background = gradientStr;
-                document.body.style.backgroundSize = '600% 600%';
-                
-                // Aplicar variáveis CSS
-                Object.entries(theme.cssVars).forEach(([property, value]) => {
-                    document.documentElement.style.setProperty(property, value);
-                });
-                
-                // Atualizar ícone
-                document.getElementById('theme-icon').textContent = theme.icon;
-                
-                console.log(`🎨 Tema aplicado: ${theme.name}`);
-            }
-        }
-        
-        // Sistema de Microinterações
-        class InteractionSystem {
-            constructor() {
-                this.init();
-            }
-            
-            init() {
-                this.addRippleEffect();
-                this.addMagneticElements();
-                this.addBreathingAnimations();
-                this.addParallaxEffects();
-                this.enhanceHoverEffects();
-            }
-            
-            addRippleEffect() {
-                document.addEventListener('click', (e) => {
-                    const target = e.target.closest('button, .interactive');
-                    if (!target) return;
-                    
-                    const ripple = document.createElement('span');
-                    const rect = target.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
-                    
-                    target.style.position = 'relative';
-                    target.style.overflow = 'hidden';
-                    target.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 600);
-                });
-            }
-            
-            addMagneticElements() {
-                const magneticElements = document.querySelectorAll('.magnetic-element, button');
-                
-                magneticElements.forEach(element => {
-                    element.addEventListener('mousemove', (e) => {
-                        const rect = element.getBoundingClientRect();
-                        const x = e.clientX - rect.left - rect.width / 2;
-                        const y = e.clientY - rect.top - rect.height / 2;
-                        
-                        element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.02)`;
-                    });
-                    
-                    element.addEventListener('mouseleave', () => {
-                        element.style.transform = 'translate(0, 0) scale(1)';
-                    });
-                });
-            }
-            
-            addBreathingAnimations() {
-                const breathingElements = document.querySelectorAll('.breathing, .robot-image, .welcome-title');
-                breathingElements.forEach(element => {
-                    element.classList.add('breathing');
-                });
-            }
-            
-            addParallaxEffects() {
-                window.addEventListener('scroll', () => {
-                    const scrolled = window.pageYOffset;
-                    const parallaxElements = document.querySelectorAll('.parallax');
-                    
-                    parallaxElements.forEach(element => {
-                        const speed = element.dataset.speed || 0.5;
-                        element.style.transform = `translateY(${scrolled * speed}px)`;
-                    });
-                });
-            }
-            
-            enhanceHoverEffects() {
-                const buttons = document.querySelectorAll('button');
-                buttons.forEach(button => {
-                    button.addEventListener('mouseenter', () => {
-                        button.style.transform = 'translateY(-2px) scale(1.02)';
-                        button.style.filter = 'brightness(1.1) contrast(1.1)';
-                    });
-                    
-                    button.addEventListener('mouseleave', () => {
-                        button.style.transform = 'translateY(0) scale(1)';
-                        button.style.filter = 'brightness(1) contrast(1)';
-                    });
-                });
-            }
-        }
-        
-        // Inicialização dos Sistemas Modernos
-        document.addEventListener('DOMContentLoaded', () => {
-            // Aguardar sistema principal
+            // Carregar dados em background
             setTimeout(() => {
-                // Inicializar sistemas ultra-modernos
-                new ParticleSystem();
-                new ThemeManager();
-                new InteractionSystem();
+              loadSheetData();
+            }, 1000);
+          };
+
+          // Enviar mensagem
+          const handleSubmit = async (e) => {
+            e.preventDefault();
+            const message = inputValue.trim();
+            
+            if (message) {
+              addMessage(`<strong>👤 Você:</strong> ${message}`, 'user');
+              await processMessage(message);
+              setInputValue('');
+            }
+          };
+
+          // Enter no input
+          const handleKeyPress = (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSubmit(e);
+            }
+          };
+
+          // Toggle tema
+          const toggleTheme = () => {
+            const themes = ['light', 'dark', 'professional'];
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            setCurrentTheme(themes[nextIndex]);
+          };
+
+          // Sistema de Partículas
+          const initializeParticleSystem = () => {
+            const canvas = document.getElementById('particles-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            let particles = [];
+            const mouse = { x: 0, y: 0 };
+            
+            const getThemeColors = () => {
+              if (currentTheme === 'light') {
+                return [
+                  'rgba(59, 130, 246, 0.6)',
+                  'rgba(16, 185, 129, 0.4)',
+                  'rgba(245, 158, 11, 0.5)',
+                  'rgba(107, 114, 128, 0.3)'
+                ];
+              } else if (currentTheme === 'dark') {
+                return [
+                  'rgba(96, 165, 250, 0.7)',
+                  'rgba(251, 191, 36, 0.6)',
+                  'rgba(34, 197, 94, 0.5)',
+                  'rgba(148, 163, 184, 0.4)'
+                ];
+              } else {
+                return [
+                  'rgba(30, 64, 175, 0.6)',
+                  'rgba(245, 158, 11, 0.5)',
+                  'rgba(100, 116, 139, 0.4)',
+                  'rgba(16, 185, 129, 0.3)'
+                ];
+              }
+            };
+
+            const resize = () => {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+            };
+
+            const createParticles = () => {
+              const particleCount = Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 20000));
+              const colors = getThemeColors();
+              
+              particles = [];
+              for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                  x: Math.random() * canvas.width,
+                  y: Math.random() * canvas.height,
+                  size: Math.random() * 3 + 1,
+                  speedX: (Math.random() - 0.5) * 2,
+                  speedY: (Math.random() - 0.5) * 2,
+                  color: colors[Math.floor(Math.random() * colors.length)],
+                  opacity: Math.random() * 0.5 + 0.2,
+                  pulse: 1
+                });
+              }
+            };
+
+            const updateParticles = () => {
+              particles.forEach(particle => {
+                // Movimento suave com efeito magnético
+                const dx = mouse.x - particle.x;
+                const dy = mouse.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                console.log('🚀 Sistema Ultra-Moderno Ativado!');
-                console.log('✨ Partículas Neon: ✅');
-                console.log('🎨 Theme Toggle: ✅');
-                console.log('🔮 Microinterações: ✅');
-                console.log('🎭 Efeitos Especiais: ✅');
-            }, 100);
-        });
-        
-        // Performance Optimization
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in-up');
+                if (distance < 80) {
+                  const force = (80 - distance) / 80;
+                  particle.speedX += (dx / distance) * force * 0.01;
+                  particle.speedY += (dy / distance) * force * 0.01;
                 }
-            });
-        });
-        
-        // Aplicar Intersection Observer a elementos importantes
-        document.querySelectorAll('.welcome-screen, .phone-container').forEach(el => {
-            observer.observe(el);
-        });
-        
-        // Reduced Motion Support
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.style.setProperty('--transition-smooth', 'all 0.1s ease');
-            console.log('♿ Reduced Motion Mode Ativado');
+                
+                // Aplicar fricção
+                particle.speedX *= 0.99;
+                particle.speedY *= 0.99;
+                
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Rebater nas bordas
+                if (particle.x < 0 || particle.x > canvas.width) {
+                  particle.speedX *= -0.8;
+                  particle.x = Math.max(0, Math.min(canvas.width, particle.x));
+                }
+                if (particle.y < 0 || particle.y > canvas.height) {
+                  particle.speedY *= -0.8;
+                  particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+                }
+                
+                // Pulsação suave
+                particle.pulse = Math.sin(Date.now() * 0.003 + particle.x * 0.01) * 0.3 + 0.7;
+              });
+            };
+
+            const drawParticles = () => {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+              particles.forEach(particle => {
+                ctx.save();
+                
+                // Efeito de brilho sutil
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = particle.color;
+                
+                // Desenhar partícula
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size * particle.pulse, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = particle.opacity;
+                ctx.fill();
+                
+                // Linhas conectivas para partículas próximas
+                particles.forEach((otherParticle, otherIndex) => {
+                  const dx = particle.x - otherParticle.x;
+                  const dy = particle.y - otherParticle.y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  
+                  if (distance < 60 && particle !== otherParticle) {
+                    ctx.beginPath();
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(otherParticle.x, otherParticle.y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 60)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.globalAlpha = 0.3;
+                    ctx.stroke();
+                  }
+                });
+                
+                ctx.restore();
+              });
+            };
+
+            const animate = () => {
+              updateParticles();
+              drawParticles();
+              requestAnimationFrame(animate);
+            };
+
+            // Event listeners
+            const handleMouseMove = (e) => {
+              mouse.x = e.clientX;
+              mouse.y = e.clientY;
+            };
+
+            const handleResize = () => {
+              resize();
+              createParticles();
+            };
+
+            // Inicializar
+            resize();
+            createParticles();
+            animate();
+
+            // Event listeners
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('resize', handleResize);
+
+            // Cleanup
+            return () => {
+              window.removeEventListener('mousemove', handleMouseMove);
+              window.removeEventListener('resize', handleResize);
+            };
+          };
+
+          // Inicializar sistemas modernos
+          React.useEffect(() => {
+            // Aguardar componente montado
+            const initTimer = setTimeout(() => {
+              initializeParticleSystem();
+              console.log('🚀 Sistema Profissional Ativado!');
+            }, 100);
+
+            return () => {
+              clearTimeout(initTimer);
+            };
+          }, []);
+
+          // Recriar partículas quando tema mudar
+          React.useEffect(() => {
+            const canvas = document.getElementById('particles-canvas');
+            if (canvas) {
+              // Pequeno delay para permitir transição suave do CSS
+              setTimeout(() => {
+                initializeParticleSystem();
+              }, 300);
+            }
+          }, [currentTheme]);
+
+          // Ícones SVG
+          const BotIcon = () => React.createElement('svg', {
+            width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('path', { key: 1, d: 'M12 8V4H8' }),
+            React.createElement('rect', { key: 2, x: '8', y: '8', width: '8', height: '8', rx: '2' }),
+            React.createElement('path', { key: 3, d: 'M16 8h.01' }),
+            React.createElement('path', { key: 4, d: 'M12 16h.01' }),
+            React.createElement('path', { key: 5, d: 'M12 12h.01' })
+          ]);
+
+          const SendIcon = () => React.createElement('svg', {
+            width: '18', height: '18', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('path', { key: 1, d: 'm22 2-7 20-4-9-9-4z' }),
+            React.createElement('path', { key: 2, d: 'M22 2 11 13' })
+          ]);
+
+          const BarChartIcon = () => React.createElement('svg', {
+            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('line', { key: 1, x1: '12', y1: '20', x2: '12', y2: '10' }),
+            React.createElement('line', { key: 2, x1: '18', y1: '20', x2: '18', y2: '4' }),
+            React.createElement('line', { key: 3, x1: '6', y1: '20', x2: '6', y2: '16' })
+          ]);
+
+          const SunIcon = () => React.createElement('svg', {
+            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('circle', { key: 1, cx: '12', cy: '12', r: '5' }),
+            React.createElement('path', { key: 2, d: 'M12 1v2' }),
+            React.createElement('path', { key: 3, d: 'M12 21v2' }),
+            React.createElement('path', { key: 4, d: 'M4.22 4.22l1.42 1.42' }),
+            React.createElement('path', { key: 5, d: 'M18.36 18.36l1.42 1.42' }),
+            React.createElement('path', { key: 6, d: 'M1 12h2' }),
+            React.createElement('path', { key: 7, d: 'M21 12h2' }),
+            React.createElement('path', { key: 8, d: 'M4.22 19.78l1.42-1.42' }),
+            React.createElement('path', { key: 9, d: 'M18.36 5.64l1.42-1.42' })
+          ]);
+
+          const MoonIcon = () => React.createElement('svg', {
+            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('path', { key: 1, d: 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' })
+          ]);
+
+          const ZapIcon = () => React.createElement('svg', {
+            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('polygon', { key: 1, points: '13 2 3 14 12 14 11 22 21 10 12 10 13 2' })
+          ]);
+
+          const XIcon = () => React.createElement('svg', {
+            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
+          }, [
+            React.createElement('line', { key: 1, x1: '18', y1: '6', x2: '6', y2: '18' }),
+            React.createElement('line', { key: 2, x1: '6', y1: '6', x2: '18', y2: '18' })
+          ]);
+
+          return React.createElement('div', { className: `app ${currentTheme}` }, [
+            // Canvas de Partículas
+            React.createElement('canvas', {
+              key: 'particles',
+              id: 'particles-canvas',
+              className: 'particles-canvas',
+              style: {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1,
+                pointerEvents: 'none'
+              }
+            }),
+            
+            // Botão de Tema
+            React.createElement('button', {
+              key: 'theme-toggle',
+              onClick: toggleTheme,
+              className: 'theme-toggle',
+              title: `Tema atual: ${currentTheme}`
+            }, [
+              currentTheme === 'light' && React.createElement(SunIcon, { key: 'sun' }),
+              currentTheme === 'dark' && React.createElement(MoonIcon, { key: 'moon' }),
+              currentTheme === 'professional' && React.createElement(BarChartIcon, { key: 'chart' })
+            ]),
+
+            // Tela de Boas-vindas
+            isWelcomeScreen && React.createElement('div', {
+              key: 'welcome',
+              className: 'welcome-screen'
+            }, [
+              React.createElement('div', {
+                key: 'bg-pattern',
+                className: 'welcome-bg-pattern'
+              }),
+              React.createElement('div', {
+                key: 'content',
+                className: 'welcome-content'
+              }, [
+                React.createElement('h1', {
+                  key: 'title',
+                  className: 'welcome-title animate-fade-in-up'
+                }, 'Raio-X Score 5'),
+                
+                React.createElement('div', {
+                  key: 'subtitle-container',
+                  className: 'subtitle-container'
+                }, [
+                  React.createElement('p', {
+                    key: 'subtitle',
+                    className: 'welcome-subtitle animate-fade-in-up'
+                  }, subtitles[subtitleIndex])
+                ]),
+
+                React.createElement('div', {
+                  key: 'robot-container',
+                  className: 'robot-container'
+                }, [
+                  React.createElement('div', {
+                    key: 'robot-image',
+                    className: 'robot-image animate-bounce-gentle'
+                  }, [
+                    React.createElement(BotIcon, { key: 'robot-icon', className: 'robot-icon' })
+                  ])
+                ]),
+
+                React.createElement('p', {
+                  key: 'company-info',
+                  className: 'company-info animate-fade-in-up'
+                }, 'Desenvolvido pela ', React.createElement('span', {
+                  key: 'company-name',
+                  className: 'company-name'
+                }, 'DIRETA MG')),
+
+                React.createElement('button', {
+                  key: 'start-button',
+                  onClick: startChat,
+                  className: 'start-button animate-fade-in-up'
+                }, [
+                  React.createElement(ZapIcon, { key: 'zap-icon' }),
+                  'Iniciar Conversa'
+                ])
+              ])
+            ]),
+
+            // Chat Container
+            !isWelcomeScreen && React.createElement('div', {
+              key: 'chat',
+              className: 'chat-container'
+            }, [
+              React.createElement('div', {
+                key: 'phone-frame',
+                className: 'phone-frame'
+              }, [
+                // Header
+                React.createElement('div', {
+                  key: 'chat-header',
+                  className: 'chat-header'
+                }, [
+                  React.createElement('div', {
+                    key: 'header-info',
+                    className: 'header-info'
+                  }, [
+                    React.createElement('div', {
+                      key: 'header-avatar',
+                      className: 'header-avatar'
+                    }, [
+                      React.createElement(BotIcon, { key: 'header-bot' })
+                    ]),
+                    React.createElement('div', {
+                      key: 'header-text',
+                      className: 'header-text'
+                    }, [
+                      React.createElement('h1', {
+                        key: 'header-title',
+                        className: 'header-title'
+                      }, 'Raio-X Score 5'),
+                      React.createElement('p', {
+                        key: 'header-subtitle',
+                        className: 'header-subtitle'
+                      }, isSheetLoaded ? `${csvData.length} estabelecimentos carregados` : 'Carregando dados...')
+                    ])
+                  ]),
+                  React.createElement('button', {
+                    key: 'close-button',
+                    onClick: () => setIsWelcomeScreen(true),
+                    className: 'close-button',
+                    title: 'Fechar chat'
+                  }, [
+                    React.createElement(XIcon, { key: 'close-x' })
+                  ])
+                ]),
+
+                // Messages
+                React.createElement('div', {
+                  key: 'messages-container',
+                  className: 'messages-container'
+                }, [
+                  // Renderizar mensagens
+                  ...messages.map((message, index) => 
+                    React.createElement('div', {
+                      key: `message-${index}`,
+                      className: `message ${message.sender} animate-message-slide`,
+                      dangerouslySetInnerHTML: { __html: message.content }
+                    })
+                  ),
+                  
+                  // Typing Indicator
+                  isTyping && React.createElement('div', {
+                    key: 'typing-indicator',
+                    className: 'typing-indicator'
+                  }, [
+                    React.createElement('div', {
+                      key: 'typing-dots',
+                      className: 'typing-dots'
+                    }, [
+                      React.createElement('span', { key: 'dot-1', className: 'typing-dot' }),
+                      React.createElement('span', { key: 'dot-2', className: 'typing-dot' }),
+                      React.createElement('span', { key: 'dot-3', className: 'typing-dot' })
+                    ]),
+                    'IA está digitando...'
+                  ]),
+                  
+                  // Ref para scroll
+                  React.createElement('div', {
+                    key: 'messages-end',
+                    ref: messagesEndRef
+                  })
+                ]),
+
+                // Input
+                React.createElement('div', {
+                  key: 'input-container',
+                  className: 'input-container'
+                }, [
+                  React.createElement('form', {
+                    key: 'chat-form',
+                    onSubmit: handleSubmit,
+                    className: 'chat-form'
+                  }, [
+                    React.createElement('input', {
+                      key: 'message-input',
+                      ref: inputRef,
+                      value: inputValue,
+                      onChange: (e) => setInputValue(e.target.value),
+                      onKeyPress: handleKeyPress,
+                      type: 'text',
+                      placeholder: 'Digite um código EG ou comando...',
+                      className: 'message-input',
+                      autoComplete: 'off',
+                      disabled: isLoading
+                    }),
+                    React.createElement('button', {
+                      key: 'send-button',
+                      type: 'submit',
+                      className: 'send-button',
+                      disabled: isLoading || !inputValue.trim()
+                    }, [
+                      React.createElement(SendIcon, { key: 'send-icon' })
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]);
         }
-        
-        // Cleanup typing timeout
-        window.addEventListener('beforeunload', () => {
-            clearTimeout(typingTimeout);
-        });
+
+        // Renderizar o app
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
     </script>
 </body>
 </html>
+             
