@@ -139,7 +139,7 @@
             }
         }
         
-        /* Header com design Ambev */
+        /* Header */
         .chat-header {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             padding: 1rem 1.5rem;
@@ -597,127 +597,84 @@
         // Configurações
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
         
-        // Dados de exemplo robustos e completos
-        const ESTABELECIMENTOS_DATA = [
+        // Configuração da planilha real
+        const GOOGLE_SHEET_CSV_URL = "https://doc-0c-c0-sheets.googleusercontent.com/pub/54bogvaave6cua4cdnls17ksc4/84ek98u6nranhrai4rbg1btgc8/1762221045000/116025344283514239390/*/e@2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe?output=csv";
+        
+        // Dados de fallback baseados na planilha real
+        const FALLBACK_DATA = [
             {
-                eg: "67285-8",
-                rede: "Rede F", 
-                nome_fantasia: "Estabelecimento 6",
-                coordenador: "Julia Santos",
-                supervisor_terceiro: "Miguel Costa", 
-                gn: "1006",
-                sl_sc: "Vespasiano",
-                ae: "25",
-                m1: "28", 
-                m0: "30",
-                vs_m1: "7%",
-                gondola: "18",
-                ponto_extra: "15",
-                base_foco: "BASE FOCO 6",
-                corona: "CORONA 6",
-                spaten: "SPATEN 6", 
-                stella: "STELLA 6",
-                cob_hdw: "COB HDW 6",
-                atendimento: "Atendimento 6",
-                visita_quinzenal: "Visita 6",
-                loja: "LOJA 6"
+                eg: "105270-5",
+                rede: "Super Bh",
+                nome_fantasia: "Sbh 365 Sete Lagoas Sao Dimas",
+                coordenador: "Maurição",
+                supervisor_terceiro: "-",
+                gn: "-",
+                sl_sc: "-",
+                ae: "SIM",
+                m1: "66,20%",
+                m0: "67,10%",
+                vs_m1: "1,00%",
+                gondola: "59,30%",
+                ponto_extra: "75,00%",
+                base_foco: "T1",
+                corona: "NOK",
+                spaten: "NOK",
+                stella: "NOK",
+                cob_hdw: "NOK",
+                atendimento: "NÃO",
+                visita_quinzenal: "OK",
+                loja: "1"
             },
             {
                 eg: "75668-7",
-                rede: "Rede A",
-                nome_fantasia: "Estabelecimento 1", 
-                coordenador: "João Silva",
-                supervisor_terceiro: "Pedro Santos",
-                gn: "1001", 
-                sl_sc: "BH Norte",
-                ae: "12",
-                m1: "15",
-                m0: "18", 
-                vs_m1: "20%",
-                gondola: "8",
-                ponto_extra: "5",
-                base_foco: "BASE FOCO 1",
-                corona: "CORONA 1",
-                spaten: "SPATEN 1",
-                stella: "STELLA 1", 
-                cob_hdw: "COB HDW 1",
-                atendimento: "Atendimento 1",
-                visita_quinzenal: "Visita 1",
-                loja: "LOJA 1"
+                rede: "Bahamas",
+                nome_fantasia: "Bahamas Emporio - Leopoldino",
+                coordenador: "Fernando",
+                supervisor_terceiro: "-",
+                gn: "-",
+                sl_sc: "-", 
+                ae: "NÃO",
+                m1: "",
+                m0: "49,10%",
+                vs_m1: "49,10%",
+                gondola: "23,10%",
+                ponto_extra: "75,00%",
+                base_foco: "T2",
+                corona: "NOK",
+                spaten: "NOK",
+                stella: "NOK",
+                cob_hdw: "NOK",
+                atendimento: "NÃO",
+                visita_quinzenal: "OK",
+                loja: "1"
             },
             {
-                eg: "12345-6",
-                rede: "Rede C",
-                nome_fantasia: "Estabelecimento Premium",
-                coordenador: "Ana Costa",
-                supervisor_terceiro: "Carlos Mendes",
-                gn: "1003",
-                sl_sc: "BH Centro", 
-                ae: "45",
-                m1: "38",
-                m0: "42",
-                vs_m1: "10%",
-                gondola: "25",
-                ponto_extra: "20",
-                base_foco: "BASE FOCO PREMIUM",
-                corona: "CORONA PREMIUM",
-                spaten: "SPATEN PREMIUM",
-                stella: "STELLA PREMIUM",
-                cob_hdw: "COB HDW PREMIUM", 
-                atendimento: "Atendimento Premium",
-                visita_quinzenal: "Visita Premium",
-                loja: "LOJA PREMIUM"
-            },
-            {
-                eg: "98765-4",
-                rede: "Rede B", 
-                nome_fantasia: "Estabelecimento Varejo",
-                coordenador: "Marina Santos",
-                supervisor_terceiro: "Roberto Lima",
-                gn: "1002",
-                sl_sc: "BH Sul",
-                ae: "8",
-                m1: "12",
-                m0: "10",
-                vs_m1: "-17%",
-                gondola: "5",
-                ponto_extra: "2", 
-                base_foco: "BASE FOCO VAREJO",
-                corona: "CORONA VAREJO",
-                spaten: "SPATEN VAREJO",
-                stella: "STELLA VAREJO",
-                cob_hdw: "COB HDW VAREJO",
-                atendimento: "Atendimento Varejo",
-                visita_quinzenal: "Visita Varejo", 
-                loja: "LOJA VAREJO"
-            },
-            {
-                eg: "54321-9",
-                rede: "Rede D",
-                nome_fantasia: "Estabelecimento Teste",
-                coordenador: "Lucia Oliveira", 
-                supervisor_terceiro: "Fernando Sousa",
-                gn: "1004",
-                sl_sc: "BH Leste",
-                ae: "18",
-                m1: "20",
-                m0: "22",
-                vs_m1: "10%",
-                gondola: "12",
-                ponto_extra: "8",
-                base_foco: "BASE FOCO TESTE",
-                corona: "CORONA TESTE",
-                spaten: "SPATEN TESTE",
-                stella: "STELLA TESTE",
-                cob_hdw: "COB HDW TESTE",
-                atendimento: "Atendimento Teste",
-                visita_quinzenal: "Visita Teste",
-                loja: "LOJA TESTE"
+                eg: "67285-8",
+                rede: "Bahamas",
+                nome_fantasia: "Bahamas Emporio - Cascatinha",
+                coordenador: "Flávia",
+                supervisor_terceiro: "-",
+                gn: "-",
+                sl_sc: "-",
+                ae: "SIM",
+                m1: "54,10%",
+                m0: "39,30%",
+                vs_m1: "-14,80%",
+                gondola: "45,30%",
+                ponto_extra: "33,30%",
+                base_foco: "T1",
+                corona: "NOK",
+                spaten: "OK",
+                stella: "NOK",
+                cob_hdw: "OK",
+                atendimento: "SIM",
+                visita_quinzenal: "OK",
+                loja: "1"
             }
         ];
         
         // Variáveis globais
-        let csvData = [...ESTABELECIMENTOS_DATA];
+        let csvData = [];
         let isSheetLoaded = false;
         let isSheetLoading = false;
         let typingTimeout = null;
@@ -727,9 +684,9 @@
             const subtitle = document.getElementById('subtitle-typing');
             const messages = [
                 "🤖 IA Conversacional da DIRETA MG",
-                "📊 Análise de Performance de Lojas", 
+                "📊 Análise Completa de 238 Estabelecimentos", 
                 "🎯 Consultas Inteligentes de Código EG",
-                "⚡ Sistema Ambev Parceiro BEES"
+                "⚡ Sistema Avançado de Performance"
             ];
             let currentIndex = 0;
             
@@ -774,6 +731,135 @@
             setTimeout(() => {
                 typeMessage(messages[currentIndex]);
             }, 1000);
+        }
+
+        // Função para carregar planilha real
+        async function loadSheetData() {
+            if (isSheetLoading || isSheetLoaded) return;
+            
+            isSheetLoading = true;
+            
+            try {
+                console.log('📊 Carregando planilha real...');
+                
+                const response = await fetch(GOOGLE_SHEET_CSV_URL, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'text/csv',
+                    },
+                    timeout: 15000
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro de rede: ${response.statusText}`);
+                }
+
+                const csvText = await response.text();
+                
+                if (csvText && csvText.length > 100 && !csvText.startsWith('<') && !csvText.toLowerCase().includes('error')) {
+                    const allRows = parseCSV(csvText);
+                    
+                    if (allRows.length > 1) {
+                        // Mapear dados da planilha real
+                        csvData = allRows.slice(1).map(row => {
+                            const obj = {};
+                            const headers = allRows[0];
+                            
+                            headers.forEach((header, index) => {
+                                const key = header.trim().toLowerCase();
+                                if (key === 'eg') obj.eg = row[index] || '';
+                                else if (key === 'nome fantasia') obj.nome_fantasia = row[index] || '';
+                                else if (key === 'rede') obj.rede = row[index] || '';
+                                else if (key === 'coordenador') obj.coordenador = row[index] || '';
+                                else if (key === 'supervisor terceiro') obj.supervisor_terceiro = row[index] || '';
+                                else if (key === 'gn') obj.gn = row[index] || '';
+                                else if (key === 'sl/sc') obj.sl_sc = row[index] || '';
+                                else if (key === 'ae') obj.ae = row[index] || '';
+                                else if (key === 'm-1') obj.m1 = row[index] || '';
+                                else if (key === 'm0') obj.m0 = row[index] || '';
+                                else if (key === 'vs m-1') obj.vs_m1 = row[index] || '';
+                                else if (key === 'gôndola') obj.gondola = row[index] || '';
+                                else if (key === 'ponto extra') obj.ponto_extra = row[index] || '';
+                                else if (key === 'base foco') obj.base_foco = row[index] || '';
+                                else if (key === 'corona') obj.corona = row[index] || '';
+                                else if (key === 'spaten') obj.spaten = row[index] || '';
+                                else if (key === 'stella') obj.stella = row[index] || '';
+                                else if (key === 'cob hdw') obj.cob_hdw = row[index] || '';
+                                else if (key === 'atendimento') obj.atendimento = row[index] || '';
+                                else if (key === 'visita quinzenal') obj.visita_quinzenal = row[index] || '';
+                                else if (key === 'loja') obj.loja = row[index] || '';
+                            });
+                            
+                            return obj;
+                        }).filter(item => item.eg && item.eg.trim() !== '');
+                        
+                        isSheetLoaded = true;
+                        console.log(`✅ Planilha carregada: ${csvData.length} estabelecimentos`);
+                        
+                        const chatStatus = document.getElementById('chat-status');
+                        chatStatus.textContent = `${csvData.length} estabelecimentos carregados!`;
+                        
+                        return;
+                    }
+                }
+                
+                throw new Error("Dados inválidos ou planilha vazia");
+                
+            } catch (error) {
+                console.warn('⚠️ Erro ao carregar planilha, usando dados de fallback:', error.message);
+                
+                // Usar dados de fallback
+                csvData = [...FALLBACK_DATA];
+                isSheetLoaded = true;
+                
+                const chatStatus = document.getElementById('chat-status');
+                chatStatus.textContent = `${csvData.length} estabelecimentos (modo offline)`;
+            } finally {
+                isSheetLoading = false;
+            }
+        }
+
+        // Função parseCSV robusta
+        function parseCSV(text) {
+            const lines = [];
+            const rawLines = text.trim().split('\n');
+            
+            for (const line of rawLines) {
+                const row = [];
+                let cell = '';
+                let inQuote = false;
+                const cleanLine = line.replace(/\r$/, '');
+                
+                for (let i = 0; i < cleanLine.length; i++) {
+                    const char = cleanLine[i];
+                    if (char === '"') {
+                        if (inQuote && cleanLine[i + 1] === '"') {
+                            cell += '"';
+                            i++;
+                        } else {
+                            inQuote = !inQuote;
+                        }
+                    } else if (char === ',' && !inQuote) {
+                        row.push(cell.trim());
+                        cell = '';
+                    } else {
+                        cell += char;
+                    }
+                }
+                row.push(cell.trim());
+                lines.push(row);
+            }
+            
+            return lines;
+        }
+
+        // Função para buscar código EG
+        function findEstabelecimento(code) {
+            const normalizedCode = code.trim().toUpperCase();
+            return csvData.find(estabelecimento => 
+                estabelecimento.eg.toUpperCase() === normalizedCode
+            );
         }
 
         // Função para adicionar mensagens
@@ -823,85 +909,119 @@
         function getIntelligentAnalysis(data, code) {
             const nome = data.nome_fantasia || 'Não informado';
             const rede = data.rede || 'Não informado';
-            const gn = parseInt(data.gn) || 0;
-            const m0 = parseInt(data.m0) || 0;
-            const m1 = parseInt(data.m1) || 0;
-            const vs_m1 = data.vs_m1 || '0%';
-            const ae = parseInt(data.ae) || 0;
-            const gondola = parseInt(data.gondola) || 0;
-            const pontoExtra = parseInt(data.ponto_extra) || 0;
+            const ae = data.ae || '';
+            const m1 = data.m1 || '';
+            const m0 = data.m0 || '';
+            const vs_m1 = data.vs_m1 || '';
+            const gondola = data.gondola || '';
+            const pontoExtra = data.ponto_extra || '';
             const coordenador = data.coordenador || 'Não informado';
+            const sl_sc = data.sl_sc || '';
+            const base_foco = data.base_foco || '';
+            const corona = data.corona || '';
+            const spaten = data.spaten || '';
+            const stella = data.stella || '';
+            const cob_hdw = data.cob_hdw || '';
+            const atendimento = data.atendimento || '';
+            const visita_quinzenal = data.visita_quinzenal || '';
             
-            // Análise dos dados
-            const growthRate = parseFloat(vs_m1.replace('%', '')) || 0;
-            const performance = m0 > m1 ? 'Crescimento' : m0 === m1 ? 'Estável' : 'Queda';
-            const gondolaPerformance = gondola >= 15 ? 'Excelente' : gondola >= 10 ? 'Boa' : gondola >= 5 ? 'Regular' : 'Baixa';
+            // Converter valores numéricos se possível
+            const parsePercentage = (val) => {
+                if (!val || val === '') return 0;
+                const clean = val.replace('%', '').replace(',', '.');
+                return parseFloat(clean) || 0;
+            };
+            
+            const m0Value = parsePercentage(m0);
+            const vs_m1Value = parsePercentage(vs_m1);
+            const gondolaValue = parsePercentage(gondola);
+            const pontoExtraValue = parsePercentage(pontoExtra);
             
             let positives = [];
             let negatives = [];
             let recommendations = [];
             
             // Análise POSITIVA
-            if (growthRate > 0) {
+            if (vs_m1 && vs_m1Value > 0) {
                 positives.push(`📈 **Crescimento de ${vs_m1}** no período M0 vs M-1`);
             }
             
-            if (m0 >= 25) {
-                positives.push(`🚀 **Performance M0 forte** com ${m0} pontos`);
+            if (m0 && m0Value > 60) {
+                positives.push(`🚀 **Performance M0 excelente** com ${m0}`);
+            } else if (m0 && m0Value > 45) {
+                positives.push(`✅ **Performance M0 satisfatória** com ${m0}`);
             }
             
-            if (ae >= 20) {
-                positives.push(`⭐ **Atendimento Especial** de ${ae} - Destaque!`);
+            if (ae === 'SIM') {
+                positives.push(`⭐ **Atendimento Especial ativo** - Destaque no atendimento`);
             }
             
-            if (gondola >= 15) {
-                positives.push(`🎯 **Gôndola excelente** com ${gondola} pontos`);
+            if (gondola && gondolaValue > 50) {
+                positives.push(`🎯 **Gôndola excelente** com ${gondola}`);
+            } else if (gondola && gondolaValue > 35) {
+                positives.push(`👍 **Gôndola boa** com ${gondola}`);
             }
             
-            if (pontoExtra >= 10) {
-                positives.push(`💡 **Ponto Extra eficaz** com ${pontoExtra} iniciativas`);
+            if (pontoExtra && pontoExtraValue > 50) {
+                positives.push(`💡 **Ponto Extra eficaz** com ${pontoExtra}`);
             }
             
-            if (performance === 'Crescimento') {
-                positives.push(`📊 **Evolução consistente** do M-1 para M0`);
+            if (corona === 'OK') positives.push(`✅ **Corona implementada** corretamente`);
+            if (spaten === 'OK') positives.push(`✅ **Spaten implementada** corretamente`);
+            if (stella === 'OK') positives.push(`✅ **Stella implementada** corretamente`);
+            if (cob_hdw === 'OK') positives.push(`✅ **COB HDW implementado** corretamente`);
+            
+            if (visita_quinzenal === 'OK') {
+                positives.push(`📅 **Visitas quinzenais regulares** mantidas`);
             }
             
             // Análise NEGATIVA e Oportunidades
-            if (growthRate <= 0) {
-                negatives.push(`⚠️ **Estagnação ou queda** de ${vs_m1} vs período anterior`);
+            if (vs_m1 && vs_m1Value < 0) {
+                negatives.push(`⚠️ **Queda de ${Math.abs(vs_m1Value).toFixed(1)}%** no período vs M-1`);
             }
             
-            if (m0 < 20) {
-                negatives.push(`🔻 **Performance M0 baixa** - apenas ${m0} pontos`);
+            if (m0 && m0Value < 45) {
+                negatives.push(`🔻 **Performance M0 baixa** - apenas ${m0} (meta: 50%+)`);
             }
             
-            if (ae < 15) {
-                negatives.push(`📉 **Atendimento Especial** abaixo do ideal (${ae})`);
+            if (ae === 'NÃO') {
+                negatives.push(`📉 **Atendimento Especial inativo** - oportunidade de melhoria`);
             }
             
-            if (gondola < 10) {
-                negatives.push(`❌ **Gôndola insuficiente** - apenas ${gondola} pontos`);
+            if (gondola && gondolaValue < 30) {
+                negatives.push(`❌ **Gôndola insuficiente** - apenas ${gondola} (meta: 50%+)`);
             }
             
-            if (pontoExtra < 5) {
-                negatives.push(`🚫 **Ponto Extra limitado** - apenas ${pontoExtra} iniciativas`);
+            if (pontoExtra && pontoExtraValue < 30) {
+                negatives.push(`🚫 **Ponto Extra limitado** - apenas ${pontoExtra} (meta: 50%+)`);
             }
+            
+            if (corona === 'NOK') negatives.push(`❌ **Corona não implementada**`);
+            if (spaten === 'NOK') negatives.push(`❌ **Spaten não implementada**`);
+            if (stella === 'NOK') negatives.push(`❌ **Stella não implementada**`);
+            if (cob_hdw === 'NOK') negatives.push(`❌ **COB HDW não implementado**`);
+            
+            if (atendimento === 'NÃO') negatives.push(`📋 **Atendimento em melhoria necessária**`);
             
             // Recomendações inteligentes
-            if (growthRate < 5) {
-                recommendations.push(`📋 **Plano de Crescimento**: Implementar estratégias para superar 5% de crescimento mensal`);
+            if (vs_m1Value < 0) {
+                recommendations.push(`📋 **Plano de Recuperação**: Implementar estratégias para reverter a tendência negativa`);
             }
             
-            if (m0 < 25) {
-                recommendations.push(`🎯 **Meta Performance**: Foco em atingir 25+ pontos M0`);
+            if (m0Value < 50) {
+                recommendations.push(`🎯 **Meta Performance**: Foco em atingir 50%+ pontos M0`);
             }
             
-            if (gondola < 15) {
-                recommendations.push(`🏪 **Otimização Gôndola**: Revisar distribuição e produtos, meta 15+ pontos`);
+            if (gondolaValue < 50) {
+                recommendations.push(`🏪 **Otimização Gôndola**: Revisar distribuição e produtos, meta 50%+`);
             }
             
-            if (ae < 20) {
-                recommendations.push(`🤝 **Enhance Atendimento**: Programas especiais para elevar AE para 20+`);
+            if (ae === 'NÃO') {
+                recommendations.push(`🤝 **Programa Especial**: Ativar Atendimento Especial AE`);
+            }
+            
+            if (corona === 'NOK' || spaten === 'NOK' || stella === 'NOK') {
+                recommendations.push(`🍺 **Implementação Premium**: Resolver pendências Corona/Spaten/Stella`);
             }
             
             recommendations.push(`📞 **Acompanhamento**: Contatar coordenador ${coordenador} para planejamento`);
@@ -911,8 +1031,11 @@
             response += `<strong>📊 ESTABELECIMENTO:</strong><br>`;
             response += `• <strong>Nome:</strong> ${nome}<br>`;
             response += `• <strong>Rede:</strong> ${rede}<br>`;
-            response += `• <strong>GN:</strong> ${gn} | <strong>Coordenador:</strong> ${coordenador}<br>`;
-            response += `• <strong>M-1:</strong> ${m1} | <strong>M0:</strong> ${m0} | <strong>vs M-1:</strong> ${vs_m1}<br><br>`;
+            response += `• <strong>Coordenador:</strong> ${coordenador}<br>`;
+            response += `• <strong>SL/SC:</strong> ${sl_sc}<br>`;
+            response += `• <strong>AE:</strong> ${ae}<br>`;
+            response += `• <strong>M-1:</strong> ${m1} | <strong>M0:</strong> ${m0} | <strong>vs M-1:</strong> ${vs_m1}<br>`;
+            response += `• <strong>Gôndola:</strong> ${gondola} | <strong>Ponto Extra:</strong> ${pontoExtra}<br><br>`;
             
             response += `<strong>✅ PONTOS FORTES (Positivos):</strong><br>`;
             if (positives.length > 0) {
@@ -941,10 +1064,11 @@
             response += `<br>`;
             
             response += `<strong>🎯 PRÓXIMOS PASSOS:</strong><br>`;
-            response += `• ${performance === 'Crescimento' ? '✅ Manter' : '🔄 Revisar'} estratégia atual<br>`;
-            response += `• ${gondolaPerformance === 'Excelente' ? '✅ Expandir' : '📈 Desenvolver'} políticas de gôndola<br>`;
+            response += `• ${vs_m1Value >= 0 ? '✅ Manter' : '🔄 Revisar'} estratégia atual<br>`;
+            response += `• ${gondolaValue >= 50 ? '✅ Expandir' : '📈 Desenvolver'} políticas de gôndola<br>`;
             response += `• 📊 Monitorar evolução mensal dos indicadores<br>`;
-            response += `• 🤝 Agendar visita técnica com supervisor<br><br>`;
+            response += `• 🤝 Agendar visita técnica com supervisor<br>`;
+            response += `• 🍺 Verificar implementação Corona/Spaten/Stella<br><br>`;
             
             response += `<em>🤖 Análise DIRETA MG - Sistema Inteligente Raio-X Score 5</em>`;
             
@@ -978,7 +1102,7 @@
 • Análise NEGATIVA das oportunidades<br>
 • Recomendações estratégicas<br>
 • Próximos passos automáticos<br><br>
-<em>🚀 Sistema Ambev Parceiro BEES funcionando!</em>`, 'bot');
+<em>🚀 Sistema funcionando com análise completa!</em>`, 'bot');
                 }, 1200);
                 return;
             }
@@ -989,7 +1113,7 @@
 • Base de dados: ✅ <strong>${csvData.length} estabelecimentos carregados</strong><br>
 • Códigos EG: ✅ <strong>${csvData.length} códigos disponíveis</strong><br>
 • IA Análise: ✅ <strong>Automática - Sempre ativa</strong><br>
-• Interface: 🚀 <strong>Mobile-First BEES</strong><br>
+• Interface: 🚀 <strong>Mobile-First</strong><br>
 • GIF Robô: 🤖 <strong>Funcionando perfeitamente</strong><br>
 • Sistema: ⚡ <strong>100% Operacional</strong><br><br>
 <strong>🎯 Códigos EG disponíveis para teste:</strong><br>
@@ -1093,7 +1217,7 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
                 response = `🏢 **DIRETA MG - RAIO-X SCORE 5**
 
 🎯 **Especialização:**
-• Análise de performance de estabelecimentos Ambev
+• Análise de performance de estabelecimentos
 • Interpretação avançada de métricas (GN, SL/SC, M0, etc.)
 • ${csvData.length} códigos EG processados automaticamente
 • IA analisa POSITIVOS e NEGATIVOS em tempo real
@@ -1101,8 +1225,8 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
 🚀 **Características:**
 • 🤖 IA conversacional avançada
 • 📊 Análises automáticas instantâneas
-• 📱 Interface mobile-first BEES
-• 🎯 Sistema focado Ambev Parceiro
+• 📱 Interface mobile-first
+• 🎯 Sistema focado em performance
 
 💡 **Como usar:**
 1. Digite um código EG (ex: 67285-8)
@@ -1110,7 +1234,7 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
 3. IA faz análise automática de positivos/negativos
 4. Receba recomendações estratégicas
 
-🚀 **DIRETA MG - Especialista em performance Ambev!`;
+🚀 **DIRETA MG - Especialista em performance de estabelecimentos!`;
             }
             // Resposta inteligente padrão
             else {
@@ -1119,7 +1243,7 @@ ${csvData.map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<br>')}<br><b
 Entendi sua mensagem: "${message}"
 
 🧠 **IA DIRETA MG processando:**
-Compreendo e estou aqui para ajudar com análises completas de estabelecimentos Ambev!
+Compreendo e estou aqui para ajudar com análises completas de estabelecimentos de estabelecimentos!
 
 💡 **Como posso ajudar especificamente:**
 • **${csvData.length} códigos EG disponíveis** → Dados completos + análise IA (positivos + negativos)
@@ -1199,10 +1323,10 @@ ${csvData.slice(0, 3).map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<
                 setTimeout(() => {
                     addMessage(`<strong>🚀 Bem-vindo ao Raio-X Score 5!</strong><br><br>
 Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em análise de performance de estabelecimentos.<br><br>
-• Digite um <strong>código EG</strong> (ex: 67285-8)<br>
+• Digite um <strong>código EG</strong> (ex: 105270-5, 75668-7, 67285-8)<br>
 • Use <strong>/ajuda</strong> para ver todos os comandos<br>
 • <strong>/dados</strong> para ver códigos disponíveis<br>
-• Sistema <strong>DIRETA MG</strong> - Ambev Parceiro BEES<br><br>
+• Sistema <strong>DIRETA MG</strong><br><br>
 🎯 <strong>IA funciona automaticamente:</strong><br>
 • Análise de <strong>PONTOS POSITIVOS</strong><br>
 • Identificação de <strong>OPORTUNIDADES</strong><br>
@@ -1211,11 +1335,9 @@ Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em 
 Como posso ajudá-lo hoje?`, 'bot');
                 }, 500);
                 
-                // Marcar como carregado
+                // Carregar planilha em background
                 setTimeout(() => {
-                    isSheetLoaded = true;
-                    const chatStatus = document.getElementById('chat-status');
-                    chatStatus.textContent = `${csvData.length} estabelecimentos carregados!`;
+                    loadSheetData();
                 }, 1000);
             });
 
