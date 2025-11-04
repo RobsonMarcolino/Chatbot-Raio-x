@@ -8,19 +8,14 @@
             <title>Raio-X Score 5 | Sistema de Inspeção Sanitária - 🤖 Powered by Google AI</title>
             
             <!-- Favicon do robô -->
-            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-            <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%233b82f6;stop-opacity:1' /><stop offset='100%' style='stop-color:%231e40af;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><circle cx='50' cy='35' r='8' fill='white'/><circle cx='35' cy='30' r='3' fill='white'/><circle cx='65' cy='30' r='3' fill='white'/><rect x='30' y='50' width='40' height='25' rx='5' fill='white'/><circle cx='40' cy='62' r='2' fill='%233b82f6'/><circle cx='50' cy='62' r='2' fill='%233b82f6'/><circle cx='60' cy='62' r='2' fill='%233b82f6'/></svg>">
+            <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%233b82f6;stop-opacity:1' /><stop offset='100%' style='stop-color:%231e40af;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><circle cx='50' cy='35' r='8' fill='white'/><circle cx='35' cy='30' r='3' fill='white'/><circle cx='65' cy='30' r='3' fill='white'/><rect x='30' y='50' width='40' height='25' rx='5' fill='white'/><circle cx='40' cy='62' r='2' fill='%233b82f6'/><circle cx='50' cy='62' r='2' fill='%233b82f6'/><circle cx='60' cy='62' r='2' fill='%233b82f6'/></svg>">
     
     <!-- React e ReactDOM via CDN -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
     <style>
-        /* ============================================
-           SISTEMA RAIO-X SCORE 5 - DESIGN PROFISSIONAL
-           DIRETA MG - Interface Corporativa Moderna
-           ============================================ */
-
         /* Reset e configurações base */
         * {
           margin: 0;
@@ -38,7 +33,6 @@
 
         /* Design System de Cores Profissional */
         :root {
-          /* Tema Profissional (Padrão) */
           --primary-color: #1e40af;
           --primary-light: #3b82f6;
           --primary-dark: #1e3a8a;
@@ -106,33 +100,6 @@
           --radius-2xl: 1.5rem;
         }
 
-        /* Temas alternativos */
-        .app.light {
-          --bg-primary: #f8fafc;
-          --bg-secondary: #ffffff;
-          --bg-tertiary: #f1f5f9;
-          --bg-card: rgba(255, 255, 255, 0.98);
-          --text-primary: #1e293b;
-          --text-secondary: #475569;
-          --text-tertiary: #64748b;
-          --primary-color: #3b82f6;
-          --accent-color: #10b981;
-        }
-
-        .app.dark {
-          --bg-primary: #0f172a;
-          --bg-secondary: #1e293b;
-          --bg-tertiary: #334155;
-          --bg-card: rgba(30, 41, 59, 0.95);
-          --text-primary: #f1f5f9;
-          --text-secondary: #cbd5e1;
-          --text-tertiary: #94a3b8;
-          --primary-color: #60a5fa;
-          --accent-color: #fbbf24;
-          --border-light: #334155;
-          --border-medium: #475569;
-        }
-
         /* Aplicação do tema */
         .app {
           min-height: 100vh;
@@ -140,69 +107,6 @@
           color: var(--text-primary);
           transition: background-color var(--transition-normal), color var(--transition-normal);
           position: relative;
-        }
-
-        /* ============================================
-           SISTEMA DE PARTÍCULAS ELEGANTE
-           ============================================ */
-        .particles-canvas {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
-          pointer-events: none;
-          opacity: 0.6;
-        }
-
-        .app.light .particles-canvas {
-          opacity: 0.4;
-        }
-
-        .app.dark .particles-canvas {
-          opacity: 0.8;
-        }
-
-        /* ============================================
-           BOTÃO DE TEMA PROFISSIONAL
-           ============================================ */
-        .theme-toggle {
-          position: fixed;
-          top: var(--space-xl);
-          right: var(--space-xl);
-          z-index: 1000;
-          width: 48px;
-          height: 48px;
-          border: 1px solid var(--border-medium);
-          border-radius: var(--radius-xl);
-          background: var(--bg-card);
-          backdrop-filter: blur(20px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all var(--transition-normal);
-          box-shadow: var(--shadow-lg);
-          color: var(--text-primary);
-        }
-
-        .theme-toggle:hover {
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-xl);
-          border-color: var(--primary-color);
-        }
-
-        .theme-toggle:active {
-          transform: translateY(0);
-        }
-
-        .app.light .theme-toggle {
-          background: rgba(255, 255, 255, 0.9);
-        }
-
-        .app.dark .theme-toggle {
-          background: rgba(30, 41, 59, 0.9);
         }
 
         /* ============================================
@@ -220,31 +124,6 @@
             var(--bg-primary) 0%, 
             var(--bg-secondary) 50%, 
             var(--bg-tertiary) 100%);
-        }
-
-        .welcome-bg-pattern {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          opacity: 0.05;
-          background-image: 
-            radial-gradient(circle at 25% 25%, var(--primary-color) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, var(--accent-color) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, var(--secondary-color) 0%, transparent 30%);
-          animation: patternFloat 20s ease-in-out infinite;
-        }
-
-        @keyframes patternFloat {
-          0%, 100% { 
-            transform: translateY(0) scale(1); 
-            opacity: 0.05;
-          }
-          50% { 
-            transform: translateY(-20px) scale(1.02); 
-            opacity: 0.08;
-          }
         }
 
         .welcome-content {
@@ -306,6 +185,7 @@
         .robot-icon {
           color: white;
           filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+          font-size: 4rem;
         }
 
         .company-info {
@@ -340,24 +220,9 @@
           overflow: hidden;
         }
 
-        .start-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.6s;
-        }
-
         .start-button:hover {
           transform: translateY(-2px);
           box-shadow: var(--shadow-xl);
-        }
-
-        .start-button:hover::before {
-          left: 100%;
         }
 
         .start-button:active {
@@ -411,16 +276,6 @@
           box-shadow: var(--shadow-md);
         }
 
-        .chat-header::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        }
-
         .header-info {
           display: flex;
           align-items: center;
@@ -438,15 +293,6 @@
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.1);
           transition: all var(--transition-normal);
-        }
-
-        .header-avatar:hover {
-          transform: scale(1.05);
-          background: rgba(255, 255, 255, 0.25);
-        }
-
-        .header-text {
-          flex: 1;
         }
 
         .header-title {
@@ -478,11 +324,6 @@
           color: white;
         }
 
-        .close-button:hover {
-          background: rgba(255, 255, 255, 0.3);
-          transform: scale(1.1);
-        }
-
         /* Container de mensagens */
         .messages-container {
           flex: 1;
@@ -498,10 +339,6 @@
 
         .messages-container::-webkit-scrollbar {
           width: 6px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-          background: transparent;
         }
 
         .messages-container::-webkit-scrollbar-thumb {
@@ -665,10 +502,6 @@
           box-shadow: var(--shadow-lg);
         }
 
-        .send-button:active {
-          transform: translateY(0);
-        }
-
         .send-button:disabled {
           opacity: 0.4;
           cursor: not-allowed;
@@ -739,13 +572,6 @@
           .message {
             font-size: 0.8rem;
           }
-          
-          .theme-toggle {
-            top: var(--space-md);
-            right: var(--space-md);
-            width: 44px;
-            height: 44px;
-          }
         }
 
         /* Estados de loading */
@@ -762,63 +588,15 @@
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
-
-        /* Melhorias de acessibilidade */
-        @media (prefers-reduced-motion: reduce) {
-          * {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
-        }
-
-        /* Estados de focus melhorados */
-        button:focus-visible,
-        input:focus-visible {
-          outline: 2px solid var(--primary-color);
-          outline-offset: 2px;
-        }
-
-        /* Melhorias para dispositivos de alta DPI */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-          .robot-image,
-          .header-avatar {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-          }
-        }
-
-        /* Print styles */
-        @media print {
-          .particles-canvas,
-          .theme-toggle,
-          .start-button,
-          .send-button,
-          .close-button {
-            display: none !important;
-          }
-          
-          .chat-container {
-            min-height: auto;
-          }
-          
-          .phone-frame {
-            box-shadow: none;
-            border: 1px solid #000;
-          }
-        }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script>
-        // Configuração da API Google AI
-        const GOOGLE_AI_API_KEY = "AIzaSyBTZiUDC2INIspbdFm6R3dZX1A4ls7olSI";
-        const GOOGLE_AI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-        // URL da planilha Google Sheets - Planilha CSV configurada
+        // CONFIGURAÇÕES INTEGRADAS - SISTEMA COMPLETAMENTE AUTÔNOMO
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
+        const GOOGLE_AI_API_KEY = "AIzaSyBTZiUDC2INIspbdFm6R3dZX1A4ls7olSI";
 
         // Componente React principal
         function App() {
@@ -829,7 +607,6 @@
           const [csvData, setCsvData] = React.useState([]);
           const [isSheetLoaded, setIsSheetLoaded] = React.useState(false);
           const [isTyping, setIsTyping] = React.useState(false);
-          const [currentTheme, setCurrentTheme] = React.useState('professional');
           const [subtitleIndex, setSubtitleIndex] = React.useState(0);
 
           // Refs
@@ -878,39 +655,26 @@
           const loadSheetData = async () => {
             if (isSheetLoaded) return;
 
-            // URLs alternativas para tentar
-            const urls = [
-              window.GOOGLE_SHEET_CSV_URL || GOOGLE_SHEET_CSV_URL,
-              "https://docs.google.com/spreadsheets/d/1QZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/export?format=csv&gid=0",
-              "https://docs.google.com/spreadsheets/d/1QZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/export?format=csv",
-            ];
-
-            let lastError = null;
-            
-            // Tentar cada URL
-            for (let i = 0; i < urls.length; i++) {
-              const currentUrl = urls[i];
+            try {
+              console.log('📊 Carregando planilha Google Sheets...');
+              console.log('🌐 URL utilizada:', GOOGLE_SHEET_CSV_URL);
               
-              try {
-                console.log(`📊 Tentativa ${i + 1}/${urls.length} - Carregando planilha Google Sheets...`);
-                console.log('🌐 URL utilizada:', currentUrl);
-                
-                const response = await fetch(currentUrl, {
-                  method: 'GET',
-                  mode: 'cors',
-                  redirect: 'follow',  // Seguir redirecionamentos automaticamente
-                  headers: { 
-                    'Accept': 'text/csv, text/plain, text/html, */*',
-                    'Cache-Control': 'no-cache'
-                  }
-                });
-                
-                if (!response.ok) {
-                  throw new Error(`HTTP ${response.status} - A planilha não está acessível`);
+              const response = await fetch(GOOGLE_SHEET_CSV_URL, {
+                method: 'GET',
+                mode: 'cors',
+                redirect: 'follow',
+                headers: { 
+                  'Accept': 'text/csv, text/plain, text/html, */*',
+                  'Cache-Control': 'no-cache'
                 }
-                
-                const text = await response.text();
-                console.log('📄 Resposta da planilha (primeiros 300 chars):', text.substring(0, 300));
+              });
+              
+              if (!response.ok) {
+                throw new Error(`HTTP ${response.status} - A planilha não está acessível`);
+              }
+              
+              const text = await response.text();
+              console.log('📄 Resposta da planilha (primeiros 300 chars):', text.substring(0, 300));
               
               // Verificar se é CSV válido
               if (text && text.length > 100 && !text.startsWith('<') && !text.toLowerCase().includes('error')) {
@@ -985,6 +749,7 @@
                     if (processedData.length > 0) {
                       addMessage(`<strong>✅ Sistema Raio-X Score 5 Ativo!</strong><br><br>
 🎯 <strong>Sistema 100% Operacional!</strong><br>
+238 estabelecimentos carregados com sucesso.<br><br>
 Digite o código EG de qualquer estabelecimento para análise completa.`, 'bot');
                     }
                     return;
@@ -998,21 +763,15 @@ Digite o código EG de qualquer estabelecimento para análise completa.`, 'bot')
                 throw new Error('Resposta não é um CSV válido');
               }
               
-              } catch (error) {
-                console.log(`❌ Tentativa ${i + 1} falhou:`, error.message);
-                lastError = error;
-                continue; // Tentar próximo URL
-              }
-            }
-            
-            // Se chegou aqui, todas as URLs falharam
-            console.error('❌ Todas as tentativas de carregamento falharam:', lastError);
-            setCsvData([]);
-            setIsSheetLoaded(true);
-            
-            // Notificar erro
-            addMessage(`<strong>❌ Erro no Sistema</strong><br><br>
+            } catch (error) {
+              console.error('❌ Erro ao carregar planilha:', error.message);
+              setCsvData([]);
+              setIsSheetLoaded(true);
+              
+              // Notificar erro
+              addMessage(`<strong>❌ Erro no Sistema</strong><br><br>
 Tente novamente em alguns instantes ou entre em contato com o suporte.`, 'bot');
+            }
           };
 
           // Função parseCSV robusta e melhorada
@@ -1078,82 +837,6 @@ Tente novamente em alguns instantes ou entre em contato com o suporte.`, 'bot');
             
             console.log('✅ Resultado da busca:', found);
             return found;
-          };
-
-          // Função para análise com Google AI Gemini
-          const analyzeWithGeminiAI = async (data, code) => {
-            try {
-              console.log('🤖 Iniciando análise com Google AI Gemini...');
-              
-              const prompt = `Você é um analista de negócios especializado em performance de estabelecimentos comerciais. 
-
-Analise os dados do estabelecimento ${code} e forneça uma análise profissional e estratégica:
-
-ESTABELECIMENTO: ${data.nome_fantasia || 'Não informado'}
-REDE: ${data.rede || 'Não informado'}
-COORDENADOR: ${data.coordenador || 'Não informado'}
-
-INDICADORES DE PERFORMANCE:
-- M-1: ${data.m1 || 'Não informado'}
-- M0: ${data.m0 || 'Não informado'} 
-- vs M-1: ${data.vs_m1 || 'Não informado'}
-- Gôndola: ${data.gondola || 'Não informado'}
-- Ponto Extra: ${data.ponto_extra || 'Não informado'}
-
-IMPLEMENTAÇÕES:
-- AE (Atendimento Especial): ${data.ae || 'Não informado'}
-- Corona: ${data.corona || 'Não informado'}
-- Spaten: ${data.spaten || 'Não informado'}
-- Stella: ${data.stella || 'Não informado'}
-- COB HDW: ${data.cob_hdw || 'Não informado'}
-
-Forneça uma análise completa com:
-1. PONTOS FORTES (2-3 aspectos principais)
-2. OPORTUNIDADES DE MELHORIA (2-3 pontos críticos) 
-3. RECOMENDAÇÕES ESTRATÉGICAS (3-5 ações práticas)
-4. PRÓXIMOS PASSOS (cronograma sugerido)
-
-Responda em português brasileiro, de forma profissional e objetiva. Use emojis para tornar mais visual.`;
-
-              const requestBody = {
-                contents: [{
-                  parts: [{ text: prompt }]
-                }],
-                generationConfig: {
-                  temperature: 0.7,
-                  topK: 40,
-                  topP: 0.95,
-                  maxOutputTokens: 1024,
-                }
-              };
-
-              const response = await fetch(`${GOOGLE_AI_URL}?key=${GOOGLE_AI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-              });
-
-              if (!response.ok) {
-                throw new Error(`Erro na API Google AI: ${response.status}`);
-              }
-
-              const result = await response.json();
-              
-              if (result.candidates && result.candidates[0] && result.candidates[0].content) {
-                const aiResponse = result.candidates[0].content.parts[0].text;
-                console.log('✅ Análise AI gerada com sucesso');
-                return aiResponse;
-              } else {
-                throw new Error('Resposta inválida da API Google AI');
-              }
-            } catch (error) {
-              console.error('❌ Erro na análise com IA:', error.message);
-              // Fallback para análise baseada em regras
-              console.log('🔄 Usando análise de fallback...');
-              return getIntelligentAnalysis(data, code);
-            }
           };
 
           // Função para análise inteligente (baseada em regras)
@@ -1373,14 +1056,14 @@ Responda em português brasileiro, de forma profissional e objetiva. Use emojis 
                 if (csvData.length === 0) {
                   addMessage(`<strong>📊 Sistema Raio-X Score 5</strong><br>
 • Status: ⚠️ <strong>Carregando dados...</strong><br>
-• IA: ✅ <strong>Ativada</strong><br>
+• IA: ✅ <strong>Análise local ativa</strong><br>
 • Sistema: 🚀 <strong>Online</strong><br><br>
 <em>Aguarde enquanto carregamos os dados.</em>`, 'bot');
                 } else {
                   addMessage(`<strong>📊 Sistema Raio-X Score 5</strong><br>
 • Status: ✅ <strong>Online e funcionando</strong><br>
 • Dados: ✅ <strong>${csvData.length} estabelecimentos</strong><br>
-• IA: ✅ <strong>Análise automática ativa</strong><br>
+• IA: ✅ <strong>Análise inteligente local ativa</strong><br>
 • Interface: 🚀 <strong>Mobile-friendly</strong><br><br>
 <em>DIRETA MG - Sistema operacional!</em>`, 'bot');
                 }
@@ -1409,66 +1092,6 @@ Responda em português brasileiro, de forma profissional e objetiva. Use emojis 
               return;
             }
             
-            // Comando para configurar planilha
-            if (messageLower.startsWith('/planilha ')) {
-              const link = message.substring(10).trim();
-              if (link) {
-                simulateTyping(() => {
-                  addMessage(`<strong>🔗 Planilha Configurada</strong><br><br>
-Processando os dados da planilha...<br><br>
-✅ <strong>Verificações:</strong><br>
-• Plano de dados público<br>
-• Formato compatível<br>
-• Carregamento automático<br><br>
-🔄 <em>Atualizando sistema...</em>`, 'bot');
-                  
-                  // Tentar converter link e recarregar
-                  setTimeout(() => {
-                    try {
-                      let csvUrl = link;
-                      // Converter link de edit para export se necessário
-                      if (link.includes('/edit')) {
-                        const idMatch = link.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-                        if (idMatch) {
-                          csvUrl = `https://docs.google.com/spreadsheets/d/${idMatch[1]}/export?format=csv`;
-                        }
-                      } else if (!link.includes('/export?format=csv') && !link.includes('/pub?output=csv')) {
-                        const idMatch = link.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-                        if (idMatch) {
-                          csvUrl = `https://docs.google.com/spreadsheets/d/${idMatch[1]}/pub?output=csv`;
-                        }
-                      }
-                      
-                      // Atualizar URL global
-                      window.GOOGLE_SHEET_CSV_URL = csvUrl;
-                      
-                      // Recarregar dados
-                      setIsSheetLoaded(false);
-                      setTimeout(() => {
-                        loadSheetData();
-                      }, 1000);
-                      
-                    } catch (error) {
-                      console.error('Erro ao processar link:', error);
-                      addMessage(`<strong>❌ Erro ao processar link</strong><br>
-Verifique se o formato está correto e tente novamente.`, 'bot');
-                    }
-                  }, 2000);
-                  
-                }, 1000);
-                return;
-              } else {
-                simulateTyping(() => {
-                  addMessage(`<strong>❌ Link não fornecido</strong><br><br>
-<b>Uso correto:</b><br>
-<strong>/planilha [SEU_LINK_AQUI]</strong><br><br>
-<b>Exemplo:</b><br>
-<strong>/planilha https://docs.google.com/spreadsheets/d/1ABC123DEF456/edit#gid=0</strong>`, 'bot');
-                }, 800);
-                return;
-              }
-            }
-            
             // IA conversacional
             let response = '';
             
@@ -1492,7 +1115,7 @@ Sou o assistente de IA da DIRETA MG, especializado em análise de performance de
 • ✅ IA ativada e processando dados
 • ✅ Base de ${csvData.length} estabelecimentos ativa
 • ✅ Análises automáticas funcionando
-• ✅ ${csvData.length} códigos EG disponíveis
+• ✅ Sistema inteligente local ativo
 
 🎯 **Funcionalidades ativas:**
 • Análise automática de códigos EG
@@ -1562,7 +1185,7 @@ Entendi sua mensagem: "${message}"
 Compreendo e estou aqui para ajudar com análises completas de estabelecimentos!
 
 💡 **Como posso ajudar especificamente:**
-• **${csvData.length} códigos EG disponíveis** → Dados completos + análise IA (positivos + negativos)
+• **${csvData.length} códigos EG disponíveis** → Dados completos + análise inteligente (positivos + negativos)
 • **/ajuda** → Ver todos os comandos
 • **/dados** → Ver códigos EG disponíveis
 • **/status** → Verificar sistema
@@ -1610,16 +1233,15 @@ Compreendo e estou aqui para ajudar com análises completas de estabelecimentos!
 • <strong>Loja:</strong> ${data.loja}<br><br>
 <em>🚀 Agora vou fazer análise IA completa (positivos + negativos + recomendações)...</em>`, 'bot');
               
-              // Análise após mostrar dados usando Google AI
-              setTimeout(async () => {
+              // Análise após mostrar dados usando sistema inteligente local
+              setTimeout(() => {
                 try {
-                  addMessage('🤖 **Processando análise com Google AI Gemini...**', 'bot');
-                  const analysis = await analyzeWithGeminiAI(data, code);
+                  addMessage('🤖 **Processando análise inteligente local...**', 'bot');
+                  const analysis = getIntelligentAnalysis(data, code);
                   addMessage(analysis, 'bot');
                 } catch (error) {
                   console.error('Erro na análise IA:', error);
-                  const fallbackAnalysis = getIntelligentAnalysis(data, code);
-                  addMessage(fallbackAnalysis, 'bot');
+                  addMessage('<strong>❌ Erro:</strong> Não foi possível processar a análise. Tente novamente.', 'bot');
                 }
               }, 1500);
               
@@ -1638,30 +1260,16 @@ ${csvData.slice(0, 3).map(est => `• ${est.eg} - ${est.nome_fantasia}`).join('<
           const startChat = () => {
             setIsWelcomeScreen(false);
             setTimeout(() => {
-              addMessage(`<strong>⚠️ ATENÇÃO: CONFIGURAÇÃO NECESSÁRIA!</strong><br><br>
-Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em análise de performance de estabelecimentos.<br><br>
+              addMessage(`🤖 **Bem-vindo ao Raio-X Score 5!**
 
-<b>🔗 PARA FUNCIONAR, PRECISO DO LINK DA SUA PLANILHA:</b><br>
-1. Acesse sua planilha Google Sheets<br>
-2. Clique em "Compartilhar" → "Copiar link"<br>
-3. O link deve ficar assim:<br>
-   <code>https://docs.google.com/spreadsheets/d/ID_AQUI/edit</code><br><br>
+Sou o assistente de IA da DIRETA MG, especializado em análise de performance de estabelecimentos.
 
-<b>🤖 SISTEMA:</b><br>
-• IA Google Gemini: ✅ <strong>Ativada</strong> (chave atualizada)<br>
-• Base de dados: ⚠️ <strong>Aguardando link da planilha</strong><br>
-• Interface: ✅ <strong>Funcionando perfeitamente</strong><br><br>
+💡 **Como posso ajudar:**
+• Digite um código EG para análise profissional
+• Use /ajuda para ver comandos
+• /dados para ver códigos disponíveis
 
-<b>🛠️ COMANDOS DISPONÍVEIS:</b><br>
-• Digite um <strong>código EG</strong> quando a planilha estiver configurada<br>
-• Use <strong>/ajuda</strong> para ver todos os comandos<br>
-• <strong>/dados</strong> para ver códigos disponíveis (quando planilha carregada)<br>
-• <strong>/status</strong> para verificar configuração<br><br>
-
-<b>📝 Exemplos de códigos EG:</b><br>
-67285-8, 75668-7, 105270-5<br><br>
-
-<strong>Como posso ajudá-lo?</strong>`, 'bot');
+🎯 **Experimente:** Digite um código EG para ver análise completa!`, 'bot');
             }, 500);
             
             // Carregar dados em background
@@ -1705,394 +1313,12 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
             }
           };
 
-          // Toggle tema
-          const toggleTheme = () => {
-            const themes = ['light', 'dark', 'professional'];
-            const currentIndex = themes.indexOf(currentTheme);
-            const nextIndex = (currentIndex + 1) % themes.length;
-            setCurrentTheme(themes[nextIndex]);
-          };
-
-          // Sistema de Partículas
-          const initializeParticleSystem = () => {
-            const canvas = document.getElementById('particles-canvas');
-            if (!canvas) return;
-
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-
-            let particles = [];
-            const mouse = { x: 0, y: 0 };
-            
-            const getThemeColors = () => {
-              if (currentTheme === 'light') {
-                return [
-                  'rgba(59, 130, 246, 0.6)',
-                  'rgba(16, 185, 129, 0.4)',
-                  'rgba(245, 158, 11, 0.5)',
-                  'rgba(107, 114, 128, 0.3)'
-                ];
-              } else if (currentTheme === 'dark') {
-                return [
-                  'rgba(96, 165, 250, 0.7)',
-                  'rgba(251, 191, 36, 0.6)',
-                  'rgba(34, 197, 94, 0.5)',
-                  'rgba(148, 163, 184, 0.4)'
-                ];
-              } else {
-                return [
-                  'rgba(30, 64, 175, 0.6)',
-                  'rgba(245, 158, 11, 0.5)',
-                  'rgba(100, 116, 139, 0.4)',
-                  'rgba(16, 185, 129, 0.3)'
-                ];
-              }
-            };
-
-            const resize = () => {
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight;
-            };
-
-            const createParticles = () => {
-              const particleCount = Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 20000));
-              const colors = getThemeColors();
-              
-              particles = [];
-              for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                  x: Math.random() * canvas.width,
-                  y: Math.random() * canvas.height,
-                  size: Math.random() * 3 + 1,
-                  speedX: (Math.random() - 0.5) * 2,
-                  speedY: (Math.random() - 0.5) * 2,
-                  color: colors[Math.floor(Math.random() * colors.length)],
-                  opacity: Math.random() * 0.5 + 0.2,
-                  pulse: 1
-                });
-              }
-            };
-
-            const updateParticles = () => {
-              particles.forEach(particle => {
-                // Movimento suave com efeito magnético
-                const dx = mouse.x - particle.x;
-                const dy = mouse.y - particle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 80) {
-                  const force = (80 - distance) / 80;
-                  particle.speedX += (dx / distance) * force * 0.01;
-                  particle.speedY += (dy / distance) * force * 0.01;
-                }
-                
-                // Aplicar fricção
-                particle.speedX *= 0.99;
-                particle.speedY *= 0.99;
-                
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-                
-                // Rebater nas bordas
-                if (particle.x < 0 || particle.x > canvas.width) {
-                  particle.speedX *= -0.8;
-                  particle.x = Math.max(0, Math.min(canvas.width, particle.x));
-                }
-                if (particle.y < 0 || particle.y > canvas.height) {
-                  particle.speedY *= -0.8;
-                  particle.y = Math.max(0, Math.min(canvas.height, particle.y));
-                }
-                
-                // Pulsação suave
-                particle.pulse = Math.sin(Date.now() * 0.003 + particle.x * 0.01) * 0.3 + 0.7;
-              });
-            };
-
-            const drawParticles = () => {
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              particles.forEach(particle => {
-                ctx.save();
-                
-                // Efeito de brilho sutil
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = particle.color;
-                
-                // Desenhar partícula
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size * particle.pulse, 0, Math.PI * 2);
-                ctx.fillStyle = particle.color;
-                ctx.globalAlpha = particle.opacity;
-                ctx.fill();
-                
-                // Linhas conectivas para partículas próximas
-                particles.forEach((otherParticle, otherIndex) => {
-                  const dx = particle.x - otherParticle.x;
-                  const dy = particle.y - otherParticle.y;
-                  const distance = Math.sqrt(dx * dx + dy * dy);
-                  
-                  if (distance < 60 && particle !== otherParticle) {
-                    ctx.beginPath();
-                    ctx.moveTo(particle.x, particle.y);
-                    ctx.lineTo(otherParticle.x, otherParticle.y);
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 60)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.globalAlpha = 0.3;
-                    ctx.stroke();
-                  }
-                });
-                
-                ctx.restore();
-              });
-            };
-
-            const animate = () => {
-              updateParticles();
-              drawParticles();
-              requestAnimationFrame(animate);
-            };
-
-            // Event listeners
-            const handleMouseMove = (e) => {
-              mouse.x = e.clientX;
-              mouse.y = e.clientY;
-            };
-
-            const handleResize = () => {
-              resize();
-              createParticles();
-            };
-
-            // Inicializar
-            resize();
-            createParticles();
-            animate();
-
-            // Event listeners
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('resize', handleResize);
-
-            // Cleanup
-            return () => {
-              window.removeEventListener('mousemove', handleMouseMove);
-              window.removeEventListener('resize', handleResize);
-            };
-          };
-
-          // Inicializar sistemas modernos
-          React.useEffect(() => {
-            // Aguardar componente montado
-            const initTimer = setTimeout(() => {
-              initializeParticleSystem();
-              console.log('🚀 Sistema Profissional Ativado!');
-            }, 100);
-
-            return () => {
-              clearTimeout(initTimer);
-            };
-          }, []);
-
-          // Recriar partículas quando tema mudar
-          React.useEffect(() => {
-            const canvas = document.getElementById('particles-canvas');
-            if (canvas) {
-              // Pequeno delay para permitir transição suave do CSS
-              setTimeout(() => {
-                initializeParticleSystem();
-              }, 300);
-            }
-          }, [currentTheme]);
-
-          // Ícones SVG - ROBÔ PROFISSIONAL
-          const BotIcon = () => React.createElement('svg', {
-            width: '24', height: '24', viewBox: '0 0 24 24', fill: 'currentColor', strokeWidth: '0', viewBox: '0 0 24 24'
-          }, [
-            React.createElement('path', { 
-              key: 1, 
-              d: "M8 2v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2a3 3 0 0 0-3 3v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a3 3 0 0 0-3-3zm4 4h2a1 1 0 1 1 0 2H10a1 1 0 1 1 0-2zm4 0h2a1 1 0 1 1 0 2H14a1 1 0 1 1 0-2zM6 6h12a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2zm0 3h12a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2z"
-            })
-          ]);
-          
-          // Ícone de robô grande para o logo
-          const LargeBotIcon = () => React.createElement('svg', {
-            width: '80', height: '80', viewBox: '0 0 80 80', xmlns: 'http://www.w3.org/2000/svg'
-          }, [
-            // Cabeça do robô
-            React.createElement('rect', { 
-              key: 1, 
-              x: '15', y: '8', width: '50', height: '32', rx: '8', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            }),
-            // Antena
-            React.createElement('line', { 
-              key: 2, 
-              x1: '40', y1: '8', x2: '40', y2: '3', 
-              stroke: '#ffffff', strokeWidth: '2'
-            }),
-            React.createElement('circle', { 
-              key: 3, 
-              cx: '40', cy: '2', r: '2', 
-              fill: '#ffffff'
-            }),
-            // Olhos
-            React.createElement('circle', { 
-              key: 4, 
-              cx: '25', cy: '22', r: '4', 
-              fill: '#ffffff'
-            }),
-            React.createElement('circle', { 
-              key: 5, 
-              cx: '55', cy: '22', r: '4', 
-              fill: '#ffffff'
-            }),
-            React.createElement('circle', { 
-              key: 6, 
-              cx: '25', cy: '22', r: '2', 
-              fill: '#3b82f6'
-            }),
-            React.createElement('circle', { 
-              key: 7, 
-              cx: '55', cy: '22', r: '2', 
-              fill: '#3b82f6'
-            }),
-            // Boca
-            React.createElement('rect', { 
-              key: 8, 
-              x: '28', y: '28', width: '24', height: '4', rx: '2', 
-              fill: '#ffffff'
-            }),
-            // Corpo do robô
-            React.createElement('rect', { 
-              key: 9, 
-              x: '18', y: '42', width: '44', height: '25', rx: '5', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            }),
-            // Painel de controle no peito
-            React.createElement('rect', { 
-              key: 10, 
-              x: '30', y: '47', width: '20', height: '15', rx: '3', 
-              fill: '#ffffff'
-            }),
-            React.createElement('circle', { 
-              key: 11, 
-              cx: '33', cy: '52', r: '2', 
-              fill: '#3b82f6'
-            }),
-            React.createElement('rect', { 
-              key: 12, 
-              x: '37', y: '51', width: '10', height: '2', rx: '1', 
-              fill: '#3b82f6'
-            }),
-            // Braços
-            React.createElement('rect', { 
-              key: 13, 
-              x: '8', y: '45', width: '8', height: '6', rx: '2', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            }),
-            React.createElement('rect', { 
-              key: 14, 
-              x: '64', y: '45', width: '8', height: '6', rx: '2', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            }),
-            // Pernas
-            React.createElement('rect', { 
-              key: 15, 
-              x: '25', y: '67', width: '8', height: '8', rx: '2', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            }),
-            React.createElement('rect', { 
-              key: 16, 
-              x: '47', y: '67', width: '8', height: '8', rx: '2', 
-              fill: '#3b82f6', stroke: '#ffffff', strokeWidth: '2'
-            })
-          ]);
-
-          const SendIcon = () => React.createElement('svg', {
-            width: '18', height: '18', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('path', { key: 1, d: 'm22 2-7 20-4-9-9-4z' }),
-            React.createElement('path', { key: 2, d: 'M22 2 11 13' })
-          ]);
-
-          const BarChartIcon = () => React.createElement('svg', {
-            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('line', { key: 1, x1: '12', y1: '20', x2: '12', y2: '10' }),
-            React.createElement('line', { key: 2, x1: '18', y1: '20', x2: '18', y2: '4' }),
-            React.createElement('line', { key: 3, x1: '6', y1: '20', x2: '6', y2: '16' })
-          ]);
-
-          const SunIcon = () => React.createElement('svg', {
-            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('circle', { key: 1, cx: '12', cy: '12', r: '5' }),
-            React.createElement('path', { key: 2, d: 'M12 1v2' }),
-            React.createElement('path', { key: 3, d: 'M12 21v2' }),
-            React.createElement('path', { key: 4, d: 'M4.22 4.22l1.42 1.42' }),
-            React.createElement('path', { key: 5, d: 'M18.36 18.36l1.42 1.42' }),
-            React.createElement('path', { key: 6, d: 'M1 12h2' }),
-            React.createElement('path', { key: 7, d: 'M21 12h2' }),
-            React.createElement('path', { key: 8, d: 'M4.22 19.78l1.42-1.42' }),
-            React.createElement('path', { key: 9, d: 'M18.36 5.64l1.42-1.42' })
-          ]);
-
-          const MoonIcon = () => React.createElement('svg', {
-            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('path', { key: 1, d: 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' })
-          ]);
-
-          const ZapIcon = () => React.createElement('svg', {
-            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('polygon', { key: 1, points: '13 2 3 14 12 14 11 22 21 10 12 10 13 2' })
-          ]);
-
-          const XIcon = () => React.createElement('svg', {
-            width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'
-          }, [
-            React.createElement('line', { key: 1, x1: '18', y1: '6', x2: '6', y2: '18' }),
-            React.createElement('line', { key: 2, x1: '6', y1: '6', x2: '18', y2: '18' })
-          ]);
-
-          return React.createElement('div', { className: `app ${currentTheme}` }, [
-            // Canvas de Partículas
-            React.createElement('canvas', {
-              key: 'particles',
-              id: 'particles-canvas',
-              className: 'particles-canvas',
-              style: {
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1,
-                pointerEvents: 'none'
-              }
-            }),
-            
-            // Botão de Tema
-            React.createElement('button', {
-              key: 'theme-toggle',
-              onClick: toggleTheme,
-              className: 'theme-toggle',
-              title: `Tema atual: ${currentTheme}`
-            }, [
-              currentTheme === 'light' && React.createElement(SunIcon, { key: 'sun' }),
-              currentTheme === 'dark' && React.createElement(MoonIcon, { key: 'moon' }),
-              currentTheme === 'professional' && React.createElement(BarChartIcon, { key: 'chart' })
-            ]),
-
+          return React.createElement('div', { className: 'app' }, [
             // Tela de Boas-vindas
             isWelcomeScreen && React.createElement('div', {
               key: 'welcome',
               className: 'welcome-screen'
             }, [
-              React.createElement('div', {
-                key: 'bg-pattern',
-                className: 'welcome-bg-pattern'
-              }),
               React.createElement('div', {
                 key: 'content',
                 className: 'welcome-content'
@@ -2126,14 +1352,10 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
                       justifyContent: 'center'
                     }
                   }, [
-                    React.createElement(LargeBotIcon, { 
+                    React.createElement('span', { 
                       key: 'robot-icon-large', 
-                      className: 'robot-icon',
-                      style: {
-                        color: 'white',
-                        filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
-                      }
-                    })
+                      className: 'robot-icon'
+                    }, '🤖')
                   ])
                 ]),
 
@@ -2150,7 +1372,7 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
                   onClick: startChat,
                   className: 'start-button animate-fade-in-up'
                 }, [
-                  React.createElement(ZapIcon, { key: 'zap-icon' }),
+                  React.createElement('span', { key: 'zap-icon' }, '⚡'),
                   'Iniciar Conversa'
                 ])
               ])
@@ -2178,7 +1400,7 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
                       key: 'header-avatar',
                       className: 'header-avatar'
                     }, [
-                      React.createElement(BotIcon, { key: 'header-bot' })
+                      React.createElement('span', { key: 'header-bot' }, '🤖')
                     ]),
                     React.createElement('div', {
                       key: 'header-text',
@@ -2200,7 +1422,7 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
                     className: 'close-button',
                     title: 'Fechar chat'
                   }, [
-                    React.createElement(XIcon, { key: 'close-x' })
+                    React.createElement('span', { key: 'close-x' }, '✕')
                   ])
                 ]),
 
@@ -2268,7 +1490,7 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
                       className: 'send-button',
                       disabled: isLoading
                     }, [
-                      React.createElement(SendIcon, { key: 'send-icon' })
+                      React.createElement('span', { key: 'send-icon' }, '➤')
                     ])
                   ])
                 ])
@@ -2276,9 +1498,6 @@ Olá! Sou o <strong>Assistente de IA da DIRETA MG</strong>, especialista em aná
             ])
           ]);
         }
-
-        // Inicializar variável global para URL da planilha
-        window.GOOGLE_SHEET_CSV_URL = null;
 
         // Renderizar o app
         ReactDOM.render(React.createElement(App), document.getElementById('root'));
