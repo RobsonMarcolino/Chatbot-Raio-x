@@ -3,72 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raio-X Score 5 - IA Conversacional</title>
-    
+    <title>Raio-X Score 5 - DIRETA MG</title>
+    <meta name="mobile-web-app-capable" content="yes">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- REMOVIDO: lucide-react (é para React) -->
-    <!-- ADICIONADO: lucide (para HTML/JS) -->
-    <!-- CORREÇÃO: Alterado para a versão UMD (Universal Module Definition) que funciona em browsers -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #171717 0%, #0a0a0a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-
-        ::-webkit-scrollbar {
-            width: 6px;
+        
+        /* Animações */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
+        
+        .animate-bounce-gentle {
+            animation: bounceGentle 2s infinite;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-
-        #message-container {
-            -webkit-overflow-scrolling: touch;
+        
+        .animate-pulse-slow {
+            animation: pulseSlow 3s infinite;
         }
-
-        body {
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
-                linear-gradient(135deg, #171717 0%, #0a0a0a 100%);
-            background-size: cover;
+        
+        @keyframes pulseSlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+            to { box-shadow: 0 0 40px rgba(245, 158, 11, 0.6); }
+        }
+        
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2\.5 { animation-delay: 0.8s; }
+        .delay-3 { animation-delay: 1.3s; }
+        
+        /* Welcome Screen */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            min-height: 100vh;
             position: relative;
         }
-        @keyframes fadeInBackground {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .particle {
+        
+        .welcome-bg-pattern {
             position: absolute;
-            background-color: rgba(245, 158, 11, 0.4);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.2) 0%, transparent 50%);
+        }
+        
+        .robot-image {
+            max-width: 18rem;
+            max-height: 18rem;
+            filter: drop-shadow(0 8px 32px rgba(245, 158, 11, 0.3));
+            transition: all 0.3s ease;
+        }
+        
+        .robot-image:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 12px 48px rgba(245, 158, 11, 0.4));
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            display: none;
+        }
+        
+        .phone-container {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
+            box-shadow: 
+                0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-radius: 0;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .phone-container {
+                width: 28rem;
+                height: calc(100vh - 2rem);
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 1.75rem;
+                box-shadow: 
+                    0 0 0 1px rgba(0, 0, 0, 0.1),
+                    0 25px 80px rgba(0, 0, 0, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
+        }
+        
+        /* Header com design Ambev */
+        .chat-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+        
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-avatar {
+            width: 3rem;
+            height: 3rem;
+            background: rgba(0, 0, 0, 0.9);
             border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            animation: particle-move 20s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 2px 12px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-
-        @keyframes particle-move {
-            0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translate(var(--x), var(--y)) scale(1.2); opacity: 0; }
+        
+        .header-avatar:hover {
+            transform: scale(1.05);
         }
-
-        @keyframes fadeInUp {
+        
+        .header-emoji {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+        }
+        
+        .header-text {
+            flex: 1;
+        }
+        
+        .header-title {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 0.125rem;
+            letter-spacing: -0.025em;
+        }
+        
+        .header-subtitle {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.05em;
+        }
+        
+        .close-button {
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            color: #000;
+            font-size: 1.75rem;
+            font-weight: 300;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        
+        .close-button:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+        
+        /* Messages */
+        .message-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: 
+                linear-gradient(180deg, #fef3c7 0%, #fde68a 100%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #f59e0b transparent;
+        }
+        
+        .message-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .message-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .message-container::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.3);
+            border-radius: 3px;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 0.875rem 1rem;
+            border-radius: 1.25rem;
+            line-height: 1.5;
+            font-size: 0.875rem;
+            animation: messageSlide 0.4s ease-out;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        @keyframes messageSlide {
             from {
                 opacity: 0;
                 transform: translateY(20px);
@@ -78,2394 +282,757 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .animate-slide-in-right {
-            animation: slideInRight 0.6s ease-out forwards;
-        }
-
-        .animate-pulse {
-            animation: pulse 2s infinite;
-        }
-
-        .animate-bounce-in {
-            animation: bounceIn 0.8s ease-out forwards;
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        .animate-fade-in-up.delay-1 { animation-delay: 0.2s; opacity: 0; }
-        .animate-fade-in-up.delay-2 { animation-delay: 0.4s; opacity: 0; }
-        .animate-fade-in-up.delay-3 { animation-delay: 0.6s; opacity: 0; }
-
-        .tech-grid-bg {
-            background-color: #1a1a1a;
-            background-image: 
-                linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        #subtitle-typing::after {
-            content: '|';
-            animation: blink-caret 0.75s infinite;
-        }
-        @keyframes blink-caret {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .message-bubble {
-            position: relative;
-        }
-        .bubble-bot::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -8px;
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 0px solid transparent;
-            border-right: 12px solid #e5e7eb; /* Corrigido para e5e7eb (cinza) */
-        }
-        .bubble-user::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: -8px;
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 0px solid transparent;
-            border-left: 12px solid #f59e0b;
-        }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #9ca3af;
-            animation: typing-pulse 1.4s infinite ease-in-out both;
-        }
-        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing-pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.5; }
-        }
-
-        @media (min-width: 768px) {
-            #phone-container {
-                background-color: rgba(39, 39, 42, 0.7);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(245, 158, 11, 0.2);
-                box-shadow: 
-                    0 0 15px rgba(245, 158, 11, 0.3),
-                    0 0 30px rgba(0, 0, 0, 0.5);
-                position: relative;
-                overflow: hidden;
-            }
-
-            #phone-container::before {
-                content: '';
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: conic-gradient(
-                    from 0deg at 50% 50%, 
-                    transparent 0%, 
-                    transparent 20%, 
-                    rgba(245, 158, 11, 0.6) 30%,
-                    transparent 40%, 
-                    transparent 60%, 
-                    rgba(245, 158, 11, 0.6) 70%,
-                    transparent 80%, 
-                    transparent 100%
-                );
-                border-radius: inherit;
-                animation: rotate-border 6s linear infinite;
-                z-index: -1;
-                opacity: 0.6;
-            }
-            
-            @keyframes rotate-border {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-
-            #phone-container::after {
-                content: '';
-                position: absolute;
-                top: 2.5px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 80%;
-                height: 1px;
-                background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-                border-radius: 9999px;
-                z-index: 10;
-            }
-        }
-
-        .message-area-shadows::before,
-        .message-area-shadows::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            pointer-events: none;
-            z-index: 5;
-        }
-        #chat-screen .message-area-shadows::before {
-            top: 0;
-            /* background: linear-gradient(to bottom, rgba(39, 39, 42, 0.4), transparent); */
-            /* CORREÇÃO: Usando a cor de fundo do chat (tech-grid-bg) para suavizar */
-             background: linear-gradient(to bottom, #1a1a1a, transparent);
-        }
-        #chat-screen .message-area-shadows::after {
-            bottom: 0;
-            /* background: linear-gradient(to top, rgba(39, 39, 42, 0.4), transparent); */
-            background: linear-gradient(to top, #1a1a1a, transparent);
-        }
-
-        @media (max-width: 767px) {
-            body {
-                padding: 0;
-                margin: 0;
-                overflow-x: hidden;
-            }
-
-            #welcome-screen {
-                padding: 1rem;
-                padding-bottom: 2rem;
-            }
-
-            #chat-screen .message-area-shadows::before {
-                display: none;
-            }
-
-            button {
-                min-height: 44px; /* Acessibilidade */
-            }
-
-            #message-input {
-                min-height: 44px; /* Acessibilidade */
-            }
-
-            .sidebar {
-                width: 85vw;
-                max-width: 320px;
-            }
-
-            .message-bubble {
-                max-width: 85%;
-                font-size: 0.875rem;
-            }
-
-            #open-sidebar,
-            #clear-chat-button,
-            #close-chat-button {
-                min-width: 44px;
-                min-height: 44px;
-            }
-        }
-
-        @media (max-width: 375px) {
-            #welcome-screen {
-                padding: 0.75rem;
-            }
-            
-            .message-bubble {
-                max-width: 90%;
-                font-size: 0.875rem;
-            }
-            
-            #message-input {
-                font-size: 16px; /* Evita zoom automático no iOS */
-            }
-            
-
-            button {
-                min-height: 40px;
-                font-size: 0.875rem;
-            }
-            
-
-            .sidebar {
-                width: 90vw;
-            }
+        
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000;
+            border-bottom-right-radius: 0.375rem;
+            box-shadow: 
+                0 4px 16px rgba(245, 158, 11, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            font-weight: 600;
         }
         
-        @media (max-width: 767px) and (orientation: portrait) {
-            #welcome-screen {
-                min-height: 100vh;
-                 padding: 1rem;
-                 justify-content: center;
-            }
-            
-            /* Ajustes para telas pequenas */
-            #chat-screen > div:first-child { /* Cabeçalho */
-                padding: 0.75rem 1rem;
-            }
-            
-            #message-container {
-                padding: 0.75rem 1rem;
-            }
+        .message.bot {
+            align-self: flex-start;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-bottom-left-radius: 0.375rem;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-
-        @media (min-width: 768px) and (max-width: 1024px) {
-            #welcome-screen {
-                 padding: 2rem;
-            }
-            
-            .sidebar {
-                width: 350px;
-            }
+        
+        .message.bot strong {
+            color: #92400e;
+            font-weight: 700;
         }
-
-        .sidebar {
-            transition: transform 0.3s ease-in-out;
-        }
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 0.875rem 1rem;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            font-size: 0.875rem;
             font-weight: 500;
-        }
-        .badge-success {
-            background-color: rgba(34, 197, 94, 0.1);
-            color: rgb(34, 197, 94);
-        }
-        .badge-warning {
-            background-color: rgba(245, 158, 11, 0.1);
-            color: rgb(245, 158, 11);
-        }
-        .badge-danger {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: rgb(239, 68, 68);
-        }
-
-        .action-button {
-            transition: all 0.2s ease;
-        }
-        .action-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            align-self: flex-start;
+            max-width: fit-content;
         }
         
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(245, 158, 11, 0.2);
-            border-radius: 2px;
+        .typing-dots {
+            display: inline-flex;
+            gap: 0.25rem;
+            margin-right: 0.5rem;
+        }
+        
+        .typing-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            animation: typingPulse 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingPulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.2); 
+                opacity: 0.7; 
+            }
+        }
+        
+        /* Input Container */
+        .input-container {
+            background: #fff;
+            padding: 1rem;
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 
+                0 -4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .chat-form {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 0.875rem 1.25rem;
+            background: #f9fafb;
+            border: 2px solid transparent;
+            border-radius: 1.5rem;
+            color: #374151;
+            font-size: 0.875rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .message-input:focus {
+            border-color: #f59e0b;
+            background: #fff;
+            box-shadow: 
+                inset 0 1px 2px rgba(0, 0, 0, 0.05),
+                0 0 0 4px rgba(245, 158, 11, 0.1);
+        }
+        
+        .message-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+        
+        .send-button {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 16px rgba(245, 158, 11, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 6px 24px rgba(245, 158, 11, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .send-button:active {
+            transform: scale(0.95);
+        }
+        
+        /* Loading states */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .loading .send-button {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Botões da tela de boas-vindas */
+        .start-button {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000;
+            font-weight: 800;
+            font-size: 1.125rem;
+            padding: 1rem 2.5rem;
+            border-radius: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 32px rgba(245, 158, 11, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
             overflow: hidden;
         }
-        .progress-fill {
+        
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
             height: 100%;
-            background-color: #f59e0b;
-            border-radius: 2px;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .start-button:hover::before {
+            left: 100%;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 12px 48px rgba(245, 158, 11, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .start-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        /* Responsivo */
+        @media (max-width: 480px) {
+            .robot-image {
+                max-width: 14rem;
+                max-height: 14rem;
+            }
+            
+            .header-title {
+                font-size: 1rem;
+            }
+            
+            .header-subtitle {
+                font-size: 0.6875rem;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen relative overflow-hidden md:flex md:items-center md:justify-center">
-    <!-- Partículas do fundo global -->
-    <div id="particles-container"></div>
-
-    <!-- Menu Lateral -->
-    <div id="sidebar" class="sidebar fixed left-0 top-0 h-full w-80 sm:w-80 md:w-80 bg-gray-900 text-white z-40 hidden transform -translate-x-full transition-transform duration-300">
-        <div class="p-6 border-b border-gray-700">
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-bold">Menu</h2>
-                <button id="close-sidebar" class="text-gray-400 hover:text-white">
-                    <!-- Ícone Lucide -->
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-        </div>
+<body>
+    <!-- Tela de Boas-vindas -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-bg-pattern"></div>
         
-        <div class="p-6 space-y-4">
-            <button id="history-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="history" class="w-5 h-5"></i>
-                    <span>Histórico de Consultas</span>
-                </div>
-            </button>
-            
-            <button id="favorites-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="heart" class="w-5 h-5"></i>
-                    <span>Favoritos</span>
-                </div>
-            </button>
-            
-            <button id="compare-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                    <span>Comparar Códigos</span>
-                </div>
-            </button>
-            
-            <button id="export-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="download" class="w-5 h-5"></i>
-                    <span>Exportar Dados</span>
-                </div>
-            </button>
-            
-            <button id="help-btn" class="w-full text-left p-3 rounded-lg hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <i data-lucide="help-circle" class="w-5 h-5"></i>
-                    <span>Ajuda e Comandos</span>
-                </div>
-            </button>
-        </div>
-    </div>
-
-    <!-- TELA 1: Boas-vindas -->
-    <div id="welcome-screen" class="flex flex-col items-center justify-center text-center px-4 py-8 w-full min-h-screen relative z-20">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up">
+            Raio-X Score 5
+        </h1>
         
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 md:mb-4 drop-shadow-lg animate-fade-in-up">Raio-X Score 5</h1>
-        <p id="subtitle-typing" class="text-lg sm:text-xl text-gray-200 mb-6 md:mb-8 h-6 md:h-7"></p>
+        <p id="subtitle-typing" class="text-xl sm:text-2xl text-amber-300 mb-8 h-8 font-semibold animate-fade-in-up delay-1"></p>
 
-        <!-- GIF Robô Responsivo -->
-        <!-- RESTAURADO: GIF original -->
-        <img src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
-             alt="Robô IA" 
-             class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-64 mx-auto my-4 object-contain animate-fade-in-up delay-1" />
+        <!-- GIF Robô -->
+        <img 
+            src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
+            alt="Robô IA DIRETA MG" 
+            class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto my-6 object-contain animate-bounce-gentle delay-2.5 robot-image"
+        />
 
-        <p class="text-xs sm:text-sm text-gray-400 mb-6 md:mb-8 animate-fade-in-up delay-2">Desenvolvido pelo time PPM AS MG</p>
+        <p class="text-sm text-gray-300 mb-12 font-medium animate-fade-in-up delay-3">
+            🤖 Desenvolvido pela <span class="text-amber-400 font-bold">DIRETA MG</span>
+        </p>
 
-        <!-- Botão "Iniciar Chat" -->
-        <button id="start-chat-button" class="w-full max-w-sm sm:max-w-md bg-amber-500 text-black font-semibold py-3 sm:py-4 px-6 rounded-xl shadow-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 animate-fade-in-up delay-3 text-sm sm:text-base">
-            Iniciar Conversa
+        <!-- Botão Iniciar -->
+        <button 
+            id="start-chat-button" 
+            class="start-button animate-glow animate-fade-in-up delay-3"
+        >
+            🚀 Iniciar Conversa
         </button>
     </div>
 
-    <!-- TELA 2: Chat (Layout de Celular) -->
-    <div id="phone-container" class="hidden flex-col w-screen h-screen z-30 relative md:max-w-sm md:h-[90vh] md:max-h-[740px] md:rounded-3xl md:p-2.5 md:shadow-2xl">
+    <!-- Chat Container Mobile -->
+    <div id="phone-container" class="chat-container phone-container">
         
-        <!-- Notch -->
-        <div class="hidden md:block w-20 h-3 bg-black rounded-b-md mx-auto mb-1.5"></div>
-
-        <!-- Tela Interna do Chat -->
-        <div id="chat-screen" class="flex flex-col w-full h-full bg-white overflow-hidden relative md:rounded-2xl">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-info">
+                <div class="header-avatar animate-pulse-slow">
+                    <span class="header-emoji">🤖</span>
+                </div>
+                <div class="header-text">
+                    <h1 class="header-title">Raio-X Score 5</h1>
+                    <p id="chat-status" class="header-subtitle">IA Conversacional Online</p>
+                </div>
+            </div>
             
-            <!-- Cabeçalho do Chat -->
-            <div class="flex items-center justify-between px-3 sm:px-4 py-3 sm:py-4 bg-amber-500 border-b border-amber-600 md:rounded-t-2xl">
-                
-                <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
-                    <button id="open-sidebar" class="text-neutral-800 hover:text-black p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-black flex-shrink-0">
-                        <i data-lucide="menu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                    </button>
-                    <div class="min-w-0">
-                        <h1 class="text-lg sm:text-xl font-bold text-black truncate">Raio-X Score 5</h1>
-                        <p id="chat-status" class="text-xs sm:text-sm text-neutral-800 truncate">IA Conversacional Online</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-                    <!-- Botão Limpar Chat -->
-                    <button id="clear-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Limpar chat">
-                        <i data-lucide="trash-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                    </button>
-                    <!-- Botão de Fechar o Chat -->
-                    <button id="close-chat-button" class="text-neutral-800 hover:text-black p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-black" aria-label="Fechar chat">
-                        <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-                    </button>
-                </div>
-            </div>
+            <!-- Botão Fechar -->
+            <button id="close-chat-button" class="close-button">
+                ×
+            </button>
+        </div>
 
-            <!-- Barra de Progresso para IA -->
-            <div id="ai-progress" class="hidden bg-gray-200">
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-            </div>
+        <!-- Messages Container -->
+        <div id="message-container" class="message-container">
+            <!-- Messages appear here -->
+        </div>
 
-            <!-- Área de Mensagens -->
-            <!-- CORREÇÃO: Cor de fundo mudada de gray-50 para tech-grid-bg (fundo escuro) -->
-            <div id="message-container" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 tech-grid-bg relative message-area-shadows">
-                <!-- Mensagem inicial do Bot (adicionada via JS) -->
-            </div>
+        <!-- Typing Indicator -->
+        <div id="typing-indicator" class="typing-indicator">
+            <span class="typing-dots">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </span>
+            IA está digitando...
+        </div>
 
-            <!-- Indicador de "Digitando..." -->
-            <div id="typing-indicator" class="hidden justify-start p-3 sm:p-4 tech-grid-bg">
-                <div class="bg-gray-200 text-gray-800 p-3 rounded-xl max-w-xs sm:max-w-sm bubble-bot message-bubble" style="border-bottom-left-radius: 0;">
-                    <div class="typing-indicator space-x-1.5">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Input de Mensagem -->
-            <div class="p-3 sm:p-4 bg-amber-500 border-t border-amber-600 md:rounded-b-2xl">
-                <form id="chat-form" class="flex items-center space-x-2 sm:space-x-3">
-                    <input 
-                        type="text" 
-                        id="message-input"
-                        placeholder="Digite aqui..." 
-                        class="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-amber-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
-                        autocomplete="off"
-                    >
-                    <button 
-                        type="submit"
-                        class="bg-neutral-800 text-white p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 transition-all duration-300 flex-shrink-0"
-                        aria-label="Enviar mensagem"
-                    >
-                        <!-- Ícone inicial de "Check" -->
-                        <i data-lucide="check" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                    </button>
-                </form>
-            </div>
+        <!-- Input Container -->
+        <div class="input-container">
+            <form id="chat-form" class="chat-form">
+                <input 
+                    id="message-input" 
+                    type="text" 
+                    placeholder="Digite um código EG ou comando..." 
+                    class="message-input"
+                    autocomplete="off"
+                />
+                <button 
+                    type="submit" 
+                    class="send-button"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 4L13 21L11 13L3 11L21 4Z"/>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-        console.log('🚀 Iniciando carregamento do chatbot...');
-        // ADICIONADO: Log para confirmar que o script mais recente (v6) está a ser executado
-        console.log('✅ Versão Corrigida (v6) - Aguardando DOMContentLoaded');
+        // Configurações
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
+        const GEMINI_API_KEY = "AIzaSyCNHygq_D3meacHFbZcJ9BF9I59xGWouCw";
         
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('✅ DOM carregado');
-            
-            const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
-            
-            let csvData = [];
-            
-            console.log('📋 Inicializando variáveis...');
-            
-            const WELCOME_MESSAGE = `🚀 **Olá! Sou a IA Conversacional do Raio-X Score 5!**
+        // Variáveis globais
+        let csvData = [];
+        let sheetData = [];
+        let headerMap = {};
+        let isSheetLoaded = false;
+        let isSheetLoading = false;
+        let typingTimeout = null;
 
-Posso ajudá-lo de várias formas:
-
-**📊 CONSULTAS:**
-• Envie um **código EG** (ex: 12345)
-• Digite um **nome de rede** para buscar
-• Use **"/buscar [termo]"** para consultas específicas
-
-**🛠️ COMANDOS:**
-• Digite um **código EG** (ex: 12345)
-• Use **"/buscar [termo]"** para consultas específicas
-• **"/ajuda"** - Ver ajuda completa
-
-**🧠 IA AVANÇADA:**
-Posso analisar padrões, tendências e gerar insights personalizados sobre os dados.
-
-Como posso ajudá-lo hoje?`;
-            const SUBTITLE_TEXT = "IA Conversacional para análise de dados da Direta MG";
+        // Funções de Animação do Subtítulo
+        function animateSubtitle() {
+            const subtitle = document.getElementById('subtitle-typing');
+            const messages = [
+                "🤖 IA Conversacional da DIRETA MG",
+                "📊 Análise de Performance de Lojas", 
+                "🎯 Consultas Inteligentes de Código EG",
+                "⚡ Sistema Ambev Parceiro BEES"
+            ];
+            let currentIndex = 0;
             
-            console.log('🔍 Buscando elementos DOM...');
+            function typeMessage(message) {
+                subtitle.textContent = '';
+                let i = 0;
+                
+                function typeChar() {
+                    if (i < message.length) {
+                        subtitle.textContent += message.charAt(i);
+                        i++;
+                        setTimeout(typeChar, 50);
+                    } else {
+                        setTimeout(() => {
+                            eraseMessage(message);
+                        }, 3000);
+                    }
+                }
+                
+                typeChar();
+            }
             
-            const welcomeScreen = document.getElementById('welcome-screen');
-            const phoneContainer = document.getElementById('phone-container'); 
-            const startChatButton = document.getElementById('start-chat-button');
-            const closeChatButton = document.getElementById('close-chat-button');
-            const clearChatButton = document.getElementById('clear-chat-button'); 
-            const particlesContainer = document.getElementById('particles-container');
-            const sidebar = document.getElementById('sidebar');
-            const openSidebarBtn = document.getElementById('open-sidebar');
-            const closeSidebarBtn = document.getElementById('close-sidebar');
-            const chatForm = document.getElementById('chat-form');
-            const messageInput = document.getElementById('message-input');
+            function eraseMessage(message) {
+                let i = message.length;
+                
+                function eraseChar() {
+                    if (i > 0) {
+                        subtitle.textContent = message.substring(0, i - 1);
+                        i--;
+                        setTimeout(eraseChar, 30);
+                    } else {
+                        currentIndex = (currentIndex + 1) % messages.length;
+                        setTimeout(() => {
+                            typeMessage(messages[currentIndex]);
+                        }, 500);
+                    }
+                }
+                
+                eraseChar();
+            }
+            
+            setTimeout(() => {
+                typeMessage(messages[currentIndex]);
+            }, 1000);
+        }
+
+        // Função para adicionar mensagens
+        function addMessage(content, sender = 'bot') {
             const messageContainer = document.getElementById('message-container');
-            const chatStatus = document.getElementById('chat-status');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = content.replace(/\n/g, '<br>');
+            messageContainer.appendChild(messageDiv);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        // Função para mostrar typing indicator
+        function showTyping() {
             const typingIndicator = document.getElementById('typing-indicator');
-            const aiProgress = document.getElementById('ai-progress');
-            const progressFill = document.getElementById('progress-fill');
-            const sendButtonIcon = chatForm.querySelector('button i'); // CORREÇÃO: Alvo é o <i>
-            const sendButton = chatForm.querySelector('button');
-            const historyBtn = document.getElementById('history-btn');
-            const favoritesBtn = document.getElementById('favorites-btn');
-            const compareBtn = document.getElementById('compare-btn');
-            const exportBtn = document.getElementById('export-btn');
-            const helpBtn = document.getElementById('help-btn');
+            typingIndicator.style.display = 'block';
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+
+        // Função para esconder typing indicator
+        function hideTyping() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'none';
+        }
+
+        // Função para simular typing delay
+        function simulateTyping(callback, delay = 1500) {
+            showTyping();
             
-            console.log('✅ Elementos encontrados:', {
-                welcomeScreen: !!welcomeScreen,
-                phoneContainer: !!phoneContainer,
-                startChatButton: !!startChatButton,
-                chatForm: !!chatForm
-            });
-            let chatSession = {
-                codes: [],
-                conversationContext: [],
-                favorites: [],
-                comparisonList: [],
-                isProcessing: false
-            };
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                hideTyping();
+                callback();
+            }, delay);
+        }
 
-            let headerMap = {};
-            let sheetData = [];
-            let isSheetLoaded = false;
-            let isSheetLoading = false;
-            let filteredData = [];
-            const COMMANDS = {
-                '/buscar': 'Buscar por nome/rede (ex: /buscar ambev)',
-                '/ajuda': 'Mostrar comandos disponíveis',
-                '/limpar': 'Limpar contexto da sessão',
-                '/status': 'Status da base de dados'
-            };
-
-            function updateCsvData() {
-                console.log('🔧 Atualizando csvData...');
-                console.log('📋 headerMap atual:', headerMap);
+        // Função parseCSV simplificada e funcional
+        function parseCSV(text) {
+            console.log('🔍 Parseando CSV...');
+            const lines = [];
+            const rawLines = text.trim().split('\n');
+            
+            for (const line of rawLines) {
+                const row = [];
+                let cell = '';
+                let inQuote = false;
+                const cleanLine = line.replace(/\r$/, '');
                 
-                csvData = sheetData.map(row => {
-                    const obj = {};
-                    Object.keys(headerMap).forEach((key, index) => {
-                        const colIndex = headerMap[key][0];
-                        if (colIndex !== undefined) {
-                            obj[key] = row[colIndex];
-                            console.log(`🔧 Mapeando: ${key} -> coluna ${colIndex} -> "${row[colIndex]}"`);
-                        }
-                    });
-                    return obj;
-                });
-                console.log('📊 csvData atualizado:', csvData.length, 'registros');
-                
-                // ADICIONADO: Log dos headers disponíveis para debug
-                console.log('📋 Headers disponíveis:', Object.keys(headerMap));
-                
-                // ADICIONADO: Log de alguns exemplos de dados
-                if (csvData.length > 0) {
-                    console.log('📝 Primeiro registro:', csvData[0]);
-                    console.log('📝 Colunas do primeiro registro:', Object.keys(csvData[0]));
-                }
-            }
-
-            // Função parseCSV completa
-            function parseCSV(text) {
-                const lines = [];
-                const rawLines = text.trim().split('\n');
-                for (const line of rawLines) {
-                    const row = [];
-                    let cell = '';
-                    let inQuote = false;
-                    const cleanLine = line.replace(/\r$/, '');
-                    for (let i = 0; i < cleanLine.length; i++) {
-                        const char = cleanLine[i];
-                        if (char === '"') {
-                            if (inQuote && cleanLine[i + 1] === '"') {
-                                cell += '"';
-                                i++;
-                            } else {
-                                inQuote = !inQuote;
-                            }
-                        } else if (char === ',' && !inQuote) {
-                            row.push(cell.trim());
-                            cell = '';
+                for (let i = 0; i < cleanLine.length; i++) {
+                    const char = cleanLine[i];
+                    if (char === '"') {
+                        if (inQuote && cleanLine[i + 1] === '"') {
+                            cell += '"';
+                            i++;
                         } else {
-                            cell += char;
+                            inQuote = !inQuote;
                         }
-                    }
-                    row.push(cell.trim());
-                    lines.push(row);
-                }
-                console.log('📋 CSV parseado:', lines.length, 'linhas');
-                return lines;
-            }
-
-            console.log('⚡ Configurando event listeners...');
-            
-            startChatButton.addEventListener('click', () => {
-                console.log('🔄 Botão Iniciar clicado!');
-                console.log('📱 Tela atual:', welcomeScreen.classList.contains('hidden') ? 'Chat' : 'Bem-vindas');
-                
-                welcomeScreen.classList.add('hidden');
-                phoneContainer.classList.remove('hidden'); 
-                phoneContainer.classList.add('flex'); 
-                
-                console.log('🎯 Mudança de tela concluída');
-                
-                if (messageInput) {
-                    messageInput.focus();
-                    console.log('⌨️ Foco no input de mensagem');
-                }
-
-                if (messageContainer.children.length === 0) {
-                    console.log('💬 Adicionando mensagem de boas-vindas');
-                    addMessage(WELCOME_MESSAGE, 'bot');
-                }
-
-                if (!isSheetLoaded && !isSheetLoading) {
-                    console.log('📊 Iniciando carregamento da planilha');
-                    preloadSheetData();
-                }
-            });
-            
-            console.log('✅ Event listeners configurados');
-
-            closeChatButton.addEventListener('click', () => {
-                phoneContainer.classList.add('hidden'); 
-                phoneContainer.classList.remove('flex');
-                welcomeScreen.classList.remove('hidden');
-                
-                // CORREÇÃO: Limpa o chat ao fechar para que a msg de boas-vindas apareça
-                messageContainer.innerHTML = '';
-                resetChatSession();
-            });
-
-            clearChatButton.addEventListener('click', () => {
-                messageContainer.innerHTML = ''; 
-                addMessage(WELCOME_MESSAGE, 'bot');
-                messageContainer.scrollTop = 0;
-                resetChatSession();
-            });
-
-            openSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.remove('hidden');
-                setTimeout(() => {
-                    sidebar.style.transform = 'translateX(0)';
-                }, 10);
-            });
-
-            closeSidebarBtn.addEventListener('click', () => {
-                sidebar.style.transform = 'translateX(-100%)';
-                setTimeout(() => {
-                    sidebar.classList.add('hidden');
-                }, 300);
-            });
-
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipeGesture();
-            });
-            
-            function handleSwipeGesture() {
-                const swipeThreshold = 50;
-                const swipeDistance = touchEndX - touchStartX;
-                
-                if (touchStartX < 20 && swipeDistance > swipeThreshold && !sidebarIsVisible()) {
-                    if (window.innerWidth <= 768) {
-                        openSidebarBtn.click();
+                    } else if (char === ',' && !inQuote) {
+                        row.push(cell.trim());
+                        cell = '';
+                    } else {
+                        cell += char;
                     }
                 }
-                
-                if (swipeDistance < -swipeThreshold && sidebarIsVisible()) {
-                    closeSidebar();
-                }
+                row.push(cell.trim());
+                lines.push(row);
             }
             
-            function sidebarIsVisible() {
-                return !sidebar.classList.contains('hidden');
-            }
-            
-            function closeSidebar() {
-                sidebar.style.transform = 'translateX(-100%)';
-                setTimeout(() => {
-                    sidebar.classList.add('hidden');
-                }, 300);
-            }
+            console.log('✅ CSV parseado:', lines.length, 'linhas');
+            return lines;
+        }
 
-            historyBtn.addEventListener('click', () => {
-                showHistory();
-                closeSidebar();
-            });
-
-            favoritesBtn.addEventListener('click', () => {
-                addMessage('ℹ️ Funcionalidade de favoritos foi removida para simplificar o sistema.', 'bot');
-                closeSidebar();
-            });
-
-            compareBtn.addEventListener('click', () => {
-                addMessage("💡 Funcionalidade de comparação foi removida para simplificar o sistema.", 'bot');
-                closeSidebar();
-            });
-
-            exportBtn.addEventListener('click', () => {
-                exportData();
-                closeSidebar();
-            });
-
-            helpBtn.addEventListener('click', () => {
-                showHelp();
-                closeSidebar();
-            });
-
-            messageInput.addEventListener('input', () => {
-                if (messageInput.value.trim().length > 0) {
-                    sendButtonIcon.setAttribute('data-lucide', 'send');
-                } else {
-                    sendButtonIcon.setAttribute('data-lucide', 'check');
-                }
-                lucide.createIcons(); // Recria o ícone
-            });
-
-            chatForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const messageText = messageInput.value.trim();
-                
-                if (messageText) {
-                    addMessage(messageText, 'user');
-                    messageInput.value = '';
-                    sendButtonIcon.setAttribute('data-lucide', 'check');
-                    lucide.createIcons();
-                    
-                    processUserInput(messageText);
-                }
-            });
-
-            async function processUserInput(input) {
-                const normalizedInput = input.trim().toUpperCase();
-                
-                // ADICIONADO: Log de debug para mostrar detecção
-                console.log(`🔍 DEBUG: User input: "${input}"`);
-                console.log(`🔍 DEBUG: Normalized: "${normalizedInput}"`);
-                
-                chatSession.conversationContext.push({
-                    type: 'user_input',
-                    message: input,
-                    timestamp: new Date()
+        // Função updateCsvData corrigida
+        function updateCsvData() {
+            console.log('🔧 Atualizando csvData...');
+            csvData = sheetData.map(row => {
+                const obj = {};
+                Object.keys(headerMap).forEach(key => {
+                    const colIndex = headerMap[key][0];
+                    if (colIndex !== undefined) {
+                        obj[key] = row[colIndex];
+                    }
                 });
+                return obj;
+            });
+            console.log('📊 csvData atualizado:', csvData.length, 'registros');
+        }
 
-                if (normalizedInput.startsWith('/')) {
-                    await handleCommand(input); // CORREÇÃO: Passar 'input' original para preservar case do /buscar
-                    return;
-                }
-
-                if (normalizedInput.startsWith('INSIGHTS ')) {
-                    const code = normalizedInput.replace('INSIGHTS ', '').trim();
-                    await processAdvancedInsights(code);
-                    return;
-                }
-                
-                if (normalizedInput.startsWith('ANÁLISE PROFUNDA ')) {
-                    const code = normalizedInput.replace('ANÁLISE PROFUNDA ', '').trim();
-                    await enableDeepAnalysis(code);
-                    return;
-                }
-                
-                // Funcionalidade de favoritos removida - simplificação do sistema
-
-                // NOVA LÓGICA: Verificar se é uma saudação primeiro
-                const greetings = ['OLA', 'OLÁ', 'OI', 'HEY', 'HI', 'HELLO', 'BOM DIA', 'BOA TARDE', 'BOA NOITE', 'Obrigado', 'OBRIGADA'];
-                if (greetings.includes(normalizedInput)) {
-                    await processInteractiveConversation(input);
-                    return;
-                }
-
-                // MELHORADA: Detectar códigos EG com padrão mais específico
-                // EG deve ter pelo menos 3 dígitos ou seguir formato 12345, 12345-1, ABC123, etc.
-                const isCodeLookup = /^([0-9]{3,}|[A-Z]{2,}[0-9]{1,}|[0-9]{2,}-[0-9]{1,2})$/i.test(normalizedInput) && 
-                                   normalizedInput.length >= 3 && 
-                                   normalizedInput.length <= 15;
-                
-                console.log(`🔍 DEBUG: Saudações detectadas? ${greetings.includes(normalizedInput) ? 'SIM' : 'NÃO'}`);
-                console.log(`🔍 DEBUG: É código EG? ${isCodeLookup ? 'SIM' : 'NÃO'}`);
-                console.log(`🔍 DEBUG: Regex test: ${/^([0-9]{3,}|[A-Z]{2,}[0-9]{1,}|[0-9]{2,}-[0-9]{1,2})$/i.test(normalizedInput)}`);
-                console.log(`🔍 DEBUG: Comprimento: ${normalizedInput.length} (entre 3-15)`);
-                
-                if (isCodeLookup) {
-                    await processCodeQuery(normalizedInput);
-                } else {
-                    await processInteractiveConversation(input);
-                }
-            }
-
-            async function processInteractiveConversation(input) {
-                const userMessage = input.toLowerCase().trim();
-                console.log(`🔍 DEBUG: processInteractiveConversation chamada para "${userMessage}"`);
-                setChatLoading(true, 'Processando sua pergunta...');
-                
-                const intent = analyzeUserIntent(userMessage);
-                
-                let response = '';
-                
-                switch (intent.type) {
-                    case 'greeting':
-                        response = getGreetingResponse();
-                        break;
-                    case 'question_about_system':
-                        response = getSystemInfoResponse();
-                        break;
-                    case 'question_about_data':
-                        response = await getDataRelatedResponse(userMessage);
-                        break;
-                    case 'question_about_ambev':
-                        response = getDiretaMgResponse();
-                        break;
-                    case 'help_request':
-                        response = getHelpResponse();
-                        break;
-                    case 'comparison_request':
-                        response = getComparisonHelpResponse();
-                        break;
-                    case 'suggestion_or_feedback':
-                        response = getFeedbackResponse();
-                        break;
-                    case 'small_talk':
-                        response = getSmallTalkResponse();
-                        break;
-                    case 'unknown':
-                    default:
-                        response = getUnknownResponse(userMessage);
-                        break;
-                }
-                
-                if (intent.type !== 'greeting') {
-                    response += `\n\n---\n*Este sistema foi desenvolvido especialmente para a **DIRETA MG** pelo nosso time de **PPM AS MG** com foco na excelência operacional.*`;
-                }
-                
-                setTimeout(() => {
-                    addMessage(response, 'bot');
-                    setChatLoading(false);
-                }, 800);
-            }
+        // Função findDataInSheetSync simplificada e funcional
+        function findDataInSheetSync(code) {
+            console.log('🔍 Buscando código:', code);
+            console.log('📊 isSheetLoaded:', isSheetLoaded);
+            console.log('📊 csvData.length:', csvData.length);
             
-            function analyzeUserIntent(message) {
-                const greetings = ['olá', 'ola', 'oi', 'e aí', 'hey', 'bom dia', 'boa tarde', 'boa noite'];
-                const systemQuestions = ['como funciona', 'o que é', 'que sistema', 'como usar', 'me ajude', 'help', 'ajuda'];
-                const dataQuestions = ['dados', 'informações', 'performance', 'indicadores', 'métricas', 'análise'];
-                const ambevQuestions = ['ambev', 'rede', 'estabelecimentos', 'distribuidora', 'vendas'];
-                const helpRequests = ['não sei', 'estou perdido', 'como fazer', 'tutorial', 'ensina'];
-                const comparisonWords = ['comparar', 'diferença', 'melhor', 'pior', 'versus', 'entre'];
-                const feedbackWords = ['sugestão', 'ideia', 'melhoria', 'feedback', 'melhor', 'bug'];
-                const smallTalkWords = ['obrigado', 'valeu', 'brigado', 'sucesso', 'show', 'legal', 'ótimo', 'bacana'];
-                
-                if (greetings.some(word => message.includes(word))) {
-                    return { type: 'greeting' };
-                }
-                if (systemQuestions.some(word => message.includes(word))) {
-                    return { type: 'question_about_system' };
-                }
-                if (dataQuestions.some(word => message.includes(word))) {
-                    return { type: 'question_about_data' };
-                }
-                if (ambevQuestions.some(word => message.includes(word))) {
-                    return { type: 'question_about_ambev' };
-                }
-                if (helpRequests.some(word => message.includes(word))) {
-                    return { type: 'help_request' };
-                }
-                if (comparisonWords.some(word => message.includes(word))) {
-                    return { type: 'comparison_request' };
-                }
-                if (feedbackWords.some(word => message.includes(word))) {
-                    return { type: 'suggestion_or_feedback' };
-                }
-                if (smallTalkWords.some(word => message.includes(word))) {
-                    return { type: 'small_talk' };
-                }
-                
-                return { type: 'unknown' };
-            }
-            
-            function getGreetingResponse() {
-                return `👋 **Olá! Bem-vindo ao Raio-X Score 5!**\n\nSou sua assistente de dados da **DIRETA MG**! 🚀\n\nEstou aqui para ajudar você a analisar a performance das Lojas de atendimento da DIRETA MG com dados inteligentes e insights valiosos.\n\n💡 **Como posso ajudar você hoje?**\n\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [nome]** para encontrar estabelecimentos\n• Digite **/ajuda** para ver todos os comandos\n\nVamos explorar nossos dados juntos! 🎯`;
-            }
-            
-            function getSystemInfoResponse() {
-                return `🤖 **Sobre o Raio-X Score 5**\n\nEste é nosso sistema inteligente de análise de performance das **Lojas de atendimento da DIRETA MG**! \n\n**✨ O que eu faço:**\n• Analiso performance das Lojas de atendimento EG\n• Gero insights com inteligência artificial\n• Crio visualizações e relatórios\n• Identifico padrões e tendências\n\n**🎯 Principais recursos:**\n• Digite um código EG - Análise completa\n• \`/buscar [cidade]\` - Encontrar estabelecimentos\n• \`/ajuda\` - Ver comandos disponíveis\n\n**📱 Totalmente responsivo** - Funciona perfeitamente no celular!\n\nComo gostaria de começar sua análise hoje?`;
-            }
-            
-            async function getDataRelatedResponse(message) {
-                const responses = [
-                    `📊 **Ótima pergunta sobre dados!**\n\nOs dados que analiso são da nossa base oficial das **Lojas de atendimento da DIRETA MG**, incluindo:\n\n• **Gôndola (M-1)** - Performance do mês anterior\n• **Ponto Extra** - Indicadores de expansão\n• **Atendimento** - Qualidade do serviço\n• **COB HDW** - Controle operacional\n• **BASE FOCO** - Estratégias prioritárias\n\n💡 **Dica:** Para ver dados específicos, digite um **código EG** ou use **/buscar [termo]**\n\nGostaria de analisar alguma loja em particular?`,
-                    
-                    `🎯 **Dados das Lojas da DIRETA MG à sua disposição!**\n\nPosso acessar informações detalhadas de:\n• Performance mensal das Lojas de atendimento\n• Tendências e padrões da rede\n• Análises com IA\n\n**Comece digitando:**\n• Um código EG (ex: 12345)\n• **/buscar [cidade/rede]** para encontrar estabelecimentos\n• **/status** para ver o status da base\n\nQue loja gostaria de analisar?`
-                ];
-                
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-            
-            function getDiretaMgResponse() {
-                return `🍺 **Sim! Somos da DIRETA MG!** 🏆\n\nEste sistema foi desenvolvido especificamente para as **Lojas de atendimento da DIRETA MG**, analisando:\n\n• **Performance operacional** de todas as lojas\n• **Tendências de vendas** e oportunidades de crescimento\n• **Análises com IA** para decisões estratégicas\n\n🎯 **Focados na excelência operacional das Lojas da DIRETA MG**\n\n**Comece sua análise:**\n• Digite um código EG\n• Use **/buscar [cidade]** para encontrar nossa rede\n\nQual loja da DIRETA MG gostaria de analisar?`;
-            }
-            
-            function getHelpResponse() {
-                return "🆘 **Vamos juntos explorar o sistema!**\\n\\n**🚦 COMANDOS PRINCIPAIS:**\\n• `/buscar [termo]` - Buscar estabelecimentos\\n• Código EG - Análise direta\\n• `/ajuda` - Lista completa de comandos\\n\\n**💡 DICAS PARA COMEÇAR:**\\n1. Digite qualquer código EG\\n2. Ou use **/buscar [cidade]** para encontrar estabelecimentos\\n3. Digite **/ajuda** para ver tudo\\n\\n**Estou aqui para ajudar!** 😊\\n\\nO que gostaria de fazer primeiro?";
-            }
-            
-            function getComparisonHelpResponse() {
-                return `📊 **Funcionalidade de comparação foi removida para simplificar o sistema!**`;
-            }
-            
-            function getFeedbackResponse() {
-                return `💬 **Obrigado pelo feedback!**\n\nAdoramos receber sugestões para melhorar o sistema **Raio-X Score 5**!\n\n**🎯 Enviou sua sugestão para o time PPM AS MG?**\n\n**Melhorias que já implementamos:**\n• Análises com IA avançada\n• Previsões de tendências\n• Visualizações interativas\n• Storytelling de dados\n• Interface 100% mobile\n\n**Tem alguma ideia específica?** Digite **/ajuda** para ver todos os recursos disponíveis.\n\nComo posso melhorar sua experiência hoje? 😊`;
-            }
-            
-            function getSmallTalkResponse() {
-                const responses = [
-                    `😊 **Que bom que está gostando!**\n\nEstou aqui para tornar sua análise de dados das **Lojas da DIRETA MG** mais eficiente e divertida!\n\nO que mais posso ajudar você a descobrir hoje? 🚀`,
-                    
-                    `🎉 **fico feliz que está funcionando bem!**\n\nLembre-se que somos **Desenvolvido pelo time PPM AS MG** especialmente para **DIRETA MG**!\n\nQue tal analisar algumas lojas? Digite um código EG! 📊`,
-                    
-                    `🌟 **Show de bola!** \n\nEsse é o objetivo - tornar a análise de dados **AmBEV** mais inteligente e acessível!\n\nQuer explorar mais funcionalidades? **/ajuda** mostra tudo que posso fazer! 🚀`
-                ];
-                
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-            
-            function getUnknownResponse(message) {
-                const responses = [
-                    `🤔 **Interessante... Vou ajudar você a encontrar o que precisa!**\n\n**PARA DADOS DA DIRETA MG:**\n• Digite um **código EG** (ex: 12345)\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• **/ajuda** para ver comandos disponíveis\n\n**ATALHOS RÁPIDOS:**\n• **/buscar [cidade]** - Encontrar lojas por cidade\n• **/status** - Ver status da base\n• **/limpar** - Limpar sessão\n\n**Porque você mencionou:** "${message}"\n\nPoderia ser mais específico? Estou aqui para ajudar com dados da DIRETA MG! 😊`,
-                    
-                    `🔍 **Entendi sua pergunta!**\n\nAunque não seja meu forte, posso ajudar com dados e análises das **Lojas da DIRETA MG**!\n\n**O que posso fazer para você:**\n• Analisar códigos EG específicos\n• Gerar insights com IA\n• Detectar padrões e tendências\n• Criar visualizações\n\n**Experimente:**\n• Digitar um código EG\n• **/buscar [cidade]** para encontrar nossa rede\n• **/ajuda** para ver todos os recursos\n\nComo posso ajudar com dados da DIRETA MG hoje? 🎯`
-                ];
-                
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-
-            async function handleCommand(command) {
-                const [cmd, ...args] = command.split(' ');
-                const cleanArgs = args.join(' ').trim();
-
-                switch (cmd.toLowerCase()) {
-                    case '/buscar':
-                        await processTextSearch(cleanArgs);
-                        break;
-                    // Comando '/comparar' removido - simplificação do sistema
-                    case '/histórico':
-                        showHistory();
-                        break;
-                    // Comando '/favoritos' removido - simplificação do sistema
-                    // Comando '/exportar' removido - simplificação do sistema
-                    case '/ajuda':
-                        showHelp();
-                        break;
-                    case '/limpar':
-                        resetChatSession();
-                        addMessage("✅ Contexto da sessão foi limpo!", 'bot');
-                        break;
-                    case '/status':
-                        showDatabaseStatus();
-                        break;
-                    // Comando '/prever' removido - simplificação do sistema
-                    // Comando '/padroes' removido - simplificação do sistema
-                    // Comando '/story' removido - simplificação do sistema
-                    // Comando '/insights' removido - simplificação do sistema
-                    
-                    default:
-                        addMessage(`❌ Comando não reconhecido: **${cmd}**\n\nDigite **/ajuda** para ver os comandos disponíveis.`, 'bot');
-                }
-            }
-
-            async function processTrendPrediction(code) {
-                if (!code) {
-                    addMessage("🤔 **Preciso de um código para gerar previsões!**\n\n🎯 **Use assim:**\n• **/buscar [código]**\n• **Exemplo:** /buscar 12345\n\n💡 **Dica:** Você também pode digitar qualquer código EG diretamente para análise completa!\n\n---\n*Sistema inteligente PPM AS MG para DIRETA MG*", 'bot');
-                    return;
-                }
-
-                setChatLoading(true, `🔮 Analisando tendências futuras para ${code}...`);
-                
-                const data = findDataInSheetSync(code);
-                if (!data) {
-                    addMessage(`😕 **Código ${code} não encontrado na nossa base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede completa\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝`, 'bot');
-                    setChatLoading(false);
-                    return;
-                }
-
-                try {
-                    const predictions = await getTrendPredictions(code);
-                    
-                    const response = `
-🔮 **ANÁLISE PREDITIVA - ${code}**
-*Baseado em dados inteligentes da DIRETA MG*
-
-📊 **Direção da Tendência:** ${predictions.trend_direction}
-🎯 **Nível de Confiança:** ${predictions.confidence_level}%
-⏰ **Período Analisado:** ${predictions.prediction_period}
-
-🔑 **Fatores Determinantes:**
-${predictions.key_factors.map(factor => `• ${factor}`).join('\n')}
-
-💡 **Recomendações Estratégicas:**
-${predictions.recommendations.map(rec => `• ${rec}`).join('\n')}
-
-⚠️ **Pontos de Atenção:**
-${predictions.risk_factors.map(risk => `• ${risk}`).join('\n')}
-
----
-*Análise gerada por IA - Desenvolvido pelo time PPM AS MG* 🚀`;
-
-                    addMessage(response, 'bot');
-                    
-                } catch (error) {
-                    console.error("Erro nas previsões:", error);
-                    addMessage(`❌ **Erro ao gerar previsões para ${code}**\n\nTente novamente ou verifique se o código está correto.`, 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            async function processPatternDetection(codes) {
-                setChatLoading(true, 'Detectando padrões nos dados...');
-                
-                const codeList = codes ? codes.split(' ').filter(c => c.trim()) : null;
-                const patterns = detectPatterns(codeList);
-                
-                if (typeof patterns === 'string') {
-                    addMessage(patterns, 'bot');
-                    setChatLoading(false);
-                    return;
-                }
-                
-                let response = "🔍 **DETECÇÃO DE PADRÕES**\n\n";
-                
-                if (patterns.geographical_trends.length > 0) {
-                    response += "🗺️ **Tendências Geográficas:**\n";
-                    patterns.geographical_trends.forEach(trend => {
-                        response += `• **${trend.region}:** ${trend.performance} (${trend.count} estabelecimentos) - ${trend.assessment}\n`;
-                    });
-                    response += "\n";
-                }
-                
-                if (patterns.performance_clusters) {
-                    response += "📊 **Clusters de Performance:**\n";
-                    response += `• **Alto Desempenho:** ${patterns.performance_clusters.high_performance.percentage}% (${patterns.performance_clusters.high_performance.codes.join(', ')})\n`;
-                    response += `• **Baixo Desempenho:** ${patterns.performance_clusters.low_performance.percentage}% (${patterns.performance_clusters.low_performance.codes.join(', ')})\n\n`;
-                }
-                
-                response += "💡 **Insights Identificados:**\n";
-                response += "• Padrões geográficos detectados na rede\n";
-                response += "• Clusterização por performance operacional\n";
-                response += "• Oportunidades de benchmarking interno\n\n";
-                
-                response += "---\n*Análise de padrões gerada pelo sistema PPM AS MG*";
-                
-                addMessage(response, 'bot');
-                setChatLoading(false);
-            }
-
-            async function processDataStorytelling(code) {
-                if (!code) {
-                    addMessage("📖 **Preciso de um código para criar a narrativa!**\n\n🎯 **Use assim:**\n• **/story [código EG]**\n• **Exemplo:** /story 12345\n\n💡 **Crio uma história visual dos dados do estabelecimento!**", 'bot');
-                    return;
-                }
-
-                setChatLoading(true, `📖 Criando storytelling para ${code}...`);
-                
-                const data = findDataInSheetSync(code);
-                if (!data) {
-                    addMessage(`😕 **Código ${code} não encontrado**\n\nTente outro código EG!`, 'bot');
-                    setChatLoading(false);
-                    return;
-                }
-
-                try {
-                    // Simulação de dados para o Storytelling
-                    const storyData = {
-                        code: code,
-                        averageScore: (Math.random() * 30 + 60).toFixed(1),
-                        insight: "Crescimento notável em Ponto Extra",
-                        recommendation: "Focar em Gôndola para equilíbrio"
-                    };
-                    
-                    const animationHTML = createDataAnimation(storyData);
-                    addMessage(animationHTML, 'bot');
-                    
-                } catch (error) {
-                    console.error("Erro no storytelling:", error);
-                    addMessage(`❌ **Erro ao criar storytelling para ${code}**`, 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            async function processAdvancedInsights(code) {
-                if (!code) {
-                    addMessage("🤖 **Preciso de um código EG para análise!**\n\n🎯 **Digite assim:**\n• **67285-8** (ou qualquer código EG)\n• **/buscar [termo]** para buscar estabelecimentos\n\n💡 **Gero análises completas com IA!**", 'bot');
-                    return;
-                }
-
-                setChatLoading(true, `🤖 Gerando insights avançados para ${code}...`);
-                
-                const data = findDataInSheetSync(code);
-                if (!data) {
-                    addMessage(`😕 **Código ${code} não encontrado**\n\nTente outro código EG!`, 'bot');
-                    setChatLoading(false);
-                    return;
-                }
-
-                try {
-                    await generateContextualAnalysis(code, data);
-                    
-                    // Removido - ações extras que atrapalhavam a funcionalidade
-                } catch (error) {
-                    console.error("Erro nos insights:", error);
-                    addMessage(`❌ **Erro ao gerar insights para ${code}**\n\nTente novamente.`, 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            async function processCodeQuery(code) {
-                setChatLoading(true, `🔍 Consultando código ${code}...`);
-                
-                try {
-                    console.log(`📊 processCodeQuery iniciado para código: ${code}`);
-                    console.log(`📊 csvData disponível: ${csvData.length > 0 ? 'SIM' : 'NÃO'}`);
-                    console.log(`📊 isSheetLoaded: ${isSheetLoaded}`);
-                    
-                    const data = findDataInSheetSync(code);
-                    console.log(`📊 Dados retornados pela busca:`, data);
-                    console.log(`📊 Tipo dos dados: ${typeof data}`);
-                    console.log(`📊 É objeto? ${data && typeof data === 'object' ? 'SIM' : 'NÃO'}`);
-                    
-                    if (!data) {
-                        addMessage(`😕 **Código ${code} não encontrado na base**\n\n🔍 **Vamos tentar:**\n• **/buscar ${code}** para verificar se existe\n• **/buscar ambev** para ver nossa rede\n• Ou digite outro código EG\n\n*Desenvolvido pelo time PPM AS MG* 🤝`, 'bot');
-                        setChatLoading(false);
-                        return;
-                    }
-
-                    console.log(`✅ Código ${code} encontrado! Preparando análise...`);
-                    console.log(`📋 Dados disponíveis:`, Object.keys(data));
-                    
-                    if (!chatSession.codes.includes(code)) {
-                        chatSession.codes.push(code);
-                    }
-                    
-                    console.log(`🔮 Chamando generateContextualAnalysis para ${code} com dados:`, data);
-                    await generateContextualAnalysis(code, data);
-                    
-                    // Removido - ações extras que atrapalhavam a funcionalidade
-                    
-                } catch (error) {
-                    console.error("Erro na consulta:", error);
-                    addMessage(`❌ **Erro ao consultar ${code}**\n\nTente novamente.`, 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            // CORREÇÃO: Função síncrona para buscar dados na planilha (com mais debug)
-            function findDataInSheetSync(code) {
-                console.log(`🔍 [DEBUG] Buscando código ${code}`);
-                console.log(`📊 [DEBUG] isSheetLoaded: ${isSheetLoaded}`);
-                console.log(`📊 [DEBUG] csvData.length: ${csvData.length}`);
-                
-                if (!isSheetLoaded || !csvData.length) {
-                    console.log('❌ [DEBUG] Base de dados não carregada ou vazia');
-                    console.log(`📋 [DEBUG] Headers disponíveis: ${csvData.length > 0 ? Object.keys(csvData[0]).join(', ') : 'Nenhum'}`);
-                    return null;
-                }
-                
-                // Log da estrutura dos dados
-                console.log(`📋 [DEBUG] Estrutura do primeiro registro:`, csvData[0]);
-                console.log(`📋 [DEBUG] Colunas disponíveis:`, Object.keys(csvData[0]));
-                
-                // CORREÇÃO: Usar nomes em lowercase (conforme headerMap)
-                const possibleColumns = ['eg']; // headerMap usa lowercase
-                
-                console.log(`🔍 [DEBUG] Tentando colunas: ${possibleColumns.join(', ')}`);
-                
-                for (const colName of possibleColumns) {
-                    console.log(`🔍 [DEBUG] Verificando coluna: ${colName}`);
-                    
-                    const foundRow = csvData.find(row => {
-                        const cellValue = row[colName];
-                        console.log(`   📄 [DEBUG] Valor na coluna ${colName}: "${cellValue}" (compara com "${code}")`);
-                        
-                        if (!cellValue) {
-                            console.log(`   ⚠️ [DEBUG] Valor vazio na coluna ${colName}`);
-                            return false;
-                        }
-                        
-                        const normalizedCell = cellValue.toString().trim().toUpperCase();
-                        const normalizedCode = code.toString().trim().toUpperCase();
-                        const match = normalizedCell === normalizedCode;
-                        
-                        console.log(`   ✅ [DEBUG] Comparação: "${normalizedCell}" === "${normalizedCode}" = ${match}`);
-                        return match;
-                    });
-                    
-                    if (foundRow) {
-                        console.log(`✅ [DEBUG] Código ${code} ENCONTRADO!`);
-                        console.log(`📊 [DEBUG] Dados completos:`, foundRow);
-                        return foundRow;
-                    }
-                }
-                
-                // Tentar busca em todas as colunas
-                console.log(`🔍 [DEBUG] Tentando busca em todas as colunas...`);
-                for (const row of csvData) {
-                    for (const [key, value] of Object.entries(row)) {
-                        if (value && value.toString().trim().toUpperCase() === code.toString().trim().toUpperCase()) {
-                            console.log(`✅ [DEBUG] Código ${code} ENCONTRADO na coluna ${key}!`);
-                            console.log(`📊 [DEBUG] Dados completos:`, row);
-                            return row;
-                        }
-                    }
-                }
-                
-                console.log(`❌ [DEBUG] Código ${code} não encontrado em nenhuma coluna`);
+            if (!isSheetLoaded || !csvData.length) {
+                console.log('❌ Base de dados não carregada');
                 return null;
             }
-
-            async function processTextSearch(searchTerm) {
-                if (!searchTerm) {
-                    addMessage("🤔 **Hmm, preciso de um termo para buscar!** 😊\n\n**Na base da DIRETA MG você pode buscar:**\n• **/buscar belo horizonte** - Por cidade\n• **/buscar [nome da rede]** - Estabelecimentos específicos\n• Ou digite um **código EG** diretamente\n\nQue tipo de loja da **DIRETA MG** gostaria de encontrar? 🚀", 'bot');
-                    return;
-                }
-
-                setChatLoading(true, `🔍 Buscando "${searchTerm}" na base da DIRETA MG...`);
-                
-                const results = await searchByText(searchTerm);
-                
-                if (results.length > 0) {
-                    let response = `🎯 **Encontrei ${results.length} loja${results.length > 1 ? 's' : ''} da DIRETA MG!**\n\n`;
+            
+            const possibleColumns = ['eg'];
+            
+            for (const colName of possibleColumns) {
+                const foundRow = csvData.find(row => {
+                    const cellValue = row[colName];
+                    if (!cellValue) return false;
                     
-                    response += `**Para "${searchTerm}":**\n\n`;
+                    const normalizedCell = cellValue.toString().trim().toUpperCase();
+                    const normalizedCode = code.toString().trim().toUpperCase();
+                    const match = normalizedCell === normalizedCode;
                     
-                    results.slice(0, 5).forEach((item, index) => {
-                        const nome = getDataFromRow(item, "Nome Fantasia") || "(não informado)";
-                        const rede = getDataFromRow(item, "Rede") || "(não informado)";
-                        const eg = getDataFromRow(item, "EG") || getDataFromRow(item, "Código") || "(não informado)";
-                        
-                        response += `**${index + 1}.** ${nome}\n`;
-                        response += `• **Rede:** ${rede}\n`;
-                        response += `• **Código EG:** ${eg}\n\n`;
-                    });
-                    
-                    if (results.length > 5) {
-                        response += `📊 **+ ${results.length - 5} resultados não mostrados**\n\n`;
-                    }
-                    
-                    response += `---\n*Desenvolvido pelo time PPM AS MG para a DIRETA MG*`;
-                    
-                    addMessage(response, 'bot');
-                    
-
-                    setTimeout(() => {
-                        addMessage(`💡 **Próximos passos:**\n• Clique em qualquer **código EG** para análise completa\n• Use **/buscar [cidade]** para encontrar estabelecimentos\n• Digite **/ajuda** para ver todos os comandos\n\nQue tal analisar um deles? 🎯`, 'bot');
-                    }, 1500);
-                } else {
-                    const suggestions = [
-                        "Tente **/buscar ambev** para nossa rede completa",
-                        "Busque por **cidade** (ex: Belo Horizonte)",
-                        "Use **termos mais gerais** ou **específicos**",
-                        "Ou digite um **código EG** diretamente!"
-                    ];
-                    
-                    addMessage(`😅 **Não encontrei estabelecimentos para "${searchTerm}"**\n\n🤔 **Vamos tentar juntos:**\n\n${suggestions.map(s => `• ${s}`).join('\n')}\n\n**SUGESTÃO:** Digite **/buscar [cidade]** para ver nossa rede completa da **DIRETA MG**! 🚀\n\n---\n*Desenvolvido pelo time PPM AS MG especialmente para DIRETA MG*`, 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            async function processComparison(argString) {
-                const codes = argString.split(/\s+/).filter(code => code.trim());
-                
-                if (codes.length < 2) {
-                    addMessage("❌ Funcionalidade de comparação foi removida para simplificar o sistema.", 'bot');
-                    return;
-                }
-
-                if (codes.length > 5) {
-                    addMessage("⚠️ Máximo de 5 códigos para comparar.", 'bot');
-                    return;
-                }
-
-                setChatLoading(true, `Comparando ${codes.length} códigos...`);
-                
-                const comparisonData = [];
-                
-                for (const code of codes) {
-                    const data = findDataInSheetSync(code);
-                    if (data) {
-                        comparisonData.push({ code, data });
-                    }
-                }
-
-                if (comparisonData.length > 1) {
-                    await generateComparisonReport(comparisonData);
-                } else {
-                    addMessage("❌ Não foi possível encontrar dados suficientes para comparação.", 'bot');
-                }
-                
-                setChatLoading(false);
-            }
-
-            // CORREÇÃO: Função addMessage movida para cima, antes do primeiro uso
-            function addMessage(text, sender, options = {}) {
-                const messageDiv = document.createElement('div');
-                const messageBubble = document.createElement('div');
-                
-                let formattedText = text.replace(/\n/g, '<br>');
-                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                // Funcionalidade de favoritos removida - emoji processador removido
-                
-                // Formatação de Tabelas Markdown (simples)
-                formattedText = formattedText.replace(/\|(.*?)\|\n\|(.*?)\|/g, (match) => {
-                    let table = '<table class="min-w-full divide-y divide-gray-300 border border-gray-300 rounded-lg overflow-hidden">';
-                    const rows = match.split('\n');
-                    // Cabeçalho
-                    table += '<thead class="bg-gray-100">';
-                    const headers = rows[0].split('|').filter(h => h.trim());
-                    table += '<tr>';
-                    headers.forEach(h => table += `<th class="px-2 py-1 text-left text-xs font-semibold text-gray-700">${h.trim()}</th>`);
-                    table += '</tr></thead>';
-                    // Corpo
-                    table += '<tbody class="divide-y divide-gray-200">';
-                    rows.slice(2).forEach(rowStr => {
-                        const cells = rowStr.split('|').filter(c => c.trim());
-                        table += '<tr>';
-                        cells.forEach(c => table += `<td class="px-2 py-1 text-xs text-gray-800">${c.trim()}</td>`);
-                        table += '</tr>';
-                    });
-                    table += '</tbody></table>';
-                    return table;
+                    console.log(`📄 Comparando "${normalizedCell}" com "${normalizedCode}": ${match}`);
+                    return match;
                 });
                 
-                messageBubble.innerHTML = formattedText;
-                messageBubble.classList.add('message-bubble', 'p-3', 'rounded-xl', 'max-w-xs', 'break-words', 'sm:max-w-sm', 'md:max-w-md');
-                
-                if (options.id) {
-                    messageBubble.id = options.id;
-                }
-
-                if (sender === 'user') {
-                    messageDiv.className = 'flex justify-end';
-                    messageBubble.classList.add('bg-amber-500', 'text-black', 'bubble-user'); 
-                    messageBubble.style.borderBottomRightRadius = '0';
-                } else {
-                    messageDiv.className = 'flex justify-start';
-                    messageBubble.classList.add('bg-gray-200', 'text-gray-800', 'bubble-bot');
-                    messageBubble.style.borderBottomLeftRadius = '0';
-                    
-
-                    if (text.includes('✅')) {
-                        messageBubble.style.borderLeft = '4px solid #22c55e';
-                    } else if (text.includes('⚠️') || text.includes('🔴')) {
-                        messageBubble.style.borderLeft = '4px solid #ef4444';
-                    } else if (text.includes('💡') || text.includes('🧠')) {
-                        messageBubble.style.borderLeft = '4px solid #f59e0b';
-                    }
-                }
-                
-                messageDiv.appendChild(messageBubble);
-                messageContainer.appendChild(messageDiv);
-                
-                // CORREÇÃO: Chamar addClickHandlers E lucide.createIcons
-                // Isso garante que tanto os códigos clicáveis quanto os ícones dinâmicos funcionem
-                if (sender === 'bot') {
-                    addClickHandlers(messageBubble, text);
-                }
-                
-                // CORREÇÃO: Chamar lucide.createIcons() DEPOIS que o elemento
-                // foi adicionado ao DOM (documento)
-                lucide.createIcons();
-                
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }
-
-
-            function addClickHandlers(element, text) {
-
-                const egPattern = /\b[A-Z0-9-]{2,20}\b/g;
-                const matches = text.match(egPattern);
-                
-                if (matches) {
-                    matches.forEach(code => {
-                        if (isLikelyEGCode(code)) {
-                            const span = document.createElement('span');
-                            span.className = 'text-amber-600 underline cursor-pointer hover:text-amber-700 transition-colors';
-                            span.textContent = code;
-                            span.addEventListener('click', () => {
-                                messageInput.value = code;
-                                chatForm.dispatchEvent(new Event('submit'));
-                            });
-                            
-
-                            const regex = new RegExp(`\\b${code}\\b`);
-                            element.innerHTML = element.innerHTML.replace(regex, span.outerHTML);
-                        }
-                    });
+                if (foundRow) {
+                    console.log('✅ Código encontrado!');
+                    console.log('📊 Dados completos:', foundRow);
+                    return foundRow;
                 }
             }
+            
+            console.log('❌ Código não encontrado');
+            return null;
+        }
 
-            function isLikelyEGCode(text) {
-
-                return /^[A-Z0-9-]{3,15}$/.test(text) && !text.match(/^(EG|BR|MG|SP|RJ)$/);
-            }
-
-            function updateAnalysisMessage(text) {
-                const loadingBubble = document.getElementById('analysis-loading-bubble');
-                if (loadingBubble) {
-                    let formattedText = text.replace(/\n/g, '<br>');
-                    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    loadingBubble.innerHTML = `🧠 <strong>Insight da IA:</strong><br><br>${formattedText}`;
-                }
-            }
-
-            function setChatLoading(isLoading, statusText = null) {
-                chatSession.isProcessing = isLoading;
-                messageInput.disabled = isLoading;
-                sendButton.disabled = isLoading;
-
-                if (isLoading) {
-                    if (statusText) {
-                        chatStatus.textContent = statusText;
-                    } else {
-                        chatStatus.textContent = 'Processando...';
-                    }
-                    sendButton.classList.add('opacity-50', 'cursor-not-allowed');
-                    typingIndicator.classList.remove('hidden');
-                    // CORREÇÃO: Mover o "digitando..." para o fundo da área de mensagens
-                    messageContainer.parentElement.insertBefore(typingIndicator, messageContainer.nextSibling);
-                    messageContainer.scrollTop = messageContainer.scrollHeight;
-                } else {
-                    chatStatus.textContent = 'IA Conversacional Online';
-                    sendButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                    typingIndicator.classList.add('hidden');
-                    messageInput.focus();
-                }
-            }
-
-            async function preloadSheetData() {
-                if (isSheetLoaded || isSheetLoading) return; 
-
-                isSheetLoading = true;
-                chatStatus.textContent = 'Carregando base de dados...';
-
-                // Múltiplos proxies como fallback
+        // Função preloadSheetData simplificada
+        async function preloadSheetData() {
+            if (isSheetLoading || isSheetLoaded) return;
+            
+            isSheetLoading = true;
+            console.log('🚀 Carregando planilha...');
+            
+            try {
                 const proxies = [
                     `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`,
-                    `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`,
-                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`
+                    `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEET_CSV_URL)}`
                 ];
 
                 let csvText = '';
-                let lastError = null;
-
-                // Tentar cada proxy
+                
                 for (const url of proxies) {
                     try {
-                        console.log(`🔄 Tentando proxy: ${url.split('?')[0]}`);
+                        console.log('🔄 Tentando proxy:', url.split('?')[0]);
                         const response = await fetch(url, {
                             method: 'GET',
-                            mode: 'cors', 
-                            cache: 'no-store', 
+                            mode: 'cors',
+                            cache: 'no-store'
                         });
 
                         if (!response.ok) {
-                            throw new Error(`Erro de rede: ${response.statusText} (${response.status})`);
+                            throw new Error(`Erro de rede: ${response.statusText}`);
                         }
 
                         const text = await response.text();
-                        
-                        if (text && text.length > 50 && !text.startsWith("<") && !text.toLowerCase().includes("error")) {
+                        if (text && text.length > 50 && !text.startsWith('<') && !text.toLowerCase().includes('error')) {
                             csvText = text;
-                            console.log(`✅ Sucesso com proxy: ${url.split('?')[0]}`);
+                            console.log('✅ Sucesso com proxy!');
                             break;
-                        } else {
-                            throw new Error("Resposta inválida do proxy");
                         }
                     } catch (error) {
-                        console.log(`❌ Falha com proxy ${url.split('?')[0]}: ${error.message}`);
-                        lastError = error;
+                        console.log('❌ Falha com proxy:', error.message);
                         continue;
                     }
                 }
 
-                // Se nenhum proxy funcionou, usar dados simulados
+                // Se nenhum proxy funcionou, usar dados de teste
                 if (!csvText) {
-                    console.warn("⚠️ Nenhum proxy funcionou, usando dados simulados para teste");
-                    
-                    // Dados simulados para teste (baseado no teste anterior que funcionou)
+                    console.warn('⚠️ Usando dados de teste');
                     csvText = `EG,Rede,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
-75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1
-37649-3,Rede B,Estabelecimento 2,Maria Costa,Ana Lima,1002,BH Sul,15,18,20,15%,10,7,BASE FOCO 2,CORONA 2,SPATEN 2,STELLA 2,COB HDW 2,Atendimento 2,Visita 2,LOJA 2
-75512-5,Rede C,Estabelecimento 3,Carlos Oliveira,Lucia Rocha,1003,Contagem,18,20,22,12%,12,8,BASE FOCO 3,CORONA 3,SPATEN 3,STELLA 3,COB HDW 3,Atendimento 3,Visita 3,LOJA 3
-91784-2,Rede D,Estabelecimento 4,Ana Paula,Ricardo Mota,1004,BH Centro,20,22,25,10%,14,10,BASE FOCO 4,CORONA 4,SPATEN 4,STELLA 4,COB HDW 4,Atendimento 4,Visita 4,LOJA 4
-70696-5,Rede E,Estabelecimento 5,Roberto Silva,Fernanda Lima,1005,Barreiro,22,25,28,8%,16,12,BASE FOCO 5,CORONA 5,SPATEN 5,STELLA 5,COB HDW 5,Atendimento 5,Visita 5,LOJA 5
-67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6`;
-
-                    addMessage("⚠️ **Usando dados de teste:** Conexão com planilha indisponível. Mostrando dados simulados para demonstração.", 'bot');
+67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6
+75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1`;
                 }
 
-                    const allRows = parseCSV(csvText);
-
-                    if (allRows.length > 1) {
-                        headerMap = {};
-                        const sheetHeaders = allRows[0];
-                        
-                        sheetHeaders.forEach((header, index) => {
-                            const headerKey = header.trim().toLowerCase();
-                            if (!headerMap[headerKey]) {
-                                headerMap[headerKey] = [];
-                            }
-                            headerMap[headerKey].push(index);
-                        });
-
-                        sheetData = allRows.slice(1);
-                        
-                        updateCsvData();
-
-                        isSheetLoaded = true;
-                        chatStatus.textContent = 'Base de dados carregada';
-                        
-
-                        setTimeout(() => {
-                            addMessage("✅ **Base de dados carregada com sucesso!**\n\n🚀 **Agora você pode:**\n• Consultar códigos EG\n• Buscar por nome/rede\n• Comparar estabelecimentos\n• Usar comandos avançados", 'bot');
-                        }, 500);
-                    } else {
-                        throw new Error("Planilha vazia ou com formato inválido.");
-                    }
-
-                } catch (error) {
-                    console.error("Erro ao pré-carregar dados:", error);
-                    chatStatus.textContent = 'Erro ao carregar dados';
-                    addMessage(`❌ **Erro ao carregar a planilha:**\n\n${error.message}\n\n🔄 **Verifique:**\n• Link de publicação da planilha\n• Conexão com internet\n• Permissões de acesso`, 'bot');
-                } finally {
-                    isSheetLoading = false;
-                    if(isSheetLoaded) {
-                         setChatLoading(false);
-                         chatStatus.textContent = 'Base de dados carregada';
-                    }
-                }
-            }
-
-            async function findDataInSheet(code) {
-                if (!isSheetLoaded) {
-                    await preloadSheetData();
-                }
-
-                if (!isSheetLoaded) {
-                    addMessage("❌ Não foi possível consultar. A base de dados não está carregada.", 'bot');
-                    return null;
-                }
-
-                return findDataInSheetSync(code);
-            }
-
-            async function searchByText(searchTerm) {
-                if (!isSheetLoaded) return [];
+                const allRows = parseCSV(csvText);
                 
-                const normalizedTerm = searchTerm.toLowerCase().trim();
-                const results = [];
-                
-
-                const searchColumns = ['nome fantasia', 'rede', 'coordenador', 'gn', 'sl/sc', 'cidade', 'regional'];
-                
-                for (const row of sheetData) {
-                    let matchFound = false;
+                if (allRows.length > 1) {
+                    headerMap = {};
+                    const sheetHeaders = allRows[0];
                     
-                    for (const colName of searchColumns) {
-                        const colIndex = headerMap[colName] ? headerMap[colName][0] : -1;
-                        if (colIndex >= 0 && row[colIndex]) {
-                            const cellValue = row[colIndex].toLowerCase();
-                            if (cellValue.includes(normalizedTerm)) {
-                                matchFound = true;
-                                break;
-                            }
+                    sheetHeaders.forEach((header, index) => {
+                        const headerKey = header.trim().toLowerCase();
+                        if (!headerMap[headerKey]) {
+                            headerMap[headerKey] = [];
                         }
-                    }
-                    
-                    if (matchFound) {
-                        results.push(row);
-                    }
-                }
-                
-                return results;
-            }
-
-            function getDataFromRow(row, headerName, occurrence = 0) {
-                const headerKey = headerName.trim().toLowerCase();
-                console.log(`🔍 [DEBUG getDataFromRow] Procurando: "${headerName}" (key: "${headerKey}")`);
-                console.log(`🔍 [DEBUG getDataFromRow] headerMap:`, headerMap);
-                
-                if (headerMap[headerKey] && headerMap[headerKey].length > occurrence) {
-                    const index = headerMap[headerKey][occurrence];
-                    console.log(`🔍 [DEBUG getDataFromRow] Index encontrado: ${index}`);
-                    
-                    if (row[index] && row[index].trim() !== "") {
-                        const value = row[index];
-                        console.log(`✅ [DEBUG getDataFromRow] Valor encontrado: "${value}"`);
-                        return value;
-                    } else {
-                        console.log(`⚠️ [DEBUG getDataFromRow] Valor vazio no index ${index}`);
-                    }
-                } else {
-                    console.log(`❌ [DEBUG getDataFromRow] Header "${headerKey}" não encontrado no headerMap`);
-                }
-                
-                console.log(`❌ [DEBUG getDataFromRow] Retornando "(não informado)" para "${headerName}"`);
-                return "(não informado)";
-            }
-
-            async function generateContextualAnalysis(code, rowData) {
-
-                const performanceData = {
-                    gondola_m1: getDataFromRow(rowData, "M-1", 0),
-                    gondola_vs: getDataFromRow(rowData, "M0 vs M-1", 0),
-                    gondola_status: getDataFromRow(rowData, "Gôndola"),
-                    pe_m1: getDataFromRow(rowData, "M-1", 1),
-                    pe_vs: getDataFromRow(rowData, "M0 vs M-1", 1),
-                    pe_status: getDataFromRow(rowData, "Ponto Extra."),
-                    base_foco: getDataFromRow(rowData, "BASE FOCO"),
-                    cob_hdw: getDataFromRow(rowData, "COB HDW"),
-                    atendimento: getDataFromRow(rowData, "Atendimento")
-                };
-
-
-                let responseText = `📋 **Consulta: Código ${code}**\n\n`;
-                
-                responseText += `🏢 **Informações:**\n`;
-                responseText += `• **Rede:** ${getDataFromRow(rowData, "Rede")}\n`;
-                responseText += `• **Nome:** ${getDataFromRow(rowData, "Nome Fantasia")}\n\n`;
-                
-                responseText += `👥 **Equipe:**\n`;
-                responseText += `• **Coordenador:** ${getDataFromRow(rowData, "COORDENADOR")}\n`;
-                responseText += `• **Supervisor:** ${getDataFromRow(rowData, "SUPERVISOR TERCEIRO")}\n`;
-                responseText += `• **GN:** ${getDataFromRow(rowData, "GN")}\n`;
-                responseText += `• **SL/SC:** ${getDataFromRow(rowData, "SL/SC")}\n\n`;
-                
-                responseText += `📊 **Performance:**\n`;
-                responseText += `• **AE:** ${getDataFromRow(rowData, "AE")}\n`;
-                responseText += `• **Gôndola:** ${performanceData.gondola_status}\n`;
-                responseText += `• **Ponto Extra:** ${performanceData.pe_status}\n`;
-                responseText += `• **Atendimento:** ${performanceData.atendimento}\n\n`;
-
-
-                addMessage(responseText, 'bot');
-
-
-                showAIProgress();
-                
-
-                const analysis = await getAIAnalysis(performanceData, code);
-                hideAIProgress();
-                
-
-                addMessage(analysis, 'bot', { id: `analysis-${code}` });
-
-
-                chatSession.conversationContext.push({
-                    type: 'code_analysis',
-                    code: code,
-                    data: performanceData,
-                    timestamp: new Date()
-                });
-            }
-
-            async function generateComparisonReport(comparisonData) {
-                let response = `📊 **RELATÓRIO COMPARATIVO**\n\n`;
-                
-
-                response += `| Código | Rede | AE | Gôndola | Ponto Extra | Atendimento |\n`;
-                response += `|--------|------|----|---------|-------------|-------------|\n`;
-                
-                for (const item of comparisonData) {
-                    const { code, data } = item;
-                    const rede = getDataFromRow(data, "Rede").substring(0, 15);
-                    const ae = getDataFromRow(data, "AE");
-                    const gondola = getDataFromRow(data, "Gôndola").substring(0, 8);
-                    const pontoExtra = getDataFromRow(data, "Ponto Extra.").substring(0, 10);
-                    const atendimento = getDataFromRow(data, "Atendimento").substring(0, 8);
-                    
-                    response += `| ${code} | ${rede} | ${ae} | ${gondola} | ${pontoExtra} | ${atendimento} |\n`;
-                }
-                
-                response += `\n🧠 **Análise Comparativa:**\n`;
-                
-
-                showAIProgress();
-                const comparisonAnalysis = await getComparisonAnalysis(comparisonData);
-                hideAIProgress();
-                
-                response += comparisonAnalysis;
-                
-                addMessage(response, 'bot');
-            }
-
-            function showAIProgress() {
-                aiProgress.classList.remove('hidden');
-                progressFill.style.width = '0%';
-                
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += Math.random() * 15;
-                    if (progress > 90) progress = 90;
-                    progressFill.style.width = `${progress}%`;
-                    
-                    if (progress >= 90) {
-                        clearInterval(interval);
-                    }
-                }, 200);
-            }
-
-            function hideAIProgress() {
-                progressFill.style.width = '100%';
-                setTimeout(() => {
-                    aiProgress.classList.add('hidden');
-                    progressFill.style.width = '0%';
-                }, 300);
-            }
-
-            function showHistory() {
-                if (chatSession.conversationContext.length === 0) {
-                    addMessage("📝 **Histórico da Sessão:**\n\nNenhuma consulta realizada ainda.", 'bot');
-                    return;
-                }
-
-                let history = "📝 **Histórico da Sessão Atual:**\n\n";
-                const recentQueries = chatSession.conversationContext
-                    .filter(item => item.type === 'code_analysis')
-                    .slice(-10);
-
-                if (recentQueries.length === 0) {
-                    history += "Nenhuma análise de código ainda.";
-                } else {
-                    recentQueries.forEach((item, index) => {
-                        history += `${index + 1}. **EG ${item.code}** - ${item.timestamp.toLocaleTimeString()}\n`;
+                        headerMap[headerKey].push(index);
                     });
-                }
-
-                history += `\n💡 **Dica:** Use códigos do histórico para consultas rápidas.`;
-
-                addMessage(history, 'bot');
-            }
-
-            // Função showFavorites removida - simplificação do sistema
-
-            // Função addToFavorites removida - simplificação do sistema
-
-            function exportData() {
-                if (chatSession.codes.length === 0) {
-                    addMessage("📤 **Exportar Dados:**\n\nNenhuma consulta para exportar.\n\nRealize algumas consultas primeiro.", 'bot');
-                    return;
-                }
-
-                let exportText = `RELATÓRIO RAIO-X SCORE 5\n`;
-                exportText += `Data: ${new Date().toLocaleDateString()}\n`;
-                exportText += `Sessão: ${new Date().toISOString()}\n\n`;
-                exportText += `CÓDIGOS CONSULTADOS:\n`;
-                
-                chatSession.codes.forEach(code => {
-                    exportText += `- ${code}\n`;
-                });
-
-                const blob = new Blob([exportText], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `raio-x-score-${Date.now()}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                addMessage("✅ **Dados exportados com sucesso!**\n\nArquivo baixado: raio-x-score-[timestamp].txt", 'bot');
-            }
-
-            function showHelp() {
-                let help = `🤖 **COMANDOS DO RAIO-X SCORE 5**\n*Desenvolvido pelo time PPM AS MG para DIRETA MG*\n\n`;
-                
-                help += "**🚀 COMANDOS PRINCIPAIS:**\n\n";
-                Object.entries(COMMANDS).forEach(([cmd, desc]) => {
-                    help += `• **${cmd}** ${desc}\n`;
-                });
-
-                help += "\n**💡 EXEMPLOS PRÁTICOS:**\n";
-                help += "• **/buscar ambev** - Encontra nossa rede\n";
-                help += "• **12345** - Análise direta do código EG\n\n";
-
-                help += "**🎯 DICA DE OURO:**\n";
-                help += "Digite qualquer **código EG** para análise instantânea!\n\n";
-                
-                help += "*Sistema inteligente focado na performance das Lojas da DIRETA MG* 🍺";
-
-                addMessage(help, 'bot');
-            }
-
-            function showDatabaseStatus() {
-                const status = isSheetLoaded ? 
-                    `✅ **Sistema Operacional!**\n\n📊 **Base de dados:** ${sheetData.length.toLocaleString()} lojas carregadas\n🔍 **Sua sessão:** ${chatSession.codes.length} código${chatSession.codes.length !== 1 ? 's' : ''} analisado${chatSession.codes.length !== 1 ? 's' : ''}\n\n*Sistema PPM AS MG - DIRETA MG* 🚀` :
-                    `⚙️ **Carregando sistema...**\n\n🔄 Verificando conexão com a base da DIRETA MG\n⏳ Isso demora alguns segundos...\n\n*Desenvolvido especialmente pelo time PPM AS MG*`;
-
-                addMessage(status, 'bot');
-            }
-
-            function resetChatSession() {
-                chatSession = {
-                    codes: [],
-                    conversationContext: [],
-                    favorites: [],
-                    comparisonList: [],
-                    isProcessing: false
-                };
-            }
-
-            // Esta função está duplicada, removendo a segunda instância
-            // function closeSidebar() { ... }
-
-            async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
-                try {
-                    return await fetch(url, options);
-                } catch (error) {
-                    if (retries > 1) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return fetchWithBackoff(url, options, retries - 1, delay * 2);
-                    }
-                    throw error;
-                }
-            }
-
-            async function callGeminiAPI(prompt, systemInstruction) {
-                // CORREÇÃO: Chave de API removida por segurança.
-                // Para o GitHub Pages, esta chave deve ser gerenciada por um backend.
-                // No ambiente de testes (Canvas), a chave é injetada se estiver em branco.
-                
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                // !! IMPORTANTE PARA O GITHUB PAGES !!
-                // Você precisa colocar sua própria chave de API da Gemini aqui para o chat funcionar.
-                // Obtenha sua chave em: https://aistudio.google.com/app/apikey
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                const apiKey = "AIzaSyCNHygq_D3meacHFbZcJ9BF9I59xGWouCw"; // <-- API KEY GOOGLE ATUALIZADA
-                
-                // CORREÇÃO: Corrigido erro de digitação na URL (era 'generativela-language')
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    systemInstruction: {
-                        parts: [{ text: systemInstruction }]
-                    },
-                };
-
-                const options = {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                };
-
-                const response = await fetchWithBackoff(apiUrl, options);
-
-                if (!response.ok) {
-                    throw new Error(`Erro na API Gemini: ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    return candidate.content.parts[0].text;
+                    
+                    sheetData = allRows.slice(1);
+                    updateCsvData();
+                    isSheetLoaded = true;
+                    
+                    const chatStatus = document.getElementById('chat-status');
+                    chatStatus.textContent = 'Base de dados carregada!';
+                    
+                    setTimeout(() => {
+                        addMessage("✅ **Base de dados carregada com sucesso!**\n\n🚀 **Agora você pode:**\n• Consultar códigos EG\n• Buscar por nome/rede\n• Comparar estabelecimentos\n• Usar comandos avançados", 'bot');
+                    }, 500);
+                    
+                    console.log('✅ Planilha processada com sucesso!');
+                    console.log('📊 Headers encontrados:', Object.keys(headerMap));
                 } else {
-                    if (candidate?.safetyRatings) {
-                        throw new Error("A resposta foi bloqueada por motivos de segurança.");
-                    }
-                    throw new Error("Resposta inesperada ou vazia da API Gemini.");
-                }
-            }
-
-            async function getAIAnalysis(performanceData, code) {
-                const systemInstruction = `Você é o 'Raio-X Score 5', um analista de performance das Lojas de atendimento da DIRETA MG. Seja conciso, profissional e direto. Sua missão é analisar os dados de performance de uma loja específica.
-
-Instruções:
-1. Analise os dados de performance fornecidos
-2. Identifique pontos fortes e fracos
-3. Sugira ações específicas quando apropriado
-4. Seja direto e objetivo
-5. Use contexto da sessão quando disponível
-
-Responda em português brasileiro. Gere sua resposta no seguinte formato:
-
-🟢 **Pontos Fortes:**
-• [Insight positivo 1]
-• [Insight positivo 2]
-
-🔴 **Pontos de Atenção:**
-• [Insight acionável 1]
-• [Insight acionável 2]
-
-💡 **Sugestões:**
-• [Recomendação específica 1]
-• [Recomendação específica 2]
-
-Se não houver pontos fortes, escreva 'Nenhum ponto forte notável'. Se não houver pontos de atenção, escreva 'Nenhum ponto crítico identificado'.`;
-
-                const prompt = `Analise a performance do estabelecimento EG ${code} com base nos seguintes dados:
-
-**Dados de Performance:**
-• Gôndola (M-1): ${performanceData.gondola_m1}
-• Gôndola (M0 vs M-1): ${performanceData.gondola_vs}
-• Gôndola (Status): ${performanceData.gondola_status}
-• Ponto Extra (M-1): ${performanceData.pe_m1}
-• Ponto Extra (M0 vs M-1): ${performanceData.pe_vs}
-• Ponto Extra (Status): ${performanceData.pe_status}
-• BASE FOCO: ${performanceData.base_foco}
-• COB HDW: ${performanceData.cob_hdw}
-• Atendimento: ${performanceData.atendimento}
-
-**Contexto da Sessão:**
-• Códigos já consultados: ${chatSession.codes.join(', ') || 'Nenhum'}
-• Tipo de estabelecimento: Analisar padrões da rede e região
-
-Gere uma análise completa seguindo o formato solicitado.`;
-
-                try {
-                    const analysis = await callGeminiAPI(prompt, systemInstruction);
-                    return analysis;
-                } catch (error) {
-                    console.error("Erro na análise de IA:", error);
-                    return "❌ **Análise não disponível**\n\nDesculpe, não foi possível gerar a análise de IA neste momento. Os dados estão sendo processados.";
-                }
-            }
-
-            async function getComparisonAnalysis(comparisonData) {
-                const systemInstruction = `Você é um analista de performance das Lojas de atendimento da DIRETA MG especializado em comparações entre estabelecimentos.
-
-Compare os dados dos estabelecimentos fornecidos e identifique:
-1. Melhores performances
-2. Áreas de melhoria
-3. Padrões e tendências
-4. Recomendações específicas
-
-Seja objetivo e forneça insights acionáveis.`;
-
-                let prompt = "Compare os seguintes estabelecimentos:\n\n";
-                
-                comparisonData.forEach((item, index) => {
-                    const { code, data } = item;
-                    prompt += `**Estabelecimento ${index + 1} - EG ${code}:**\n`;
-                    prompt += `• Rede: ${getDataFromRow(data, "Rede")}\n`;
-                    prompt += `• AE: ${getDataFromRow(data, "AE")}\n`;
-                    prompt += `• Gôndola: ${getDataFromRow(data, "Gôndola")}\n`;
-                    prompt += `• Ponto Extra: ${getDataFromRow(data, "Ponto Extra.")}\n`;
-                    prompt += `• Atendimento: ${getDataFromRow(data, "Atendimento")}\n\n`;
-                });
-
-                prompt += "Gere uma análise comparativa detalhada.";
-
-                try {
-                    const analysis = await callGeminiAPI(prompt, systemInstruction);
-                    return analysis;
-                } catch (error) {
-                    console.error("Erro na análise comparativa:", error);
-                    return "❌ Análise comparativa não disponível no momento.";
-                }
-            }
-
-            async function getTrendPredictions(code) {
-                // CORREÇÃO: Usar csvData (dados JSON) em vez de sheetData (array)
-                try {
-                    const data = csvData.find(row => row.código === code || row.eg === code);
-                    if (!data) return null;
-                    
-                    const systemInstruction = `Você é um analista de dados das Lojas de atendimento da DIRETA MG especializado em previsões e tendências de performance. Analise os dados históricos e gere previsões inteligentes.
-
-                    Responda no formato JSON:
-                    {
-                        "trend_direction": "subindo/estável/descendo",
-                        "confidence_level": 75,
-                        "prediction_period": "próximos 30 dias",
-                        "key_factors": ["fator 1", "fator 2"],
-                        "recommendations": ["ação recomendada 1", "ação recomendada 2"],
-                        "risk_factors": ["risco 1", "risco 2"]
-                    }`;
-                    
-                    const prompt = `Analise os dados do estabelecimento ${code} e gere previsões de tendência:
-                    
-                    Dados: ${JSON.stringify(data, null, 2)}
-                    Contexto histórico da sessão: ${chatSession.codes.join(', ') || 'Nenhum'}
-                    
-                    Gere uma previsão baseada em padrões, sazonalidade e performance atual.`;
-                    
-                    try {
-                        const response = await callGeminiAPI(prompt, systemInstruction);
-                        return JSON.parse(response);
-                    } catch (error) {
-                        console.error("Erro na previsão:", error);
-                        // Fallback em caso de erro da API
-                        return {
-                            trend_direction: "estável",
-                            confidence_level: 50,
-                            prediction_period: "próximos 15 dias",
-                            key_factors: ["análise em tempo real"],
-                            recommendations: ["monitorar dados próximos"],
-                            risk_factors: ["flutuação de mercado"]
-                        };
-                    }
-                } catch (e) {
-                    console.error("Erro ao preparar dados para predição:", e);
-                    return null;
-                }
-            }
-
-
-            function detectPatterns(codes = null) {
-                // CORREÇÃO: Usar csvData (dados JSON)
-                try {
-                    const targetCodes = codes || chatSession.codes;
-                    
-                    if (targetCodes.length === 0) {
-                        return "❌ **Nenhum código analisado ainda**\n\nConsulte alguns estabelecimentos primeiro com `/buscar [código]` ou use `/buscar todas` para análise geral.";
-                    }
-                    
-                    const patterns = {
-                        network_insights: [],
-                        geographical_trends: [],
-                        performance_clusters: [],
-                        seasonal_patterns: []
-                    };
-                    
-                    const analyzedData = targetCodes.map(code => {
-                        const data = csvData.find(row => row.código === code || row.eg === code);
-                        if (data) return {
-                            code: code,
-                            gondola_m1: parseFloat(data['m-1'] || 0), // Assumindo 'm-1' é gondola
-                            pe_m1: parseFloat(data['m-1'] || 0), // Usando o mesmo por falta de dados
-                            region: data['regional'] || 'N/A'
-                        };
-                        return null;
-                    }).filter(Boolean);
-                    
-
-                    if (analyzedData.length >= 2) {
-                        const regionGroups = {};
-                        analyzedData.forEach(item => {
-                            if (!regionGroups[item.region]) regionGroups[item.region] = [];
-                            regionGroups[item.region].push(item);
-                        });
-                        
-                        for (const [region, items] of Object.entries(regionGroups)) {
-                            if (items.length >= 2) {
-                                const avgPerformance = items.reduce((sum, item) => sum + item.gondola_m1 + item.pe_m1, 0) / (items.length * 2);
-                                patterns.geographical_trends.push({
-                                    region: region,
-                                    performance: avgPerformance.toFixed(1),
-                                    count: items.length,
-                                    assessment: avgPerformance > 80 ? 'Excelente' : avgPerformance > 60 ? 'Boa' : 'Precisa atenção'
-                                });
-                            }
-                        }
-                        
-
-                        const highPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 > 120);
-                        const lowPerformers = analyzedData.filter(item => item.gondola_m1 + item.pe_m1 < 60);
-                        
-                        patterns.performance_clusters = {
-                            high_performance: {
-                                codes: highPerformers.map(item => item.code),
-                                percentage: (highPerformers.length / analyzedData.length * 100).toFixed(1)
-                            },
-                            low_performance: {
-                                codes: lowPerformers.map(item => item.code),
-                                percentage: (lowPerformers.length / analyzedData.length * 100).toFixed(1)
-                            }
-                        };
-                    }
-                    
-                    return patterns;
-                } catch(e) {
-                     console.error("Erro ao detectar padrões:", e);
-                     return "❌ Erro ao processar padrões.";
-                }
-            }
-
-
-            function createDataAnimation(data) {
-                const animationHTML = `
-                    <div class="storytelling-container p-4 bg-gray-900 rounded-lg border border-amber-500/30">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-amber-400">📊 Storytelling de Dados</h3>
-                            <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
-                                <i data-lucide="x" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="storytelling-animation">
-                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
-                                 data-delay="0">
-                                <div class="bg-blue-900/30 p-3 rounded-lg mb-2">
-                                    <div class="text-blue-400 font-semibold">🎯 **Estabelecimento Analisado**</div>
-                                    <div class="text-white">Código: ${data.code || 'Múltiplos'}</div>
-                                </div>
-                            </div>
-                            
-                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
-                                 data-delay="800">
-                                <div class="bg-green-900/30 p-3 rounded-lg mb-2">
-                                    <div class="text-green-400 font-semibold">📈 **Performance Geral**</div>
-                                    <div class="text-white">Média: ${data.averageScore || 'Calculando...'}</div>
-                                </div>
-                            </div>
-                            
-                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
-                                 data-delay="1600">
-                                <div class="bg-purple-900/30 p-3 rounded-lg mb-2">
-                                    <div class="text-purple-400 font-semibold">🔍 **Insight Principal**</div>
-                                    <div class="text-white">${data.insight || 'Gerando análise...'}</div>
-                                </div>
-                            </div>
-                            
-                            <div class="data-point opacity-0 transform translate-y-4 transition-all duration-500" 
-                                 data-delay="2400">
-                                <div class="bg-amber-900/30 p-3 rounded-lg">
-                                    <div class="text-amber-400 font-semibold">💡 **Recomendação**</div>
-                                    <div class="text-white">${data.recommendation || 'Continuando análise...'}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- SCRIPT REMOVIDO DAQUI -->
-                    <!-- A função addMessage agora trata a renderização -->
-                `;
-                return animationHTML;
-            }
-
-            function animateDataReveal(element) {
-                // Esta função precisa ser chamada após o elemento ser adicionado
-                // Vamos simplificar e animar diretamente no createDataAnimation (acima)
-                // A lógica de animação agora é tratada por 'addMessage' e 'lucide.createIcons'
-                const points = element.querySelectorAll('.data-point');
-                points.forEach((point, index) => {
-                     setTimeout(() => {
-                        point.style.opacity = '1';
-                        point.style.transform = 'translateY(0)';
-                    }, index * 200); // Animação escalonada
-                });
-            }
-
-            function createAdvancedVisualization(data, type = 'performance') {
-                let chartHTML = '';
-                
-                if (type === 'performance') {
-                    chartHTML = `
-                        <div class="advanced-viz bg-gray-900 p-4 rounded-lg border border-amber-500/30 mb-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="text-lg font-bold text-amber-400">📈 Gráfico de Performance</h4>
-                                <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-white">
-                                    <i data-lucide="x" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="chart-container h-48 relative">
-                                <div class="bars-container flex items-end justify-around h-full space-x-2">
-                                    ${generatePerformanceBars(data)}
-                                </div>
-                            </div>
-                            
-                            <div class="chart-labels flex justify-between mt-2 text-xs text-gray-400">
-                                <span>Gôndola</span>
-                                <span>Ponto Extra</span>
-                                <span>Atendimento</span>
-                            </div>
-                        </div>
-                    `;
+                    throw new Error("Planilha vazia ou com formato inválido.");
                 }
                 
-                return chartHTML;
+            } catch (error) {
+                console.error('❌ Erro ao pré-carregar dados:', error);
+                const chatStatus = document.getElementById('chat-status');
+                chatStatus.textContent = 'Erro ao carregar dados';
+                addMessage(`❌ **Erro ao carregar a planilha:**\n\n${error.message}\n\n🔄 **Verifique:**\n• Link de publicação da planilha\n• Conexão com internet\n• Permissões de acesso`, 'bot');
+            } finally {
+                isSheetLoading = false;
             }
+        }
 
-            function generatePerformanceBars(data) {
-                 // CORREÇÃO: Adicionado try...catch para o SyntaxError
-                try {
-                    const gondola = parseFloat(data.gondola_m1 || 0);
-                    const pontoExtra = parseFloat(data.pe_m1 || 0);
-                    const atendimento = parseFloat(data.atendimento || 0);
-                    
-                    // Garantir que maxValue nunca seja 0 para evitar divisão por zero
-                    const maxValue = Math.max(gondola, pontoExtra, atendimento, 1); 
-                    
-                    const gondolaHeight = (gondola / maxValue) * 100;
-                    const peHeight = (pontoExtra / maxValue) * 100;
-                    const atendHeight = (atendimento / maxValue) * 100;
-
-                    return `
-                        <div class="flex flex-col items-center w-1/3">
-                            <div class="text-xs text-gray-300 mb-1">${gondola.toFixed(1)}</div>
-                            <div class="w-full bg-blue-900/50 rounded-t-sm" style="height: ${gondolaHeight}%; transition: height 0.5s ease-out;">
-                                <div class="bg-blue-600 rounded-t-sm w-full" style="height: 100%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col items-center w-1/3">
-                            <div class="text-xs text-gray-300 mb-1">${pontoExtra.toFixed(1)}</div>
-                            <div class="w-full bg-green-900/50 rounded-t-sm" style="height: ${peHeight}%; transition: height 0.5s ease-out 0.2s;">
-                                <div class="bg-green-600 rounded-t-sm w-full" style="height: 100%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col items-center w-1/3">
-                            <div class="text-xs text-gray-300 mb-1">${atendimento.toFixed(1)}</div>
-                            <div class="w-full bg-purple-900/50 rounded-t-sm" style="height: ${atendHeight}%; transition: height 0.5s ease-out 0.4s;">
-                                <div class="bg-purple-600 rounded-t-sm w-full" style="height: 100%"></div>
-                            </div>
-                        </div>
-                    `;
-                } catch (e) {
-                    console.error("Erro ao gerar barras de performance:", e);
-                    return "<div class='text-red-500'>Erro ao renderizar gráfico.</div>";
-                }
-            }
-
-
-            function animateChartBars() {
-                // Esta função não é mais necessária, a animação é feita via CSS
-                // e pela função addMessage que chama lucide.createIcons()
-                lucide.createIcons();
-            }
-
-            function showSmartNotification(message, type = 'info') {
-                const colors = {
-                    'success': 'bg-green-600 border-green-500',
-                    'warning': 'bg-yellow-600 border-yellow-500', 
-                    'error': 'bg-red-600 border-red-500',
-                    'info': 'bg-blue-600 border-blue-500'
-                };
-                
-                const icons = {
-                    'success': 'check-circle',
-                    'warning': 'alert-triangle',
-                    'error': 'x-circle',
-                    'info': 'info'
-                };
-                
-                const notification = document.createElement('div');
-                notification.className = `fixed top-4 right-4 z-50 ${colors[type]} border text-white p-4 rounded-lg shadow-lg animate-slide-in-right`;
-                notification.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <i data-lucide="${icons[type]}" class="w-5 h-5"></i>
-                        <span>${message}</span>
-                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2">
-                            <i data-lucide="x" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                `;
-                
-                document.body.appendChild(notification);
-                lucide.createIcons();
-                
-
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 5000);
-            }
-
-            async function enableDeepAnalysis(code) {
-                addMessage(`🔬 **Iniciando Análise Profunda para ${code}**\n\nAnalisando múltiplas dimensões de performance...`, 'bot');
-                
-                setTimeout(() => {
-
-                    addMessage(`📈 **Análise Temporal**\nComparando performance mensal e tendências sazonais...`, 'bot');
-                }, 1500);
-                
-                setTimeout(() => {
-
-                    addMessage(`🌐 **Análise Comparativa**\nBenchmarking com outros estabelecimentos da rede...`, 'bot');
-                }, 3000);
-                
-                setTimeout(() => {
-
-                    addMessage(`💡 **Oportunidades Identificadas**\nPontos de melhoria e crescimento detectados...`, 'bot');
-                }, 4500);
-                
-                setTimeout(() => {
-
-                    addMessage(`🎯 **Plano de Ação Recomendado**\nEstratégias específicas para otimização...`, 'bot');
-                }, 6000);
-            }
-
-            // A função parseCSV já foi definida acima, removendo duplicata
-
-            const subtitleElement = document.getElementById('subtitle-typing');
-            if (subtitleElement) {
-                const subtitleText = SUBTITLE_TEXT;
-                let charIndex = 0;
-                subtitleElement.textContent = '';
-
-                function typeSubtitle() {
-                    if (charIndex < subtitleText.length) {
-                        subtitleElement.textContent += subtitleText.charAt(charIndex);
-                        charIndex++;
-                        setTimeout(typeSubtitle, 60);
-                    }
-                }
-                setTimeout(typeSubtitle, 400);
-            }
-
-            const createParticles = () => {
-                const numParticles = 40;
-                for (let i = 0; i < numParticles; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    const size = Math.random() * 3 + 1;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    particle.style.left = `${Math.random() * 100}%`;
-                    particle.style.top = `${Math.random() * 100}%`;
-                    particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
-                    particle.style.animationDelay = `${Math.random() * 10}s`;
-                    particle.style.setProperty('--x', `${(Math.random() - 0.5) * window.innerWidth}px`);
-                    particle.style.setProperty('--y', `${(Math.random() - 0.5) * window.innerHeight}px`);
-                    if(particlesContainer) {
-                        particlesContainer.appendChild(particle);
-                    }
-                }
-            };
-            createParticles();
+        // Função para processar mensagens
+        function processMessage(message) {
+            const messageLower = message.toLowerCase().trim();
             
-            // CORREÇÃO: Chamar createIcons() no final para renderizar ícones estáticos
-            lucide.createIcons();
+            // Verificar se é um código EG
+            const egPattern = /\b\d{2,6}-\d\b/;
+            if (egPattern.test(message)) {
+                console.log('🔍 Código EG detectado:', message);
+                simulateTyping(() => {
+                    searchCode(message);
+                }, 2000);
+                return;
+            }
+            
+            // Comandos
+            if (messageLower === '/ajuda' || messageLower === 'ajuda') {
+                simulateTyping(() => {
+                    addMessage(`<strong>💡 Comandos Disponíveis:</strong><br>
+• Digite um <strong>código EG</strong> (ex: 67285-8)<br>
+• <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
+• <strong>/status</strong> para verificar status da base<br>
+• <strong>/logo</strong> para ver informações da interface<br><br>
+<em>🎯 Sistema DIRETA MG - Ambev Parceiro BEES</em>`, 'bot');
+                }, 1000);
+                return;
+            }
+            
+            if (messageLower === '/status' || messageLower === 'status') {
+                simulateTyping(() => {
+                    addMessage(`<strong>📊 Status do Sistema:</strong><br>
+• Base de dados: ${isSheetLoaded ? '✅ Carregada' : '❌ Não carregada'}<br>
+• Registros: ${csvData.length}<br>
+• Planilha: ${isSheetLoaded ? 'Disponível' : 'Carregando...'}<br>
+• Gemini AI: ✅ Ativo<br>
+• Interface: 🚀 Mobile-First BEES<br>
+• Logo GIF: 🤖 Funcionando<br><br>
+<em>DIRETA MG - Sistema funcionando</em>`, 'bot');
+                }, 1000);
+                return;
+            }
+
+            if (messageLower === '/logo' || messageLower === 'logo') {
+                simulateTyping(() => {
+                    addMessage(`<strong>🎨 Interface DIRETA MG:</strong><br>
+✨ <strong>Design moderno mobile-first</strong><br>
+🤖 <strong>GIF do robô animado</strong> (hosted no GitHub)<br>
+🎨 <strong>Cores Ambev Parceiro BEES</strong><br>
+📱 <strong>Interface responsiva</strong><br>
+⚡ <strong>Animações suaves</strong><br><br>
+<em>🚀 Interface aprimorada para mobile!</em>`, 'bot');
+                }, 1200);
+                return;
+            }
+            
+            // Resposta padrão
+            simulateTyping(() => {
+                addMessage(`Olá! 👋 Sou o assistente IA da <strong>DIRETA MG</strong>.<br><br>
+🤖 <strong>Sistema Ambev Parceiro BEES</strong><br>
+• Digite um <strong>código EG</strong> para análise completa<br>
+• Use <strong>/ajuda</strong> para ver comandos disponíveis<br>
+• Use <strong>/status</strong> para verificar o sistema<br>
+• Interface <strong>moderna e responsiva</strong><br><br>
+Como posso ajudá-lo?`, 'bot');
+            }, 1500);
+        }
+
+        // Função para buscar código
+        function searchCode(code) {
+            const data = findDataInSheetSync(code);
+            
+            if (data) {
+                addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
+<strong>📊 Dados do Estabelecimento:</strong><br>
+• <strong>EG:</strong> ${data.eg || '(não informado)'}<br>
+• <strong>Nome:</strong> ${data['nome fantasia'] || '(não informado)'}<br>
+• <strong>Rede:</strong> ${data.rede || '(não informado)'}<br>
+• <strong>Coordenador:</strong> ${data.coordenador || '(não informado)'}<br>
+• <strong>GN:</strong> ${data.gn || '(não informado)'}<br>
+• <strong>SL/SC:</strong> ${data['sl/sc'] || '(não informado)'}<br>
+• <strong>Performance M0:</strong> ${data['m0'] || '(não informado)'}<br>
+• <strong>vs M-1:</strong> ${data['vs m-1'] || '(não informado)'}<br>
+• <strong>Gôndola:</strong> ${data.gôndola || data.gondola || '(não informado)'}<br>
+• <strong>Ponto Extra:</strong> ${data['ponto extra'] || '(não informado)'}<br>
+• <strong>Atendimento:</strong> ${data.atendimento || '(não informado)'}<br><br>
+<em>🚀 Análise completa realizada pela IA da DIRETA MG!</em>`, 'bot');
+            } else {
+                addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
+• Verifique se o código está correto<br>
+• Tente outro código EG<br>
+• Use <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
+• Base de dados: ${isSheetLoaded ? 'Carregada' : 'Carregando...'}<br><br>
+<em>DIRETA MG - Sistema de consultas</em>`, 'bot');
+            }
+        }
+
+        // Event listeners para navegação
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ Sistema DIRETA MG carregado!');
+            
+            // Tela de boas-vindas
+            document.getElementById('start-chat-button').addEventListener('click', () => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('phone-container').style.display = 'flex';
+                
+                // Mensagem de boas-vindas
+                setTimeout(() => {
+                    addMessage(`<strong>🚀 Bem-vindo ao Raio-X Score 5!</strong><br><br>
+Sou a <strong>IA Conversacional da DIRETA MG</strong>, especialista em análise de performance de estabelecimentos.<br><br>
+<strong>✨ Nova Interface:</strong><br>
+🤖 <strong>GIF do robô animado</strong><br>
+🎨 <strong>Cores Ambev Parceiro BEES</strong><br>
+📱 <strong>Design mobile-first</strong><br>
+⚡ <strong>Animações suaves</strong><br><br>
+• Digite um <strong>código EG</strong> (ex: 67285-8)<br>
+• Use <strong>/ajuda</strong> para ver todos os comandos<br>
+• Sistema <strong>DIRETA MG</strong> - Ambev Parceiro BEES<br><br>
+Como posso ajudá-lo hoje?`, 'bot');
+                }, 500);
+                
+                // Iniciar carregamento da planilha em background
+                setTimeout(() => {
+                    preloadSheetData();
+                }, 1000);
+            });
+
+            // Fechar chat
+            document.getElementById('close-chat-button').addEventListener('click', () => {
+                document.getElementById('phone-container').style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'flex';
+            });
+
+            // Form do chat
+            const chatForm = document.getElementById('chat-form');
+            const messageInput = document.getElementById('message-input');
+
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                
+                if (message) {
+                    addMessage(`<strong>👤 Você:</strong> ${message}`, 'user');
+                    processMessage(message);
+                    messageInput.value = '';
+                }
+            });
+
+            // Enter no input
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    chatForm.dispatchEvent(new Event('submit'));
+                }
+            });
+
+            // Inicializar animações
+            animateSubtitle();
+        });
+
+        // Cleanup typing timeout
+        window.addEventListener('beforeunload', () => {
+            clearTimeout(typingTimeout);
         });
     </script>
-    </body>
+</body>
 </html>
-
