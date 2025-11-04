@@ -596,7 +596,7 @@
     <script>
         // Configurações
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
-        const GEMINI_API_KEY = "AIzaSyDrKj7epX5wg6sg1gSed5_ygum3RjJfvNs";
+        const GEMINI_API_KEY = "AIzaSyCNHygq_D3meacHFbZcJ9BF9I59xGWouCw";
         
         // Variáveis globais
         let csvData = [];
@@ -673,6 +673,7 @@
         // Função para mostrar typing indicator
         function showTyping() {
             const typingIndicator = document.getElementById('typing-indicator');
+            const messageContainer = document.getElementById('message-container');
             typingIndicator.style.display = 'block';
             messageContainer.scrollTop = messageContainer.scrollHeight;
         }
@@ -782,7 +783,7 @@
                             headers: {
                                 'Accept': 'text/csv',
                             },
-                            timeout: 10000
+                            timeout: 15000
                         });
 
                         if (!response.ok) {
@@ -801,12 +802,12 @@
                     }
                 }
 
-                // Se nenhum proxy funcionou, usar dados de teste com as colunas reais
+                // Se nenhum proxy funcionou, usar dados de teste
                 if (!csvText) {
                     console.warn('⚠️ Usando dados de teste');
-                    csvText = `Rede,EG,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,.,M-1,M0,vs M-1,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
-Rede F,67285-8,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,.,28,30,7%,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6
-Rede A,75668-7,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,.,15,18,20%,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1`;
+                    csvText = `EG,Rede,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
+67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6
+75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1`;
                 }
 
                 const allRows = parseCSV(csvText);
@@ -849,11 +850,18 @@ Rede A,75668-7,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18
             }
         }
 
-        // CORREÇÃO: Função para chamar a API do Gemini - AGORA FUNCIONANDO
+        // Função para chamar a API do Gemini
         async function callGeminiAPI(userMessage) {
-            console.log('🤖 Iniciando chamada Gemini API...');
-            
             try {
+                const prompt = `Você é o Robô da DIRETA MG Raio-X Score 5, especialista em análise de performance de estabelecimentos. 
+
+Se o usuário digitou um código EG (como 67285-8), direcione para consulta de dados.
+Se for uma pergunta sobre establecimientos, dados ou performance, ajude com informações da base de dados.
+Se for uma pergunta geral, seja amigável e direcione para os comandos disponíveis.
+
+Responda de forma concisa e profissional em português brasileiro.
+Pergunta do usuário: ${userMessage}`;
+
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
                     method: 'POST',
                     headers: {
@@ -862,46 +870,33 @@ Rede A,75668-7,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `Você é o Robô da DIRETA MG Raio-X Score 5. 
-Responda de forma útil e profissional em português sobre análise de performance de estabelecimentos.
-
-Pergunta do usuário: ${userMessage}
-
-Mantenha a resposta concisa e direta.`
+                                text: prompt
                             }]
                         }]
                     })
                 });
 
-                console.log('📡 Status da resposta:', response.status);
+
 
                 if (!response.ok) {
-                    throw new Error(`Erro API: ${response.status} ${response.statusText}`);
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
                 }
 
                 const data = await response.json();
-                console.log('📡 Dados da resposta:', data);
+
 
                 if (data.candidates && data.candidates[0] && data.candidates[0].content) {
                     return data.candidates[0].content.parts[0].text;
                 } else {
-                    return '🤖 **Robô IA DIRETA MG:**\nSistema funcionando perfeitamente! Digite um código EG (ex: 67285-8) para consultar estabelecimentos ou use /ajuda para ver todos os comandos.';
+                    return 'Desculpe, não consegui processar sua pergunta. Tente digitar um código EG ou use /ajuda para ver os comandos disponíveis.';
                 }
 
             } catch (error) {
-                console.error('❌ Erro na API Gemini:', error);
-                return `🤖 **Robô IA DIRETA MG:**\nSistema operacional! 🚀 
-
-💡 **Como usar:**
-• Digite um **código EG** (ex: 67285-8)
-• Use **/ajuda** para ver comandos
-• Use **/status** para verificar o sistema
-
-*Sistema DIRETA MG - Raio-X Score 5*`;
+                return `❌ Erro de conexão: ${error.message}\n\n💡 Tente:\n• Digitar um código EG\n• Usar /ajuda para ver comandos\n• Verificar internet`;
             }
         }
 
-        // CORREÇÃO: Função para processar mensagens - AGORA FUNCIONANDO
+        // Função para processar mensagens
         async function processMessage(message) {
             const messageLower = message.toLowerCase().trim();
             
@@ -920,6 +915,7 @@ Mantenha a resposta concisa e direta.`
                 simulateTyping(() => {
                     addMessage(`<strong>💡 Comandos Disponíveis:</strong><br>
 • Digite um <strong>código EG</strong> (ex: 67285-8)<br>
+• <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
 • <strong>/status</strong> para verificar status da base<br>
 • <strong>/logo</strong> para ver informações da interface<br>
 • <strong>IA Conversacional:</strong> Converse naturalmente!<br><br>
@@ -931,12 +927,13 @@ Mantenha a resposta concisa e direta.`
             if (messageLower === '/status' || messageLower === 'status') {
                 simulateTyping(() => {
                     addMessage(`<strong>📊 Status do Sistema:</strong><br>
-• Base de dados: ${isSheetLoaded ? '✅ Carregada' : '🔄 Carregando...'}<br>
+• Base de dados: ${isSheetLoaded ? '✅ Carregada' : '❌ Não carregada'}<br>
 • Registros: ${csvData.length}<br>
-• Gemini AI: ✅ Ativo e Respondendo<br>
+• Planilha: ${isSheetLoaded ? 'Disponível' : 'Carregando...'}<br>
+• Gemini AI: ✅ Ativo<br>
 • Interface: 🚀 Mobile-First BEES<br>
-• Chat: 💬 Totalmente Funcional<br><br>
-<em>DIRETA MG - Sistema 100% Operacional</em>`, 'bot');
+• Logo GIF: 🤖 Funcionando<br><br>
+<em>DIRETA MG - Sistema funcionando</em>`, 'bot');
                 }, 1000);
                 return;
             }
@@ -945,26 +942,27 @@ Mantenha a resposta concisa e direta.`
                 simulateTyping(() => {
                     addMessage(`<strong>🎨 Interface DIRETA MG:</strong><br>
 ✨ <strong>Design moderno mobile-first</strong><br>
-🤖 <strong>GIF do robô animado</strong><br>
+🤖 <strong>GIF do robô animado</strong> (hosted no GitHub)<br>
 🎨 <strong>Cores Ambev Parceiro BEES</strong><br>
 📱 <strong>Interface responsiva</strong><br>
 ⚡ <strong>Animações suaves</strong><br><br>
-<em>🚀 Interface totalmente funcional!</em>`, 'bot');
+<em>🚀 Interface aprimorada para mobile!</em>`, 'bot');
                 }, 1200);
                 return;
             }
             
-            // CORREÇÃO: Chamar IA para mensagens que não são códigos EG ou comandos - AGORA FUNCIONANDO
-            console.log('🤖 Chamando IA Gemini para resposta...');
+            // Chamar IA para mensagens que não são códigos EG ou comandos
+
             const aiResponse = await callGeminiAPI(message);
             simulateTyping(() => {
-                addMessage(`🤖 <strong>Robô IA DIRETA MG:</strong><br>${aiResponse}`, 'bot');
+                addMessage(`🤖 <strong>Robô IA:</strong><br>${aiResponse}`, 'bot');
             }, 2000);
         }
 
-        // CORREÇÃO: Função para buscar código - AGORA COM COLUNAS REAIS
+
+
+        // Função para buscar código
         function searchCode(code) {
-            console.log('🔍 Buscando código:', code);
             
             const data = findDataInSheetSync(code);
             
@@ -972,24 +970,22 @@ Mantenha a resposta concisa e direta.`
                 addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
 <strong>📊 Dados do Estabelecimento:</strong><br>
 • <strong>EG:</strong> ${data.eg || '(não informado)'}<br>
+• <strong>Nome:</strong> ${data['nome fantasia'] || '(não informado)'}<br>
 • <strong>Rede:</strong> ${data.rede || '(não informado)'}<br>
-• <strong>Nome Fantasia:</strong> ${data['nome fantasia'] || '(não informado)'}<br>
 • <strong>Coordenador:</strong> ${data.coordenador || '(não informado)'}<br>
-• <strong>Supervisor:</strong> ${data['supervisor terceiro'] || '(não informado)'}<br>
 • <strong>GN:</strong> ${data.gn || '(não informado)'}<br>
 • <strong>SL/SC:</strong> ${data['sl/sc'] || '(não informado)'}<br>
-• <strong>AE:</strong> ${data.ae || '(não informado)'}<br>
 • <strong>Performance M0:</strong> ${data['m0'] || '(não informado)'}<br>
 • <strong>vs M-1:</strong> ${data['vs m-1'] || '(não informado)'}<br>
 • <strong>Gôndola:</strong> ${data.gôndola || data.gondola || '(não informado)'}<br>
 • <strong>Ponto Extra:</strong> ${data['ponto extra'] || '(não informado)'}<br>
-• <strong>BASE FOCO:</strong> ${data['base foco'] || '(não informado)'}<br>
 • <strong>Atendimento:</strong> ${data.atendimento || '(não informado)'}<br><br>
 <em>🚀 Análise completa realizada pela IA da DIRETA MG!</em>`, 'bot');
             } else {
                 addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
 • Verifique se o código está correto<br>
 • Tente outro código EG<br>
+• Use <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
 • Base de dados: ${isSheetLoaded ? 'Carregada' : 'Carregando...'}<br><br>
 <em>DIRETA MG - Sistema de consultas</em>`, 'bot');
             }
@@ -997,7 +993,7 @@ Mantenha a resposta concisa e direta.`
 
         // Event listeners para navegação
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('✅ Sistema DIRETA MG inicializado!');
+
             
             // Tela de boas-vindas
             document.getElementById('start-chat-button').addEventListener('click', () => {
@@ -1011,8 +1007,6 @@ Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em 
 • Digite um <strong>código EG</strong> (ex: 67285-8)<br>
 • Use <strong>/ajuda</strong> para ver todos os comandos<br>
 • Sistema <strong>DIRETA MG</strong> - Ambev Parceiro BEES<br><br>
-<strong>✅ IA funcionando perfeitamente!</strong><br>
-<strong>✅ Chat 100% operacional!</strong><br><br>
 Como posso ajudá-lo hoje?`, 'bot');
                 }, 500);
                 
