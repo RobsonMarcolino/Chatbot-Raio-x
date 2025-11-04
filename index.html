@@ -588,13 +588,6 @@
                         <path d="M21 4L13 21L11 13L3 11L21 4Z"/>
                     </svg>
                 </button>
-                <button 
-                    type="button" 
-                    onclick="testCodeEG()"
-                    class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm ml-2 hover:bg-green-700 transition-colors"
-                >
-                    Teste 67285-8
-                </button>
             </form>
         </div>
     </div>
@@ -700,51 +693,60 @@
             }, delay);
         }
 
-        // Função parseCSV simplificada e funcional
+        // CORREÇÃO: Função parseCSV melhorada
         function parseCSV(text) {
             console.log('🔍 Parseando CSV...');
             const lines = [];
-            const rawLines = text.trim().split('\n');
+            let currentLine = [];
+            let currentField = '';
+            let inQuotes = false;
             
-            for (const line of rawLines) {
-                const row = [];
-                let cell = '';
-                let inQuote = false;
-                const cleanLine = line.replace(/\r$/, '');
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
                 
-                for (let i = 0; i < cleanLine.length; i++) {
-                    const char = cleanLine[i];
-                    if (char === '"') {
-                        if (inQuote && cleanLine[i + 1] === '"') {
-                            cell += '"';
-                            i++;
-                        } else {
-                            inQuote = !inQuote;
-                        }
-                    } else if (char === ',' && !inQuote) {
-                        row.push(cell.trim());
-                        cell = '';
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        currentField += '"';
+                        i++;
                     } else {
-                        cell += char;
+                        inQuotes = !inQuotes;
                     }
+                } else if (char === ',' && !inQuotes) {
+                    currentLine.push(currentField.trim());
+                    currentField = '';
+                } else if (char === '\n' && !inQuotes) {
+                    currentLine.push(currentField.trim());
+                    lines.push(currentLine);
+                    currentLine = [];
+                    currentField = '';
+                } else if (char === '\r') {
+                    // Ignorar carriage return
+                } else {
+                    currentField += char;
                 }
-                row.push(cell.trim());
-                lines.push(row);
+            }
+            
+            // Adicionar última linha
+            if (currentField.trim() || currentLine.length > 0) {
+                currentLine.push(currentField.trim());
+                lines.push(currentLine);
             }
             
             console.log('✅ CSV parseado:', lines.length, 'linhas');
             return lines;
         }
 
-        // Função updateCsvData corrigida
+        // CORREÇÃO: Função updateCsvData corrigida
         function updateCsvData() {
             console.log('🔧 Atualizando csvData...');
             csvData = sheetData.map(row => {
                 const obj = {};
                 Object.keys(headerMap).forEach(key => {
-                    const colIndex = headerMap[key][0];
-                    if (colIndex !== undefined) {
-                        obj[key] = row[colIndex];
+                    const indices = headerMap[key];
+                    if (indices && indices.length > 0) {
+                        const index = indices[0];
+                        obj[key] = row[index] || '';
                     }
                 });
                 return obj;
@@ -752,59 +754,59 @@
             console.log('📊 csvData atualizado:', csvData.length, 'registros');
         }
 
-        // Função findDataInSheetSync simplificada e funcional
+        // CORREÇÃO: Função findDataInSheetSync melhorada
         function findDataInSheetSync(code) {
-            console.log('🔍 === FUNÇÃO findDataInSheetSync ===');
             console.log('🔍 Buscando código:', code);
             console.log('📊 isSheetLoaded:', isSheetLoaded);
             console.log('📊 csvData.length:', csvData.length);
             
             if (!isSheetLoaded || !csvData.length) {
                 console.log('❌ Base de dados não carregada');
-                console.log('  - isSheetLoaded:', isSheetLoaded);
-                console.log('  - csvData.length:', csvData.length);
-                console.log('  - sheetData.length:', sheetData.length);
                 return null;
             }
             
-            console.log('📊 Base de dados carregada, iniciando busca...');
-            const possibleColumns = ['eg'];
-            console.log('📊 Colunas a verificar:', possibleColumns);
-            console.log('📊 Primeiras 2 linhas do csvData:', csvData.slice(0, 2));
+            // Buscar em múltiplas colunas possíveis
+            const possibleColumns = ['eg', 'codigo', 'código', 'code', 'id'];
             
             for (const colName of possibleColumns) {
-                console.log('🔍 Verificando coluna:', colName);
-                const foundRow = csvData.find((row, index) => {
+                const foundRow = csvData.find(row => {
                     const cellValue = row[colName];
-                    console.log(`  📄 Linha ${index}: ${colName} = "${cellValue}"`);
-                    if (!cellValue) {
-                        console.log(`  ❌ Valor vazio na linha ${index}`);
-                        return false;
-                    }
+                    if (!cellValue) return false;
                     
                     const normalizedCell = cellValue.toString().trim().toUpperCase();
                     const normalizedCode = code.toString().trim().toUpperCase();
                     const match = normalizedCell === normalizedCode;
                     
-                    console.log(`  📄 Comparando "${normalizedCell}" com "${normalizedCode}": ${match}`);
+                    console.log(`📄 Comparando "${normalizedCell}" com "${normalizedCode}": ${match}`);
                     return match;
                 });
                 
                 if (foundRow) {
-                    console.log('✅ Código encontrado!');
+                    console.log('✅ Código encontrado na coluna:', colName);
                     console.log('📊 Dados completos:', foundRow);
                     return foundRow;
-                } else {
-                    console.log('❌ Código não encontrado na coluna', colName);
                 }
             }
             
             console.log('❌ Código não encontrado em nenhuma coluna');
-            console.log('📊 total de registros verificados:', csvData.length);
             return null;
         }
 
-        // Função preloadSheetData simplificada
+        // CORREÇÃO: Função para obter dados de uma linha
+        function getDataFromRow(row, headerName) {
+            const headerKey = headerName.toLowerCase().trim()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/\s+/g, '_')
+                .replace(/[^a-z0-9_]/g, '');
+            
+            if (row[headerKey] !== undefined && row[headerKey] !== '') {
+                return row[headerKey];
+            }
+            
+            return "(não informado)";
+        }
+
+        // CORREÇÃO: Função preloadSheetData melhorada
         async function preloadSheetData() {
             if (isSheetLoading || isSheetLoaded) return;
             
@@ -849,7 +851,8 @@
                     console.warn('⚠️ Usando dados de teste');
                     csvText = `EG,Rede,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
 67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6
-75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1`;
+75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1
+37649-3,Rede B,Estabelecimento 2,Maria Costa,Ana Lima,1002,BH Sul,15,18,20,15%,10,7,BASE FOCO 2,CORONA 2,SPATEN 2,STELLA 2,COB HDW 2,Atendimento 2,Visita 2,LOJA 2`;
                 }
 
                 const allRows = parseCSV(csvText);
@@ -858,8 +861,17 @@
                     headerMap = {};
                     const sheetHeaders = allRows[0];
                     
+                    // CORREÇÃO: Processar headers corretamente
                     sheetHeaders.forEach((header, index) => {
-                        const headerKey = header.trim().toLowerCase();
+                        if (!header || header.trim() === '') {
+                            header = `coluna_${index}`;
+                        }
+                        
+                        const headerKey = header.trim().toLowerCase()
+                            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                            .replace(/\s+/g, '_')
+                            .replace(/[^a-z0-9_]/g, '');
+                        
                         if (!headerMap[headerKey]) {
                             headerMap[headerKey] = [];
                         }
@@ -893,27 +905,104 @@
             }
         }
 
-        // Função para processar mensagens
+        // NOVA FUNÇÃO: Chamar API Gemini
+        async function callGeminiAPI(prompt) {
+            try {
+                console.log('🤖 Chamando Gemini API...');
+                
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+                
+                const payload = {
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    throw new Error('Resposta inesperada da API');
+                }
+            } catch (error) {
+                console.error('❌ Erro na chamada da API Gemini:', error);
+                return null;
+            }
+        }
+
+        // NOVA FUNÇÃO: Gerar análise com IA
+        async function generateAIAnalysis(code, data) {
+            const prompt = `Você é um analista especialista da DIRETA MG (Ambev Parceiro BEES). 
+            
+Analise os seguintes dados do estabelecimento ${code}:
+
+DADOS DO ESTABELECIMENTO:
+- Código EG: ${code}
+- Nome: ${getDataFromRow(data, "Nome Fantasia")}
+- Rede: ${getDataFromRow(data, "Rede")}
+- Coordenador: ${getDataFromRow(data, "COORDENADOR")}
+- Supervisor: ${getDataFromRow(data, "SUPERVISOR TERCEIRO")}
+- GN: ${getDataFromRow(data, "GN")}
+- SL/SC: ${getDataFromRow(data, "SL/SC")}
+- AE: ${getDataFromRow(data, "AE")}
+- Gôndola: ${getDataFromRow(data, "Gôndola")}
+- Ponto Extra: ${getDataFromRow(data, "Ponto Extra")}
+- Atendimento: ${getDataFromRow(data, "Atendimento")}
+
+Forneça uma análise profissional em português com:
+1. Pontos fortes identificados
+2. Oportunidades de melhoria
+3. Recomendações específicas
+4. Insights estratégicos
+
+Seja conciso, objetivo e focado em performance operacional. Use formatação markdown simples.`;
+
+            const analysis = await callGeminiAPI(prompt);
+            
+            if (analysis) {
+                return analysis;
+            } else {
+                return `**🧠 Análise Básica do Estabelecimento ${code}**
+
+**Pontos para Observação:**
+- Estabelecimento ativo na rede ${getDataFromRow(data, "Rede")}
+- Performance operacional em monitoramento
+- Indicadores disponíveis para análise
+
+**Recomendações Gerais:**
+- Manter acompanhamento dos indicadores mensais
+- Foco na melhoria contínua da performance
+- Acompanhamento das métricas de atendimento
+
+*Análise gerada pelo sistema Raio-X Score 5 - DIRETA MG*`;
+            }
+        }
+
+        // CORREÇÃO: Função para processar mensagens melhorada
         function processMessage(message) {
-            console.log('📝 Processando mensagem:', message);
-            console.log('🔍 Comprimento da mensagem:', message.length);
-            console.log('🔍 Primeira letra:', message.charAt(0));
-            console.log('🔍 Última letra:', message.charAt(message.length - 1));
-            
             const messageLower = message.toLowerCase().trim();
-            console.log('🔍 Mensagem em lowercase:', messageLower);
             
-            // Verificar se é um código EG (padrão mais permissivo)
-            const egPattern = /\d{2,6}-\d/;
-            console.log('🔍 Padrão EG:', egPattern.toString());
-            console.log('🔍 Teste do padrão:', egPattern.test(message));
-            console.log('🔍 Teste de 67285-8:', egPattern.test('67285-8'));
-            console.log('🔍 Teste de 75668-7:', egPattern.test('75668-7'));
-            
+            // Verificar se é um código EG
+            const egPattern = /\b\d{2,6}-\d\b/;
             if (egPattern.test(message)) {
-                console.log('✅ Código EG detectado:', message);
-                simulateTyping(() => {
-                    searchCode(message);
+                console.log('🔍 Código EG detectado:', message);
+                simulateTyping(async () => {
+                    await searchCode(message);
                 }, 2000);
                 return;
             }
@@ -958,50 +1047,72 @@
                 return;
             }
             
-            // Resposta padrão
-            simulateTyping(() => {
-                addMessage(`Olá! 👋 Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>.<br><br>
+            // Comando buscar
+            if (messageLower.startsWith('/buscar ')) {
+                const term = messageLower.replace('/buscar ', '').trim();
+                if (term) {
+                    simulateTyping(() => {
+                        searchByText(term);
+                    }, 2000);
+                    return;
+                }
+            }
+            
+            // Resposta padrão com IA
+            simulateTyping(async () => {
+                const prompt = `Usuário disse: "${message}"
+                
+Você é um assistente IA especializado da DIRETA MG (Ambev Parceiro BEES). 
+Responda de forma amigável e profissional, oferecendo ajuda com:
+- Consultas de códigos EG
+- Análise de performance de estabelecimentos
+- Sistema Raio-X Score 5
+- Dicas de uso do sistema
+
+Mantenha a resposta concisa e útil.`;
+
+                const aiResponse = await callGeminiAPI(prompt);
+                
+                if (aiResponse) {
+                    addMessage(aiResponse.replace(/\n/g, '<br>'), 'bot');
+                } else {
+                    addMessage(`Olá! 👋 Sou o assistente IA da <strong>DIRETA MG</strong>.<br><br>
+🤖 <strong>Sistema Ambev Parceiro BEES</strong><br>
 • Digite um <strong>código EG</strong> para análise completa<br>
 • Use <strong>/ajuda</strong> para ver comandos disponíveis<br>
-• Use <strong>/status</strong> para verificar o sistema<br><br>
+• Use <strong>/status</strong> para verificar o sistema<br>
+• Interface <strong>moderna e responsiva</strong><br><br>
 Como posso ajudá-lo?`, 'bot');
-            }, 1500);
+                }
+            }, 2000);
         }
 
-        // Função para teste manual de código EG
-        function testCodeEG() {
-            console.log('🧪 TESTE MANUAL - Simulando código 67285-8');
-            addMessage(`<strong>👤 Você:</strong> 67285-8`, 'user');
-            searchCode('67285-8');
-        }
-
-        // Função para buscar código
-        function searchCode(code) {
-            console.log('🔍 🔍 INICIANDO BUSCA DE CÓDIGO:', code);
-            console.log('📊 Status da base de dados:');
-            console.log('  - isSheetLoaded:', isSheetLoaded);
-            console.log('  - csvData.length:', csvData.length);
-            console.log('  - sheetData.length:', sheetData.length);
-            console.log('  - headerMap:', headerMap);
-            
+        // CORREÇÃO: Função para buscar código com IA
+        async function searchCode(code) {
             const data = findDataInSheetSync(code);
-            console.log('🔍 Resultado da busca:', data);
             
             if (data) {
+                // Primeiro mostrar dados básicos
                 addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
 <strong>📊 Dados do Estabelecimento:</strong><br>
-• <strong>EG:</strong> ${data.eg || '(não informado)'}<br>
-• <strong>Nome:</strong> ${data['nome fantasia'] || '(não informado)'}<br>
-• <strong>Rede:</strong> ${data.rede || '(não informado)'}<br>
-• <strong>Coordenador:</strong> ${data.coordenador || '(não informado)'}<br>
-• <strong>GN:</strong> ${data.gn || '(não informado)'}<br>
-• <strong>SL/SC:</strong> ${data['sl/sc'] || '(não informado)'}<br>
-• <strong>Performance M0:</strong> ${data['m0'] || '(não informado)'}<br>
-• <strong>vs M-1:</strong> ${data['vs m-1'] || '(não informado)'}<br>
-• <strong>Gôndola:</strong> ${data.gôndola || data.gondola || '(não informado)'}<br>
-• <strong>Ponto Extra:</strong> ${data['ponto extra'] || '(não informado)'}<br>
-• <strong>Atendimento:</strong> ${data.atendimento || '(não informado)'}<br><br>
-<em>🚀 Análise completa realizada pela IA da DIRETA MG!</em>`, 'bot');
+• <strong>EG:</strong> ${getDataFromRow(data, "EG")}<br>
+• <strong>Nome:</strong> ${getDataFromRow(data, "Nome Fantasia")}<br>
+• <strong>Rede:</strong> ${getDataFromRow(data, "Rede")}<br>
+• <strong>Coordenador:</strong> ${getDataFromRow(data, "COORDENADOR")}<br>
+• <strong>GN:</strong> ${getDataFromRow(data, "GN")}<br>
+• <strong>SL/SC:</strong> ${getDataFromRow(data, "SL/SC")}<br>
+• <strong>Performance M0:</strong> ${getDataFromRow(data, "M0")}<br>
+• <strong>vs M-1:</strong> ${getDataFromRow(data, "vs M-1")}<br>
+• <strong>Gôndola:</strong> ${getDataFromRow(data, "Gôndola")}<br>
+• <strong>Ponto Extra:</strong> ${getDataFromRow(data, "Ponto Extra")}<br>
+• <strong>Atendimento:</strong> ${getDataFromRow(data, "Atendimento")}<br><br>
+<em>🤖 Gerando análise com IA...</em>`, 'bot');
+
+                // Depois gerar análise com IA
+                simulateTyping(async () => {
+                    const analysis = await generateAIAnalysis(code, data);
+                    addMessage(analysis.replace(/\n/g, '<br>'), 'bot');
+                }, 3000);
             } else {
                 addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
 • Verifique se o código está correto<br>
@@ -1009,6 +1120,45 @@ Como posso ajudá-lo?`, 'bot');
 • Use <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
 • Base de dados: ${isSheetLoaded ? 'Carregada' : 'Carregando...'}<br><br>
 <em>DIRETA MG - Sistema de consultas</em>`, 'bot');
+            }
+        }
+
+        // NOVA FUNÇÃO: Buscar por texto
+        function searchByText(term) {
+            if (!isSheetLoaded || csvData.length === 0) {
+                addMessage(`<strong>❌ Base de dados não carregada</strong><br><br>
+Aguarde o carregamento da base de dados ou tente novamente em alguns segundos.`, 'bot');
+                return;
+            }
+
+            const results = csvData.filter(row => {
+                return Object.values(row).some(value => 
+                    value && value.toString().toLowerCase().includes(term.toLowerCase())
+                );
+            });
+
+            if (results.length > 0) {
+                let response = `<strong>🔍 Encontrei ${results.length} resultado(s) para "${term}"</strong><br><br>`;
+                
+                results.slice(0, 5).forEach((item, index) => {
+                    response += `<strong>${index + 1}.</strong> ${getDataFromRow(item, "Nome Fantasia")}<br>`;
+                    response += `• <strong>Rede:</strong> ${getDataFromRow(item, "Rede")}<br>`;
+                    response += `• <strong>Código:</strong> ${getDataFromRow(item, "EG")}<br><br>`;
+                });
+                
+                if (results.length > 5) {
+                    response += `<em>📊 + ${results.length - 5} resultados não mostrados</em><br><br>`;
+                }
+                
+                response += `<strong>💡 Dica:</strong> Digite qualquer código EG para análise detalhada.`;
+                
+                addMessage(response, 'bot');
+            } else {
+                addMessage(`<strong>🔍 Nenhum resultado encontrado para "${term}"</strong><br><br>
+• Tente termos diferentes<br>
+• Verifique a grafia<br>
+• Use códigos EG específicos<br><br>
+<em>DIRETA MG - Sistema de buscas</em>`, 'bot');
             }
         }
 
@@ -1024,7 +1174,12 @@ Como posso ajudá-lo?`, 'bot');
                 // Mensagem de boas-vindas
                 setTimeout(() => {
                     addMessage(`<strong>🚀 Bem-vindo ao Raio-X Score 5!</strong><br><br>
-Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em análise de performance de estabelecimentos.<br><br>
+Sou a <strong>IA Conversacional da DIRETA MG</strong>, especialista em análise de performance de estabelecimentos.<br><br>
+<strong>✨ Nova Interface:</strong><br>
+🤖 <strong>GIF do robô animado</strong><br>
+🎨 <strong>Cores Ambev Parceiro BEES</strong><br>
+📱 <strong>Design mobile-first</strong><br>
+⚡ <strong>Animações suaves</strong><br><br>
 • Digite um <strong>código EG</strong> (ex: 67285-8)<br>
 • Use <strong>/ajuda</strong> para ver todos os comandos<br>
 • Sistema <strong>DIRETA MG</strong> - Ambev Parceiro BEES<br><br>
@@ -1050,16 +1205,11 @@ Como posso ajudá-lo hoje?`, 'bot');
             chatForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const message = messageInput.value.trim();
-                console.log('📝 FORM SUBMIT - Mensagem capturada:', message);
-                console.log('📝 Input value:', messageInput.value);
                 
                 if (message) {
-                    console.log('✅ Processando mensagem válida');
                     addMessage(`<strong>👤 Você:</strong> ${message}`, 'user');
                     processMessage(message);
                     messageInput.value = '';
-                } else {
-                    console.log('❌ Mensagem vazia ignorada');
                 }
             });
 
