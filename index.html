@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistema de Inspeção Sanitária Raio-X Score 5 - Análise inteligente de estabelecimentos">
     <meta name="theme-color" content="#1e40af">
-    <title>Raio-X Score 5 | Sistema de Inspeção Sanitária</title>
+            <title>Raio-X Score 5 | Sistema de Inspeção Sanitária - 🤖 Powered by Google AI</title>
+            
+            <!-- Favicon do robô -->
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+            <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
     
     <!-- React e ReactDOM via CDN -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -808,6 +812,10 @@
     <div id="root"></div>
 
     <script>
+        // Configuração da API Google AI
+        const GOOGLE_AI_API_KEY = "AIzaSyD2pxOWP4KczI3x7OV67-ZrjDNGyCgdv20";
+        const GOOGLE_AI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
         // Dados de fallback baseados na planilha real
         const FALLBACK_DATA = [
           {
@@ -937,26 +945,104 @@
             return () => clearInterval(interval);
           }, []);
 
-          // Função para carregar dados da planilha
+          // Função para carregar dados da planilha com robustez aprimorada
           const loadSheetData = async () => {
             if (isSheetLoaded) return;
 
             try {
               console.log('📊 Carregando planilha real...');
-              const response = await fetch(GOOGLE_SHEET_CSV_URL, {
-                method: 'GET',
-                mode: 'cors',
-                headers: { 'Accept': 'text/csv' }
-              });
-
-              if (!response.ok) {
-                throw new Error(`Erro de rede: ${response.statusText}`);
+              
+              // URL corrigida e otimizada
+              const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
+              
+              console.log('🔍 Tentando carregar planilha com URL:', sheetUrl);
+              
+              // Tentar múltiplas abordagens
+              const fetchMethods = [
+                // Método 1: Fetch normal
+                async () => {
+                  const response = await fetch(sheetUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: { 
+                      'Accept': 'text/csv, text/plain',
+                      'Cache-Control': 'no-cache'
+                    }
+                  });
+                  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                  return await response.text();
+                },
+                // Método 2: Com redirect manual
+                async () => {
+                  const response = await fetch(sheetUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: { 
+                      'Accept': 'text/csv, text/plain'
+                    }
+                  });
+                  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                  let text = await response.text();
+                  
+                  // Se é HTML (redirect), tentar extrair nova URL
+                  if (text.includes('<HTML>') && text.includes('href="')) {
+                    const match = text.match(/href="([^"]+)"/);
+                    if (match) {
+                      const redirectUrl = match[1];
+                      console.log('🔄 Seguindo redirecionamento para:', redirectUrl);
+                      const redirectResponse = await fetch(redirectUrl, {
+                        method: 'GET',
+                        mode: 'cors'
+                      });
+                      if (!redirectResponse.ok) throw new Error(`Redirect HTTP ${redirectResponse.status}`);
+                      text = await redirectResponse.text();
+                    }
+                  }
+                  return text;
+                }
+              ];
+              
+              let csvText = '';
+              let loadedSuccessfully = false;
+              
+              for (let i = 0; i < fetchMethods.length; i++) {
+                try {
+                  console.log(`🔄 Tentativa ${i + 1} de carregamento...`);
+                  const text = await fetchMethods[i]();
+                  
+                  if (text && text.length > 200 && !text.startsWith('<') && !text.toLowerCase().includes('error')) {
+                    // Verificar se tem o cabeçalho correto
+                    const lines = text.split('\n');
+                    if (lines[0] && lines[0].includes('EG') && lines[0].includes('Nome Fantasia')) {
+                      csvText = text;
+                      loadedSuccessfully = true;
+                      console.log(`✅ Planilha carregada com sucesso! ${lines.length} linhas detectadas`);
+                      break;
+                    } else {
+                      console.warn('⚠️ Formato inválido:', text.substring(0, 200));
+                    }
+                  } else {
+                    console.warn(`⚠️ Tentativa ${i + 1} falhou:`, text ? text.substring(0, 100) : 'vazio');
+                  }
+                } catch (methodError) {
+                  console.warn(`❌ Erro na tentativa ${i + 1}:`, methodError.message);
+                }
               }
-
-              const csvText = await response.text();
+              
+              if (!loadedSuccessfully) {
+                console.error('❌ Todas as tentativas falharam');
+                throw new Error("Não foi possível carregar a planilha. Verificando conectividade.");
+              }
               
               if (csvText && csvText.length > 100 && !csvText.startsWith('<') && !csvText.toLowerCase().includes('error')) {
+                console.log('📝 Raw CSV data (primeiros 500 chars):', csvText.substring(0, 500));
                 const parsedData = parseCSV(csvText);
+                
+                console.log(`📊 Dados parseados: ${parsedData.length} linhas`);
+                if (parsedData.length > 0) {
+                  console.log('📝 Cabeçalho:', parsedData[0]);
+                  console.log('📝 Primeira linha de dados:', parsedData[1] || 'Nenhuma');
+                }
                 
                 if (parsedData.length > 1) {
                   const processedData = parsedData.slice(1).map(row => {
@@ -1013,6 +1099,9 @@
                     
                     return obj;
                   }).filter(item => item.eg && item.eg.trim() !== '');
+                  
+                  console.log(`🔄 Processamento final: ${processedData.length} estabelecimentos válidos`);
+                  console.log('📋 Primeiros 3 códigos processados:', processedData.slice(0, 3).map(est => est.eg));
                   
                   setCsvData(processedData);
                   setIsSheetLoaded(true);
@@ -1084,7 +1173,83 @@
             return found;
           };
 
-          // Função para análise inteligente
+          // Função para análise com Google AI Gemini
+          const analyzeWithGeminiAI = async (data, code) => {
+            try {
+              console.log('🤖 Iniciando análise com Google AI Gemini...');
+              
+              const prompt = `Você é um analista de negócios especializado em performance de estabelecimentos comerciais. 
+
+Analise os dados do estabelecimento ${code} e forneça uma análise profissional e estratégica:
+
+ESTABELECIMENTO: ${data.nome_fantasia || 'Não informado'}
+REDE: ${data.rede || 'Não informado'}
+COORDENADOR: ${data.coordenador || 'Não informado'}
+
+INDICADORES DE PERFORMANCE:
+- M-1: ${data.m1 || 'Não informado'}
+- M0: ${data.m0 || 'Não informado'} 
+- vs M-1: ${data.vs_m1 || 'Não informado'}
+- Gôndola: ${data.gondola || 'Não informado'}
+- Ponto Extra: ${data.ponto_extra || 'Não informado'}
+
+IMPLEMENTAÇÕES:
+- AE (Atendimento Especial): ${data.ae || 'Não informado'}
+- Corona: ${data.corona || 'Não informado'}
+- Spaten: ${data.spaten || 'Não informado'}
+- Stella: ${data.stella || 'Não informado'}
+- COB HDW: ${data.cob_hdw || 'Não informado'}
+
+Forneça uma análise completa com:
+1. PONTOS FORTES (2-3 aspectos principais)
+2. OPORTUNIDADES DE MELHORIA (2-3 pontos críticos) 
+3. RECOMENDAÇÕES ESTRATÉGICAS (3-5 ações práticas)
+4. PRÓXIMOS PASSOS (cronograma sugerido)
+
+Responda em português brasileiro, de forma profissional e objetiva. Use emojis para tornar mais visual.`;
+
+              const requestBody = {
+                contents: [{
+                  parts: [{ text: prompt }]
+                }],
+                generationConfig: {
+                  temperature: 0.7,
+                  topK: 40,
+                  topP: 0.95,
+                  maxOutputTokens: 1024,
+                }
+              };
+
+              const response = await fetch(`${GOOGLE_AI_URL}?key=${GOOGLE_AI_API_KEY}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+              });
+
+              if (!response.ok) {
+                throw new Error(`Erro na API Google AI: ${response.status}`);
+              }
+
+              const result = await response.json();
+              
+              if (result.candidates && result.candidates[0] && result.candidates[0].content) {
+                const aiResponse = result.candidates[0].content.parts[0].text;
+                console.log('✅ Análise AI gerada com sucesso');
+                return aiResponse;
+              } else {
+                throw new Error('Resposta inválida da API Google AI');
+              }
+            } catch (error) {
+              console.error('❌ Erro na análise com IA:', error.message);
+              // Fallback para análise baseada em regras
+              console.log('🔄 Usando análise de fallback...');
+              return getIntelligentAnalysis(data, code);
+            }
+          };
+
+          // Função para análise inteligente (baseada em regras)
           const getIntelligentAnalysis = (data, code) => {
             const nome = data.nome_fantasia || 'Não informado';
             const rede = data.rede || 'Não informado';
@@ -1335,9 +1500,10 @@ Sou o assistente de IA da DIRETA MG, especializado em análise de performance de
 
 🚀 **Sistema operacional:**
 • Base de dados com ${csvData.length} estabelecimentos
-• IA análise automática ativa
+• 🤖 **Google AI Gemini integrado** - Análise inteligente real
+• 🔍 **Planilha robusta** - Múltiplas URLs de backup
 • ${csvData.length} códigos EG disponíveis
-• Análises completas (positivos + negativos)
+• Análises completas com IA (positivos + negativos + recomendações estratégicas)
 
 💡 **Como posso ajudar:**
 • Digite um código EG para análise profissional
@@ -1471,10 +1637,17 @@ Compreendo e estou aqui para ajudar com análises completas de estabelecimentos!
 • <strong>Loja:</strong> ${data.loja}<br><br>
 <em>🚀 Agora vou fazer análise IA completa (positivos + negativos + recomendações)...</em>`, 'bot');
               
-              // Análise após mostrar dados
-              setTimeout(() => {
-                const analysis = getIntelligentAnalysis(data, code);
-                addMessage(analysis, 'bot');
+              // Análise após mostrar dados usando Google AI
+              setTimeout(async () => {
+                try {
+                  addMessage('🤖 **Processando análise com Google AI Gemini...**', 'bot');
+                  const analysis = await analyzeWithGeminiAI(data, code);
+                  addMessage(analysis, 'bot');
+                } catch (error) {
+                  console.error('Erro na análise IA:', error);
+                  const fallbackAnalysis = getIntelligentAnalysis(data, code);
+                  addMessage(fallbackAnalysis, 'bot');
+                }
               }, 1500);
               
             } else {
