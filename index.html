@@ -44,779 +44,449 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        
-        .animate-pulse-slow {
-            animation: pulseSlow 3s infinite;
-        }
-        
-        @keyframes pulseSlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .animate-glow {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
-            to { box-shadow: 0 0 40px rgba(245, 158, 11, 0.6); }
-        }
-        
-        .delay-1 { animation-delay: 0.3s; }
-        .delay-2\.5 { animation-delay: 0.8s; }
-        .delay-3 { animation-delay: 1.3s; }
-        
-        /* Welcome Screen */
-        .welcome-screen {
-            display: flex;
+
+        /* Container do celular */
+        .phone-container {
+            max-width: 400px;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            margin: 0 auto;
+            border-radius: 25px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(245, 158, 11, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: none;
             flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 2rem 1rem;
-            min-height: 100vh;
-            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .welcome-bg-pattern {
-            position: absolute;
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-info {
+            flex: 1;
+        }
+
+        .status-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Messages */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .message.bot {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .bot .message-bubble {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border-bottom-left-radius: 6px;
+        }
+
+        .user .message-bubble {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        /* Input */
+        .input-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 15px 20px;
+        }
+
+        .chat-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 25px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            opacity: 0.1;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.2) 0%, transparent 50%);
-        }
-        
-        .robot-image {
-            max-width: 18rem;
-            max-height: 18rem;
-            filter: drop-shadow(0 8px 32px rgba(245, 158, 11, 0.3));
-            transition: all 0.3s ease;
-        }
-        
-        .robot-image:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 12px 48px rgba(245, 158, 11, 0.4));
-        }
-        
-        /* Chat Container */
-        .chat-container {
-            display: none;
-        }
-        
-        .phone-container {
+            background: linear-gradient(135deg, #171717 0%, #0a0a0a 100%);
             display: flex;
-            flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .welcome-content {
+            text-align: center;
             max-width: 400px;
-            margin: 0 auto;
-            background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
-            box-shadow: 
-                0 0 0 1px rgba(0, 0, 0, 0.1),
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-radius: 0;
+            padding: 40px 20px;
+        }
+
+        .welcome-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
             overflow: hidden;
+            border: 3px solid #f59e0b;
         }
-        
-        @media (min-width: 768px) {
-            .phone-container {
-                width: 28rem;
-                height: calc(100vh - 2rem);
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                border-radius: 1.75rem;
-                box-shadow: 
-                    0 0 0 1px rgba(0, 0, 0, 0.1),
-                    0 25px 80px rgba(0, 0, 0, 0.6),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            }
-        }
-        
-        /* Header com design Ambev */
-        .chat-header {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.15),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .chat-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-        }
-        
-        .header-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .header-avatar {
-            width: 3rem;
-            height: 3rem;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 2px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .header-avatar:hover {
-            transform: scale(1.05);
-        }
-        
-        .header-emoji {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
-        }
-        
-        .header-text {
-            flex: 1;
-        }
-        
-        .header-title {
-            font-size: 1.125rem;
-            font-weight: 800;
-            color: #000;
-            margin-bottom: 0.125rem;
-            letter-spacing: -0.025em;
-        }
-        
-        .header-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.8);
-            letter-spacing: 0.05em;
-        }
-        
-        .close-button {
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            color: #000;
-            font-size: 1.75rem;
-            font-weight: 300;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(4px);
-        }
-        
-        .close-button:hover {
-            background: rgba(0, 0, 0, 0.3);
-            transform: scale(1.1);
-        }
-        
-        /* Messages */
-        .message-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            background: 
-                linear-gradient(180deg, #fef3c7 0%, #fde68a 100%),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            scrollbar-width: thin;
-            scrollbar-color: #f59e0b transparent;
-        }
-        
-        .message-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .message-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .message-container::-webkit-scrollbar-thumb {
-            background: rgba(245, 158, 11, 0.3);
-            border-radius: 3px;
-        }
-        
-        .message {
-            max-width: 85%;
-            padding: 0.875rem 1rem;
-            border-radius: 1.25rem;
-            line-height: 1.5;
-            font-size: 0.875rem;
-            animation: messageSlide 0.4s ease-out;
-            position: relative;
-            word-wrap: break-word;
-        }
-        
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #000;
-            border-bottom-right-radius: 0.375rem;
-            box-shadow: 
-                0 4px 16px rgba(245, 158, 11, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            font-weight: 600;
-        }
-        
-        .message.bot {
-            align-self: flex-start;
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-bottom-left-radius: 0.375rem;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .message.bot strong {
-            color: #92400e;
-            font-weight: 700;
-        }
-        
-        /* Typing Indicator */
-        .typing-indicator {
-            display: none;
-            margin-bottom: 1rem;
-            padding: 0.875rem 1rem;
-            background: #fef3c7;
-            color: #92400e;
-            border-radius: 1.25rem;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            font-size: 0.875rem;
-            font-weight: 500;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-            align-self: flex-start;
-            max-width: fit-content;
-        }
-        
-        .typing-dots {
-            display: inline-flex;
-            gap: 0.25rem;
-            margin-right: 0.5rem;
-        }
-        
-        .typing-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background-color: #f59e0b;
-            border-radius: 50%;
-            animation: typingPulse 1.4s infinite;
-        }
-        
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes typingPulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(1.2); 
-                opacity: 0.7; 
-            }
-        }
-        
-        /* Input Container */
-        .input-container {
-            background: #fff;
-            padding: 1rem;
-            border-top: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 
-                0 -4px 20px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(0, 0, 0, 0.05);
-        }
-        
-        .chat-form {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-        
-        .message-input {
-            flex: 1;
-            padding: 0.875rem 1.25rem;
-            background: #f9fafb;
-            border: 2px solid transparent;
-            border-radius: 1.5rem;
-            color: #374151;
-            font-size: 0.875rem;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-        
-        .message-input:focus {
-            border-color: #f59e0b;
-            background: #fff;
-            box-shadow: 
-                inset 0 1px 2px rgba(0, 0, 0, 0.05),
-                0 0 0 4px rgba(245, 158, 11, 0.1);
-        }
-        
-        .message-input::placeholder {
-            color: #9ca3af;
-            font-weight: 400;
-        }
-        
-        .send-button {
-            width: 3rem;
-            height: 3rem;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border: none;
-            border-radius: 50%;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 4px 16px rgba(245, 158, 11, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .send-button:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 6px 24px rgba(245, 158, 11, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .send-button:active {
-            transform: scale(0.95);
-        }
-        
-        /* Loading states */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-        
-        .loading .send-button {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Botões da tela de boas-vindas */
-        .start-button {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #000;
-            font-weight: 800;
-            font-size: 1.125rem;
-            padding: 1rem 2.5rem;
-            border-radius: 1.5rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 8px 32px rgba(245, 158, 11, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .start-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+
+        .welcome-avatar img {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
+            object-fit: cover;
         }
-        
-        .start-button:hover::before {
-            left: 100%;
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .start-button:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 
-                0 12px 48px rgba(245, 158, 11, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
-        
-        .start-button:active {
-            transform: translateY(0) scale(0.98);
+
+        .welcome-button {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
-        
+
+        .welcome-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #f59e0b;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Scrollbar personalizada */
+        .messages-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.3);
+            border-radius: 2px;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.5);
+        }
+
         /* Responsivo */
-        @media (max-width: 480px) {
-            .robot-image {
-                max-width: 14rem;
-                max-height: 14rem;
+        @media (max-width: 768px) {
+            .phone-container {
+                border-radius: 0;
+                height: 100vh;
             }
             
-            .header-title {
-                font-size: 1rem;
+            .welcome-content {
+                padding: 30px 15px;
             }
             
-            .header-subtitle {
-                font-size: 0.6875rem;
+            .message-bubble {
+                max-width: 85%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Tela de Boas-vindas -->
+    <!-- Welcome Screen -->
     <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-bg-pattern"></div>
-        
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-2xl animate-fade-in-up">
-            Raio-X Score 5
-        </h1>
-        
-        <p id="subtitle-typing" class="text-xl sm:text-2xl text-amber-300 mb-8 h-8 font-semibold animate-fade-in-up delay-1"></p>
-
-        <!-- GIF Robô -->
-        <img 
-            src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
-            alt="Robô IA DIRETA MG" 
-            class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto my-6 object-contain animate-bounce-gentle delay-2.5 robot-image"
-        />
-
-        <p class="text-sm text-gray-300 mb-12 font-medium animate-fade-in-up delay-3">
-            🤖 Desenvolvido pela <span class="text-amber-400 font-bold">DIRETA MG</span>
-        </p>
-
-        <!-- Botão Iniciar -->
-        <button 
-            id="start-chat-button" 
-            class="start-button animate-glow animate-fade-in-up delay-3"
-        >
-            🚀 Iniciar Conversa
-        </button>
-    </div>
-
-    <!-- Chat Container Mobile -->
-    <div id="phone-container" class="chat-container phone-container">
-        
-        <!-- Header -->
-        <div class="chat-header">
-            <div class="header-info">
-                <div class="header-avatar animate-pulse-slow">
-                    <span class="header-emoji">🤖</span>
-                </div>
-                <div class="header-text">
-                    <h1 class="header-title">Raio-X Score 5</h1>
-                    <p id="chat-status" class="header-subtitle">IA Conversacional Online</p>
-                </div>
+        <div class="welcome-content animate-fade-in-up">
+            <div class="welcome-avatar">
+                <img src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
+                     alt="Robô IA DIRETA MG" class="animate-bounce-gentle">
             </div>
-            
-            <!-- Botão Fechar -->
-            <button id="close-chat-button" class="close-button">
-                ×
+            <h1 class="welcome-title">Robô DIRETA MG</h1>
+            <p class="welcome-subtitle">
+                Bem-vindo ao sistema Raio-X Score 5<br>
+                Especialista em análise de performance<br>
+                <strong>Ambev Parceiro BEES</strong>
+            </p>
+            <button id="start-chat-button" class="welcome-button">
+                🚀 Iniciar Conversa
             </button>
         </div>
+    </div>
 
-        <!-- Messages Container -->
-        <div id="message-container" class="message-container">
-            <!-- Messages appear here -->
+    <!-- Chat Container -->
+    <div id="phone-container" class="phone-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="avatar">
+                <img src="https://camo.githubusercontent.com/b36e635669f8d0b7db820aaee45ce243914addc6aa3ef74bb3da89c8f119d8a3/68747470733a2f2f6d65646961302e67697068792e636f6d2f6d656469612f76312e59326c6b505463354d4749334e6a45786554493365546c745a47567a4d3256784f5759784d57497862326f7a617a6c3364473031644849334e32526a64573434636a6b774f435a6c634431324d563970626e526c636d35686246396e61575a66596e6c666157516d5933513963772f386c5565313937564e48396937653455435a2f67697068792e676966" 
+                     alt="Robô IA DIRETA MG">
+            </div>
+            <div class="status-info">
+                <div class="status-name">
+                    Robô DIRETA MG Raio-X Score 5
+                    <span class="pulse-dot"></span>
+                </div>
+                <div class="status-text">Online • Ambev Parceiro BEES</div>
+            </div>
         </div>
 
-        <!-- Typing Indicator -->
-        <div id="typing-indicator" class="typing-indicator">
-            <span class="typing-dots">
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-            </span>
-            IA está digitando...
-        </div>
+        <!-- Messages -->
+        <div id="messages-container" class="messages-container"></div>
 
-        <!-- Input Container -->
+        <!-- Input -->
         <div class="input-container">
             <form id="chat-form" class="chat-form">
                 <input 
-                    id="message-input" 
                     type="text" 
-                    placeholder="Digite um código EG ou comando..." 
+                    id="message-input" 
+                    placeholder="Digite sua mensagem..."
                     class="message-input"
                     autocomplete="off"
                 />
-                <button 
-                    type="submit" 
-                    class="send-button"
-                >
+                <button type="submit" class="send-button">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M21 4L13 21L11 13L3 11L21 4Z"/>
                     </svg>
-                </button>
-                <button 
-                    type="button" 
-                    onclick="testCodeEG()"
-                    class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm ml-2 hover:bg-green-700 transition-colors"
-                >
-                    🧪 Teste 67285-8
-                </button>
-                <button 
-                    type="button" 
-                    onclick="testIA()"
-                    class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm ml-2 hover:bg-blue-700 transition-colors"
-                >
-                    🧪 Teste IA
                 </button>
             </form>
         </div>
     </div>
 
     <script>
-        // Configurações
-        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
+        // Configurações Google AI
         const GEMINI_API_KEY = "AIzaSyDrKj7epX5wg6sg1gSed5_ygum3RjJfvNs";
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
         
         // Variáveis globais
         let csvData = [];
         let sheetData = [];
         let headerMap = {};
         let isSheetLoaded = false;
-        let isSheetLoading = false;
-        let typingTimeout = null;
 
-        // Funções de Animação do Subtítulo
-        function animateSubtitle() {
-            const subtitle = document.getElementById('subtitle-typing');
-            const messages = [
-                "🤖 IA Conversacional da DIRETA MG",
-                "📊 Análise de Performance de Lojas", 
-                "🎯 Consultas Inteligentes de Código EG",
-                "⚡ Sistema Ambev Parceiro BEES"
-            ];
-            let currentIndex = 0;
-            
-            function typeMessage(message) {
-                subtitle.textContent = '';
-                let i = 0;
-                
-                function typeChar() {
-                    if (i < message.length) {
-                        subtitle.textContent += message.charAt(i);
-                        i++;
-                        setTimeout(typeChar, 50);
-                    } else {
-                        setTimeout(() => {
-                            eraseMessage(message);
-                        }, 3000);
-                    }
-                }
-                
-                typeChar();
-            }
-            
-            function eraseMessage(message) {
-                let i = message.length;
-                
-                function eraseChar() {
-                    if (i > 0) {
-                        subtitle.textContent = message.substring(0, i - 1);
-                        i--;
-                        setTimeout(eraseChar, 30);
-                    } else {
-                        currentIndex = (currentIndex + 1) % messages.length;
-                        setTimeout(() => {
-                            typeMessage(messages[currentIndex]);
-                        }, 500);
-                    }
-                }
-                
-                eraseChar();
-            }
-            
-            setTimeout(() => {
-                typeMessage(messages[currentIndex]);
-            }, 1000);
-        }
-
-        // Função para adicionar mensagens
-        function addMessage(content, sender = 'bot') {
-            const messageContainer = document.getElementById('message-container');
+        // Adicionar mensagem ao chat
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('messages-container');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = content.replace(/\n/g, '<br>');
-            messageContainer.appendChild(messageDiv);
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        // Função para mostrar typing indicator
-        function showTyping() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            typingIndicator.style.display = 'block';
-            messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-
-        // Função para esconder typing indicator
-        function hideTyping() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            typingIndicator.style.display = 'none';
-        }
-
-        // Função para simular typing delay
-        function simulateTyping(callback, delay = 1500) {
-            showTyping();
+            messageDiv.innerHTML = `<div class="message-bubble">${content}</div>`;
             
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                hideTyping();
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Simular digitação
+        function simulateTyping(callback, delay = 1500) {
+            addMessage(`<div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>`, 'bot');
+            
+            setTimeout(() => {
+                const messages = document.querySelectorAll('.message');
+                messages[messages.length - 1].remove();
                 callback();
             }, delay);
         }
 
-        // Função parseCSV simplificada e funcional
+        // Parse CSV
         function parseCSV(text) {
-            console.log('🔍 Parseando CSV...');
             const lines = [];
             const rawLines = text.trim().split('\n');
             
             for (const line of rawLines) {
                 const row = [];
-                let cell = '';
-                let inQuote = false;
-                const cleanLine = line.replace(/\r$/, '');
+                const cells = line.split(',');
                 
-                for (let i = 0; i < cleanLine.length; i++) {
-                    const char = cleanLine[i];
-                    if (char === '"') {
-                        if (inQuote && cleanLine[i + 1] === '"') {
-                            cell += '"';
-                            i++;
-                        } else {
-                            inQuote = !inQuote;
-                        }
-                    } else if (char === ',' && !inQuote) {
-                        row.push(cell.trim());
-                        cell = '';
-                    } else {
-                        cell += char;
-                    }
+                for (const cell of cells) {
+                    const cleaned = cell.trim().replace(/^"|"$/g, '');
+                    row.push(cleaned);
                 }
-                row.push(cell.trim());
+                row.forEach((cell, index) => {
+                    if (cell && index < 10) row[index] = cell.trim();
+                });
                 lines.push(row);
             }
             
-            console.log('✅ CSV parseado:', lines.length, 'linhas');
             return lines;
         }
 
-        // Função updateCsvData corrigida
-        function updateCsvData() {
-            console.log('🔧 Atualizando csvData...');
-            csvData = sheetData.map(row => {
-                const obj = {};
-                Object.keys(headerMap).forEach(key => {
-                    const colIndex = headerMap[key][0];
-                    if (colIndex !== undefined) {
-                        obj[key] = row[colIndex];
-                    }
-                });
-                return obj;
-            });
-            console.log('📊 csvData atualizado:', csvData.length, 'registros');
-        }
-
-        // Função findDataInSheetSync simplificada e funcional
-        function findDataInSheetSync(code) {
-            console.log('🔍 === FUNÇÃO findDataInSheetSync ===');
-            console.log('🔍 Buscando código:', code);
-            console.log('📊 isSheetLoaded:', isSheetLoaded);
-            console.log('📊 csvData.length:', csvData.length);
-            
-            if (!isSheetLoaded || !csvData.length) {
-                console.log('❌ Base de dados não carregada');
-                console.log('  - isSheetLoaded:', isSheetLoaded);
-                console.log('  - csvData.length:', csvData.length);
-                console.log('  - sheetData.length:', sheetData.length);
-                return null;
-            }
-            
-            console.log('📊 Base de dados carregada, iniciando busca...');
-            const possibleColumns = ['eg'];
-            console.log('📊 Colunas a verificar:', possibleColumns);
-            console.log('📊 Primeiras 2 linhas do csvData:', csvData.slice(0, 2));
-            
-            for (const colName of possibleColumns) {
-                console.log('🔍 Verificando coluna:', colName);
-                const foundRow = csvData.find((row, index) => {
-                    const cellValue = row[colName];
-                    console.log(`  📄 Linha ${index}: ${colName} = "${cellValue}"`);
-                    if (!cellValue) {
-                        console.log(`  ❌ Valor vazio na linha ${index}`);
-                        return false;
-                    }
-                    
-                    const normalizedCell = cellValue.toString().trim().toUpperCase();
-                    const normalizedCode = code.toString().trim().toUpperCase();
-                    const match = normalizedCell === normalizedCode;
-                    
-                    console.log(`  📄 Comparando "${normalizedCell}" com "${normalizedCode}": ${match}`);
-                    return match;
-                });
-                
-                if (foundRow) {
-                    console.log('✅ Código encontrado!');
-                    console.log('📊 Dados completos:', foundRow);
-                    return foundRow;
-                } else {
-                    console.log('❌ Código não encontrado na coluna', colName);
-                }
-            }
-            
-            console.log('❌ Código não encontrado em nenhuma coluna');
-            console.log('📊 total de registros verificados:', csvData.length);
-            return null;
-        }
-
-        // Função preloadSheetData simplificada
+        // Carregar dados da planilha Google
         async function preloadSheetData() {
-            if (isSheetLoading || isSheetLoaded) return;
-            
-            isSheetLoading = true;
-            console.log('🚀 Carregando planilha...');
+            if (isSheetLoaded) return;
             
             try {
                 const proxies = [
@@ -828,92 +498,86 @@
                 
                 for (const url of proxies) {
                     try {
-                        console.log('🔄 Tentando proxy:', url.split('?')[0]);
                         const response = await fetch(url, {
                             method: 'GET',
                             mode: 'cors',
                             cache: 'no-store'
                         });
 
-                        if (!response.ok) {
-                            throw new Error(`Erro de rede: ${response.statusText}`);
-                        }
-
-                        const text = await response.text();
-                        if (text && text.length > 50 && !text.startsWith('<') && !text.toLowerCase().includes('error')) {
-                            csvText = text;
-                            console.log('✅ Sucesso com proxy!');
-                            break;
+                        if (response.ok) {
+                            const text = await response.text();
+                            if (text && text.length > 50) {
+                                csvText = text;
+                                break;
+                            }
                         }
                     } catch (error) {
-                        console.log('❌ Falha com proxy:', error.message);
                         continue;
                     }
                 }
 
-                // Se nenhum proxy funcionou, usar dados de teste
                 if (!csvText) {
-                    console.warn('⚠️ Usando dados de teste');
                     csvText = `EG,Rede,Nome Fantasia,COORDENADOR,SUPERVISOR TERCEIRO,GN,SL/SC,AE,M-1,M0,vs M-1,Gôndola,Ponto Extra,BASE FOCO,CORONA,SPATEN,STELLA,COB HDW,Atendimento,Visita quinzenal,LOJA
-67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6
-75668-7,Rede A,Estabelecimento 1,João Silva,Pedro Santos,1001,BH Norte,12,15,18,20%,8,5,BASE FOCO 1,CORONA 1,SPATEN 1,STELLA 1,COB HDW 1,Atendimento 1,Visita 1,LOJA 1`;
+67285-8,Rede F,Estabelecimento 6,Julia Santos,Miguel Costa,1006,Vespasiano,25,28,30,7%,18,15,BASE FOCO 6,CORONA 6,SPATEN 6,STELLA 6,COB HDW 6,Atendimento 6,Visita 6,LOJA 6`;
                 }
 
-                const allRows = parseCSV(csvText);
+                sheetData = parseCSV(csvText);
                 
-                if (allRows.length > 1) {
+                if (sheetData.length > 0) {
+                    const headers = sheetData[0];
                     headerMap = {};
-                    const sheetHeaders = allRows[0];
                     
-                    sheetHeaders.forEach((header, index) => {
-                        const headerKey = header.trim().toLowerCase();
-                        if (!headerMap[headerKey]) {
-                            headerMap[headerKey] = [];
-                        }
-                        headerMap[headerKey].push(index);
+                    headers.forEach((header, index) => {
+                        headerMap[header] = [index];
                     });
-                    
-                    sheetData = allRows.slice(1);
-                    updateCsvData();
+
+                    csvData = sheetData.slice(1).map(row => {
+                        const obj = {};
+                        Object.keys(headerMap).forEach(key => {
+                            const colIndex = headerMap[key][0];
+                            if (colIndex !== undefined && colIndex < row.length) {
+                                obj[key] = row[colIndex];
+                            }
+                        });
+                        return obj;
+                    });
+
                     isSheetLoaded = true;
-                    
-                    const chatStatus = document.getElementById('chat-status');
-                    chatStatus.textContent = 'Base de dados carregada!';
-                    
-                    setTimeout(() => {
-                        addMessage("✅ **Base de dados carregada com sucesso!**\n\n🚀 **Agora você pode:**\n• Consultar códigos EG\n• Buscar por nome/rede\n• Comparar estabelecimentos\n• Usar comandos avançados", 'bot');
-                    }, 500);
-                    
-                    console.log('✅ Planilha processada com sucesso!');
-                    console.log('📊 Headers encontrados:', Object.keys(headerMap));
-                } else {
-                    throw new Error("Planilha vazia ou com formato inválido.");
                 }
-                
             } catch (error) {
-                console.error('❌ Erro ao pré-carregar dados:', error);
-                const chatStatus = document.getElementById('chat-status');
-                chatStatus.textContent = 'Erro ao carregar dados';
-                addMessage(`❌ **Erro ao carregar a planilha:**\n\n${error.message}\n\n🔄 **Verifique:**\n• Link de publicação da planilha\n• Conexão com internet\n• Permissões de acesso`, 'bot');
-            } finally {
-                isSheetLoading = false;
+                console.error('Erro ao carregar planilha:', error);
             }
         }
 
-        // Função para chamar a API do Gemini
-        async function callGeminiAPI(userMessage) {
-            console.log('🤖 CHAMADA PARA GEMINI API');
-            console.log('🔑 API Key (primeiros 10 chars):', GEMINI_API_KEY.substring(0, 10) + '...');
-            console.log('📝 Mensagem do usuário:', userMessage);
+        // Buscar dados na planilha Google
+        function findDataInSheetSync(code) {
+            if (!isSheetLoaded || !csvData.length) return null;
             
+            const normalizedCode = code.toString().trim().toUpperCase();
+            
+            for (const row of csvData) {
+                const cellValue = (row.eg || '').toString().trim().toUpperCase();
+                if (cellValue === normalizedCode) {
+                    return row;
+                }
+            }
+            
+            return null;
+        }
+
+        // Google AI - Gemini
+        async function callGeminiAI(userMessage, context = '') {
             try {
-                const prompt = `Você é o Robô da DIRETA MG Raio-X Score 5, especialista em análise de performance de estabelecimentos. 
+                const prompt = `Você é o Robô da DIRETA MG Raio-X Score 5, especialista em análise de performance de estabelecimentos da Ambev Parceiro BEES.
 
-Se o usuário digitou um código EG (como 67285-8), direcione para consulta de dados.
-Se for uma pergunta sobre establecimientos, dados ou performance, ajude com informações da base de dados.
-Se for uma pergunta geral, seja amigável e direcione para os comandos disponíveis.
+Instruções:
+- Se o usuário digitou um código EG (como 67285-8), direcione para consulta de dados
+- Se for uma pergunta sobre estabelecimentos, dados ou performance, ajude com informações da base de dados
+- Se for uma pergunta geral, seja amigável e direcione para os comandos disponíveis
+- Responda de forma concisa e profissional em português brasileiro
 
-Responda de forma concisa e profissional em português brasileiro.
+${context ? `Contexto adicional: ${context}` : ''}
+
 Pergunta do usuário: ${userMessage}`;
 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
@@ -930,53 +594,59 @@ Pergunta do usuário: ${userMessage}`;
                     })
                 });
 
-                console.log('📡 Response status:', response.status);
-                console.log('📡 Response ok:', response.ok);
-
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                        return data.candidates[0].content.parts[0].text;
+                    }
                 }
-
-                const data = await response.json();
-                console.log('📡 API Response data:', data);
-
-                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-                    const aiResponse = data.candidates[0].content.parts[0].text;
-                    console.log('✅ IA Response:', aiResponse);
-                    return aiResponse;
-                } else {
-                    console.log('❌ Resposta da API sem conteúdo válido');
-                    return 'Desculpe, não consegui processar sua pergunta. Tente digitar um código EG ou use /ajuda para ver os comandos disponíveis.';
-                }
-
+                
+                return 'Desculpe, não consegui processar sua pergunta. Tente digitar um código EG ou usar /ajuda para ver os comandos disponíveis.';
             } catch (error) {
-                console.error('❌ Erro na API Gemini:', error);
-                return `❌ Erro na conexão com a IA: ${error.message}\n\n💡 Tente:\n• Digitar um código EG\n• Usar /ajuda para ver comandos\n• Verificar /status do sistema`;
+                return `❌ Erro na conexão com a IA Google: ${error.message}\n\n💡 Tente:\n• Digitar um código EG\n• Usar /ajuda para ver comandos`;
             }
         }
 
-        // Função para processar mensagens
+        // Buscar código EG
+        function searchCode(code) {
+            const data = findDataInSheetSync(code);
+            
+            if (data) {
+                addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
+<strong>📊 Dados do Estabelecimento:</strong><br>
+• <strong>EG:</strong> ${data.eg || '(não informado)'}<br>
+• <strong>Rede:</strong> ${data.Rede || '(não informado)'}<br>
+• <strong>Nome:</strong> ${data['Nome Fantasia'] || '(não informado)'}<br>
+• <strong>Coordenador:</strong> ${data.COORDENADOR || '(não informado)'}<br>
+• <strong>GN:</strong> ${data.GN || '(não informado)'}<br>
+• <strong>SL/SC:</strong> ${data['SL/SC'] || '(não informado)'}<br>
+• <strong>AE:</strong> ${data.AE || '(não informado)'}<br>
+• <strong>Performance M0:</strong> ${data.M0 || '(não informado)'}<br>
+• <strong>vs M-1:</strong> ${data['vs M-1'] || '(não informado)'}<br><br>
+<strong>🎯 Análise:</strong><br>
+• ${data.Gôndola || 'Gôndola'}<br>
+• ${data['BASE FOCO'] || 'BASE FOCO'}<br>
+• ${data.CORONA || 'CORONA'}<br>
+• ${data.SPATEN || 'SPATEN'}<br>
+• ${data.STELLA || 'STELLA'}<br><br>
+<em>💡 Use /ajuda para mais comandos</em>`, 'bot');
+            } else {
+                addMessage(`❌ **Código ${code} não encontrado na base de dados.**<br><br>
+Verifique se o código está correto e tente novamente.<br>
+💡 Use /ajuda para ver todos os comandos disponíveis.`, 'bot');
+            }
+        }
+
+        // Processar mensagem
         async function processMessage(message) {
-            console.log('📝 Processando mensagem:', message);
-            console.log('🔍 Comprimento da mensagem:', message.length);
-            console.log('🔍 Primeira letra:', message.charAt(0));
-            console.log('🔍 Última letra:', message.charAt(message.length - 1));
-            
             const messageLower = message.toLowerCase().trim();
-            console.log('🔍 Mensagem em lowercase:', messageLower);
             
-            // Verificar se é um código EG (padrão mais permissivo)
+            // Verificar código EG
             const egPattern = /\d{2,6}-\d/;
-            console.log('🔍 Padrão EG:', egPattern.toString());
-            console.log('🔍 Teste do padrão:', egPattern.test(message));
-            console.log('🔍 Teste de 67285-8:', egPattern.test('67285-8'));
-            console.log('🔍 Teste de 75668-7:', egPattern.test('75668-7'));
-            
             if (egPattern.test(message)) {
-                console.log('✅ Código EG detectado:', message);
                 simulateTyping(() => {
                     searchCode(message);
-                }, 2000);
+                }, 1500);
                 return;
             }
             
@@ -987,11 +657,7 @@ Pergunta do usuário: ${userMessage}`;
 • Digite um <strong>código EG</strong> (ex: 67285-8)<br>
 • <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
 • <strong>/status</strong> para verificar status da base<br>
-• <strong>/logo</strong> para ver informações da interface<br>
-• <strong>IA Conversacional:</strong> Converse naturalmente!<br><br>
-<strong>🧪 Testes:</strong><br>
-• Botão "🧪 Teste 67285-8" para código EG<br>
-• Botão "🧪 Teste IA" para testar a IA<br><br>
+• <strong>/logo</strong> para ver informações da interface<br><br>
 <em>🎯 Sistema DIRETA MG - Ambev Parceiro BEES</em>`, 'bot');
                 }, 1000);
                 return;
@@ -1003,7 +669,7 @@ Pergunta do usuário: ${userMessage}`;
 • Base de dados: ${isSheetLoaded ? '✅ Carregada' : '❌ Não carregada'}<br>
 • Registros: ${csvData.length}<br>
 • Planilha: ${isSheetLoaded ? 'Disponível' : 'Carregando...'}<br>
-• Gemini AI: ✅ Ativo<br>
+• Google AI (Gemini): ✅ Ativo<br>
 • Interface: 🚀 Mobile-First BEES<br>
 • Logo GIF: 🤖 Funcionando<br><br>
 <em>DIRETA MG - Sistema funcionando</em>`, 'bot');
@@ -1024,68 +690,17 @@ Pergunta do usuário: ${userMessage}`;
                 return;
             }
             
-            // Chamar IA para mensagens que não são códigos EG ou comandos
-            console.log('🤖 Chamando IA para mensagem normal...');
-            const aiResponse = await callGeminiAPI(message);
+            // Usar Google AI para mensagens que não são códigos EG ou comandos
+            const aiResponse = await callGeminiAI(message);
             simulateTyping(() => {
-                addMessage(`🤖 <strong>Robô IA:</strong><br>${aiResponse}`, 'bot');
+                addMessage(`🤖 <strong>Robô IA Google:</strong><br>${aiResponse}`, 'bot');
             }, 2000);
         }
 
-        // Função para teste manual de código EG
-        function testCodeEG() {
-            console.log('🧪 TESTE MANUAL - Simulando código 67285-8');
-            addMessage(`<strong>👤 Você:</strong> 67285-8`, 'user');
-            searchCode('67285-8');
-        }
-
-        // Função para teste manual da IA
-        async function testIA() {
-            console.log('🧪 TESTE MANUAL - Simulando pergunta para IA');
-            addMessage(`<strong>👤 Você:</strong> Oi, como vai?`, 'user');
-            await processMessage('Oi, como vai?');
-        }
-
-        // Função para buscar código
-        function searchCode(code) {
-            console.log('🔍 🔍 INICIANDO BUSCA DE CÓDIGO:', code);
-            console.log('📊 Status da base de dados:');
-            console.log('  - isSheetLoaded:', isSheetLoaded);
-            console.log('  - csvData.length:', csvData.length);
-            console.log('  - sheetData.length:', sheetData.length);
-            console.log('  - headerMap:', headerMap);
-            
-            const data = findDataInSheetSync(code);
-            console.log('🔍 Resultado da busca:', data);
-            
-            if (data) {
-                addMessage(`<strong>✅ Código ${code} encontrado!</strong><br><br>
-<strong>📊 Dados do Estabelecimento:</strong><br>
-• <strong>EG:</strong> ${data.eg || '(não informado)'}<br>
-• <strong>Nome:</strong> ${data['nome fantasia'] || '(não informado)'}<br>
-• <strong>Rede:</strong> ${data.rede || '(não informado)'}<br>
-• <strong>Coordenador:</strong> ${data.coordenador || '(não informado)'}<br>
-• <strong>GN:</strong> ${data.gn || '(não informado)'}<br>
-• <strong>SL/SC:</strong> ${data['sl/sc'] || '(não informado)'}<br>
-• <strong>Performance M0:</strong> ${data['m0'] || '(não informado)'}<br>
-• <strong>vs M-1:</strong> ${data['vs m-1'] || '(não informado)'}<br>
-• <strong>Gôndola:</strong> ${data.gôndola || data.gondola || '(não informado)'}<br>
-• <strong>Ponto Extra:</strong> ${data['ponto extra'] || '(não informado)'}<br>
-• <strong>Atendimento:</strong> ${data.atendimento || '(não informado)'}<br><br>
-<em>🚀 Análise completa realizada pela IA da DIRETA MG!</em>`, 'bot');
-            } else {
-                addMessage(`<strong>❌ Código ${code} não encontrado</strong><br><br>
-• Verifique se o código está correto<br>
-• Tente outro código EG<br>
-• Use <strong>/buscar [termo]</strong> para buscar estabelecimentos<br>
-• Base de dados: ${isSheetLoaded ? 'Carregada' : 'Carregando...'}<br><br>
-<em>DIRETA MG - Sistema de consultas</em>`, 'bot');
-            }
-        }
-
-        // Event listeners para navegação
+        // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('✅ Sistema DIRETA MG carregado!');
+            // Iniciar carregamento da planilha Google
+            preloadSheetData();
             
             // Tela de boas-vindas
             document.getElementById('start-chat-button').addEventListener('click', () => {
@@ -1101,36 +716,20 @@ Olá! Sou o <strong>Robô da DIRETA MG Raio-X Score 5</strong>, especialista em 
 • Sistema <strong>DIRETA MG</strong> - Ambev Parceiro BEES<br><br>
 Como posso ajudá-lo hoje?`, 'bot');
                 }, 500);
-                
-                // Iniciar carregamento da planilha em background
-                setTimeout(() => {
-                    preloadSheetData();
-                }, 1000);
             });
 
-            // Fechar chat
-            document.getElementById('close-chat-button').addEventListener('click', () => {
-                document.getElementById('phone-container').style.display = 'none';
-                document.getElementById('welcome-screen').style.display = 'flex';
-            });
-
-            // Form do chat
+            // Form de chat
             const chatForm = document.getElementById('chat-form');
             const messageInput = document.getElementById('message-input');
 
             chatForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const message = messageInput.value.trim();
-                console.log('📝 FORM SUBMIT - Mensagem capturada:', message);
-                console.log('📝 Input value:', messageInput.value);
                 
                 if (message) {
-                    console.log('✅ Processando mensagem válida');
                     addMessage(`<strong>👤 Você:</strong> ${message}`, 'user');
                     await processMessage(message);
                     messageInput.value = '';
-                } else {
-                    console.log('❌ Mensagem vazia ignorada');
                 }
             });
 
@@ -1141,14 +740,6 @@ Como posso ajudá-lo hoje?`, 'bot');
                     chatForm.dispatchEvent(new Event('submit'));
                 }
             });
-
-            // Inicializar animações
-            animateSubtitle();
-        });
-
-        // Cleanup typing timeout
-        window.addEventListener('beforeunload', () => {
-            clearTimeout(typingTimeout);
         });
     </script>
 </body>
