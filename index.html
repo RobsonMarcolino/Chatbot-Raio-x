@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raio-X Score 5 - DIRETA MG</title>
     <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Particle Canvas Background -->
+    <canvas id="particles-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+    
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--glass-bg);
+        backdrop-filter: var(--blur-medium);
+        border: 1px solid var(--glass-border);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-smooth);
+        box-shadow: var(--shadow-soft);
+    ">
+        <span id="theme-icon" style="font-size: 1.2rem; transition: var(--transition-smooth);">🌙</span>
+    </button>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,11 +39,148 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Root Variables for Theme System */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);
+            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 30%, #d97706 60%, #92400e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 12px 40px rgba(0, 0, 0, 0.15);
+            --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --blur-heavy: blur(20px);
+            --blur-medium: blur(10px);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #171717 0%, #0a0a0a 100%);
+            background: linear-gradient(-45deg, 
+                #667eea, #764ba2, #f093fb, #f5576c, 
+                #4facfe, #00f2fe, #a8edea, #fed6e3,
+                #667eea, #764ba2);
+            background-size: 600% 600%;
             min-height: 100vh;
             overflow-x: hidden;
+            animation: gradientShift 25s ease infinite;
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 80% 20%; }
+            40% { background-position: 100% 80%; }
+            60% { background-position: 20% 100%; }
+            80% { background-position: 20% 20%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Sistema de Partículas Neon Avançado */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .neon-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 15s infinite linear;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Magnetic Cursor Effects */
+        .magnetic-element {
+            transition: var(--transition-smooth);
+        }
+        
+        .magnetic-element:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: brightness(1.2) contrast(1.1);
+        }
+        
+        /* Ripple Effect System */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Breathing Animations */
+        .breathing {
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 1;
+            }
+        }
+        
+        /* Parallax Scroll Effect */
+        .parallax {
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+        
+        /* Enhanced Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--blur-heavy);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                var(--shadow-medium);
+        }
+        
+        /* Theme Toggle Styles */
+        #theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: var(--shadow-hard);
+        }
+        
+        #theme-toggle:hover #theme-icon {
+            transform: rotate(180deg);
         }
         
         /* Animações */
@@ -685,7 +848,7 @@
 
     <script>
         // Configurações
-        const GOOGLE_SHEET_CSV_URL = "https://doc-0c-c0-sheets.googleusercontent.com/pub/54bogvaave6cua4cdnls17ksc4/84ek98u6nranhrai4rbg1btgc8/1762221045000/116025344283514239390/*/e@2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe?output=csv";
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
         
         // Dados de fallback baseados na planilha real
         const FALLBACK_DATA = [
@@ -1461,6 +1624,388 @@ Como posso ajudá-lo hoje?`, 'bot');
             animateSubtitle();
         });
 
+        // ==================
+        // ULTRA-MODERN FEATURES
+        // ==================
+        
+        // Sistema de Partículas Neon
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particles-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: 0, y: 0 };
+                this.colors = [
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(118, 75, 162, 0.8)', 
+                    'rgba(240, 147, 251, 0.8)',
+                    'rgba(245, 87, 108, 0.8)',
+                    'rgba(79, 172, 254, 0.8)',
+                    'rgba(0, 242, 254, 0.8)',
+                    'rgba(168, 237, 234, 0.8)',
+                    'rgba(254, 214, 227, 0.8)'
+                ];
+                
+                this.init();
+                this.bindEvents();
+                this.animate();
+            }
+            
+            init() {
+                this.resize();
+                this.createParticles();
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            createParticles() {
+                const particleCount = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 15000));
+                
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 3 + 1,
+                        speedX: Math.random() * 3 - 1.5,
+                        speedY: Math.random() * 3 - 1.5,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                        opacity: Math.random() * 0.5 + 0.2,
+                        glowIntensity: Math.random() * 0.8 + 0.2
+                    });
+                }
+            }
+            
+            bindEvents() {
+                window.addEventListener('resize', () => this.resize());
+                
+                document.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                });
+            }
+            
+            updateParticles() {
+                this.particles.forEach((particle, index) => {
+                    // Movimento suave com efeito magnético
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        particle.speedX += (dx / distance) * force * 0.02;
+                        particle.speedY += (dy / distance) * force * 0.02;
+                    }
+                    
+                    // Aplicar fricção
+                    particle.speedX *= 0.98;
+                    particle.speedY *= 0.98;
+                    
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+                    
+                    // Rebater nas bordas
+                    if (particle.x < 0 || particle.x > this.canvas.width) {
+                        particle.speedX *= -0.8;
+                        particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+                    }
+                    if (particle.y < 0 || particle.y > this.canvas.height) {
+                        particle.speedY *= -0.8;
+                        particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+                    }
+                    
+                    // Pulsação suave
+                    particle.pulse = Math.sin(Date.now() * 0.005 + index) * 0.3 + 0.7;
+                });
+            }
+            
+            drawParticles() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    this.ctx.save();
+                    
+                    // Efeito de brilho
+                    this.ctx.shadowBlur = 20;
+                    this.ctx.shadowColor = particle.color;
+                    
+                    // Desenhar partícula
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size * particle.pulse, 0, Math.PI * 2);
+                    this.ctx.fillStyle = particle.color;
+                    this.ctx.globalAlpha = particle.opacity;
+                    this.ctx.fill();
+                    
+                    // Linha conectiva para partículas próximas
+                    this.particles.forEach((otherParticle, otherIndex) => {
+                        if (index !== otherIndex) {
+                            const dx = particle.x - otherParticle.x;
+                            const dy = particle.y - otherParticle.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 100) {
+                                this.ctx.beginPath();
+                                this.ctx.moveTo(particle.x, particle.y);
+                                this.ctx.lineTo(otherParticle.x, otherParticle.y);
+                                this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+                                this.ctx.lineWidth = 0.5;
+                                this.ctx.stroke();
+                            }
+                        }
+                    });
+                    
+                    this.ctx.restore();
+                });
+            }
+            
+            animate() {
+                this.updateParticles();
+                this.drawParticles();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // Sistema de Theme Toggle
+        class ThemeManager {
+            constructor() {
+                this.currentTheme = 'dark';
+                this.themes = {
+                    dark: {
+                        name: 'Escuro',
+                        icon: '🌙',
+                        gradients: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe'],
+                        cssVars: {
+                            '--glass-bg': 'rgba(255, 255, 255, 0.1)',
+                            '--glass-border': 'rgba(255, 255, 255, 0.2)',
+                            '--text-primary': '#ffffff',
+                            '--text-secondary': 'rgba(255, 255, 255, 0.8)'
+                        }
+                    },
+                    light: {
+                        name: 'Claro',
+                        icon: '☀️',
+                        gradients: ['#ff9a9e', '#fecfef', '#ffecd2', '#fcb69f', '#a8edea', '#fed6e3'],
+                        cssVars: {
+                            '--glass-bg': 'rgba(0, 0, 0, 0.1)',
+                            '--glass-border': 'rgba(0, 0, 0, 0.2)',
+                            '--text-primary': '#2d3748',
+                            '--text-secondary': 'rgba(0, 0, 0, 0.7)'
+                        }
+                    },
+                    neon: {
+                        name: 'Neon',
+                        icon: '⚡',
+                        gradients: ['#00ff41', '#0080ff', '#ff0080', '#8000ff', '#ffff00', '#00ffff'],
+                        cssVars: {
+                            '--glass-bg': 'rgba(0, 255, 65, 0.1)',
+                            '--glass-border': 'rgba(0, 255, 65, 0.3)',
+                            '--text-primary': '#ffffff',
+                            '--text-secondary': 'rgba(255, 255, 255, 0.9)'
+                        }
+                    }
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                // Detectar preferência do sistema
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    this.currentTheme = 'dark';
+                } else {
+                    this.currentTheme = 'light';
+                }
+                
+                // Carregar preferência salva
+                const saved = localStorage.getItem('raio-x-theme');
+                if (saved && this.themes[saved]) {
+                    this.currentTheme = saved;
+                }
+                
+                this.applyTheme();
+                this.bindEvents();
+            }
+            
+            bindEvents() {
+                const toggle = document.getElementById('theme-toggle');
+                toggle.addEventListener('click', () => this.cycleTheme());
+                
+                // Detectar mudanças no tema do sistema
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    if (!localStorage.getItem('raio-x-theme')) {
+                        this.currentTheme = e.matches ? 'dark' : 'light';
+                        this.applyTheme();
+                    }
+                });
+            }
+            
+            cycleTheme() {
+                const themes = Object.keys(this.themes);
+                const currentIndex = themes.indexOf(this.currentTheme);
+                const nextIndex = (currentIndex + 1) % themes.length;
+                
+                this.currentTheme = themes[nextIndex];
+                this.applyTheme();
+                localStorage.setItem('raio-x-theme', this.currentTheme);
+                
+                // Animação de transição
+                document.body.style.transition = 'background 1s ease-in-out';
+                setTimeout(() => {
+                    document.body.style.transition = '';
+                }, 1000);
+            }
+            
+            applyTheme() {
+                const theme = this.themes[this.currentTheme];
+                
+                // Aplicar gradientes de fundo
+                const gradientStr = `linear-gradient(-45deg, ${theme.gradients.join(', ')})`;
+                document.body.style.background = gradientStr;
+                document.body.style.backgroundSize = '600% 600%';
+                
+                // Aplicar variáveis CSS
+                Object.entries(theme.cssVars).forEach(([property, value]) => {
+                    document.documentElement.style.setProperty(property, value);
+                });
+                
+                // Atualizar ícone
+                document.getElementById('theme-icon').textContent = theme.icon;
+                
+                console.log(`🎨 Tema aplicado: ${theme.name}`);
+            }
+        }
+        
+        // Sistema de Microinterações
+        class InteractionSystem {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.addRippleEffect();
+                this.addMagneticElements();
+                this.addBreathingAnimations();
+                this.addParallaxEffects();
+                this.enhanceHoverEffects();
+            }
+            
+            addRippleEffect() {
+                document.addEventListener('click', (e) => {
+                    const target = e.target.closest('button, .interactive');
+                    if (!target) return;
+                    
+                    const ripple = document.createElement('span');
+                    const rect = target.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    target.style.position = 'relative';
+                    target.style.overflow = 'hidden';
+                    target.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            }
+            
+            addMagneticElements() {
+                const magneticElements = document.querySelectorAll('.magnetic-element, button');
+                
+                magneticElements.forEach(element => {
+                    element.addEventListener('mousemove', (e) => {
+                        const rect = element.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        
+                        element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.02)`;
+                    });
+                    
+                    element.addEventListener('mouseleave', () => {
+                        element.style.transform = 'translate(0, 0) scale(1)';
+                    });
+                });
+            }
+            
+            addBreathingAnimations() {
+                const breathingElements = document.querySelectorAll('.breathing, .robot-image, .welcome-title');
+                breathingElements.forEach(element => {
+                    element.classList.add('breathing');
+                });
+            }
+            
+            addParallaxEffects() {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const parallaxElements = document.querySelectorAll('.parallax');
+                    
+                    parallaxElements.forEach(element => {
+                        const speed = element.dataset.speed || 0.5;
+                        element.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                });
+            }
+            
+            enhanceHoverEffects() {
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.addEventListener('mouseenter', () => {
+                        button.style.transform = 'translateY(-2px) scale(1.02)';
+                        button.style.filter = 'brightness(1.1) contrast(1.1)';
+                    });
+                    
+                    button.addEventListener('mouseleave', () => {
+                        button.style.transform = 'translateY(0) scale(1)';
+                        button.style.filter = 'brightness(1) contrast(1)';
+                    });
+                });
+            }
+        }
+        
+        // Inicialização dos Sistemas Modernos
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aguardar sistema principal
+            setTimeout(() => {
+                // Inicializar sistemas ultra-modernos
+                new ParticleSystem();
+                new ThemeManager();
+                new InteractionSystem();
+                
+                console.log('🚀 Sistema Ultra-Moderno Ativado!');
+                console.log('✨ Partículas Neon: ✅');
+                console.log('🎨 Theme Toggle: ✅');
+                console.log('🔮 Microinterações: ✅');
+                console.log('🎭 Efeitos Especiais: ✅');
+            }, 100);
+        });
+        
+        // Performance Optimization
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        });
+        
+        // Aplicar Intersection Observer a elementos importantes
+        document.querySelectorAll('.welcome-screen, .phone-container').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Reduced Motion Support
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--transition-smooth', 'all 0.1s ease');
+            console.log('♿ Reduced Motion Mode Ativado');
+        }
+        
         // Cleanup typing timeout
         window.addEventListener('beforeunload', () => {
             clearTimeout(typingTimeout);
