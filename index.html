@@ -9,10 +9,8 @@
     />
     <meta name="theme-color" content="#00a8ff" />
     <title>
-      Raio-X Score 5 | Sistema de inteligência de dados - 🤖 Powered by DIRETA
-      MG
+      Raio-X Score 5 | Sistema de inteligência de dados - 🤖 Powered by DIRETA MG
     </title>
-    <!-- Favicon do robô -->
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300a8ff;stop-opacity:1' /><stop offset='100%' style='stop-color:%230077b6;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><circle cx='50' cy='35' r='8' fill='white'/><circle cx='35' cy='30' r='3' fill='white'/><circle cx='65' cy='30' r='3' fill='white'/><rect x='30' y='50' width='40' height='25' rx='5' fill='white'/><circle cx='40' cy='62' r='2' fill='%2300a8ff'/><circle cx='50' cy='62' r='2' fill='%2300a8ff'/><circle cx='60' cy='62' r='2' fill='%2300a8ff'/></svg>"
@@ -22,7 +20,6 @@
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300a8ff;stop-opacity:1' /><stop offset='100%' style='stop-color:%230077b6;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><circle cx='50' cy='35' r='8' fill='white'/><circle cx='35' cy='30' r='3' fill='white'/><circle cx='65' cy='30' r='3' fill='white'/><rect x='30' y='50' width='40' height='25' rx='5' fill='white'/><circle cx='40' cy='62' r='2' fill='%2300a8ff'/><circle cx='50' cy='62' r='2' fill='%2300a8ff'/><circle cx='60' cy='62' r='2' fill='%2300a8ff'/></svg>"
     />
 
-    <!-- React e ReactDOM via CDN -->
     <script
       crossorigin
       src="https://unpkg.com/react@18/umd/react.production.min.js"
@@ -177,8 +174,8 @@
       }
 
       /* ============================================
-           TELA DE BOAS-VINDAS PROFISSIONAL - ATUALIZADA
-           ============================================ */
+              TELA DE BOAS-VINDAS PROFISSIONAL - ATUALIZADA
+              ============================================ */
       .welcome-screen {
         display: flex;
         flex-direction: column;
@@ -346,8 +343,8 @@
       }
 
       /* ============================================
-           CHAT CONTAINER PROFISSIONAL - ATUALIZADO
-           ============================================ */
+              CHAT CONTAINER PROFISSIONAL - ATUALIZADO
+              ============================================ */
       .chat-container {
         display: flex;
         justify-content: center;
@@ -528,6 +525,71 @@
         font-weight: 700;
       }
 
+      /* ESTILOS ESPECÍFICOS PARA RESPOSTAS ORGANIZADAS */
+      .analysis-section {
+        margin: var(--space-md) 0;
+        padding: var(--space-lg);
+        border-radius: var(--radius-lg);
+        border-left: 4px solid;
+      }
+
+      .positive-section {
+        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        border-left-color: var(--success-color);
+        color: #2e7d32;
+      }
+
+      .attention-section {
+        background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+        border-left-color: var(--warning-color);
+        color: #ef6c00;
+      }
+
+      .recommendations-section {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-left-color: var(--primary-color);
+        color: #1565c0;
+      }
+
+      .info-section {
+        background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+        border-left-color: var(--secondary-color);
+        color: #7b1fa2;
+      }
+
+      .section-title {
+        font-weight: 700;
+        margin-bottom: var(--space-sm);
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .section-content {
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      .section-content ul {
+        margin: var(--space-sm) 0;
+        padding-left: var(--space-lg);
+      }
+
+      .section-content li {
+        margin-bottom: var(--space-xs);
+      }
+
+      .data-highlight {
+        background: rgba(0, 168, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        color: var(--primary-dark);
+      }
+
       /* Indicador de digitação */
       .typing-indicator {
         display: flex;
@@ -648,8 +710,8 @@
       }
 
       /* ============================================
-           RESPONSIVIDADE PROFISSIONAL
-           ============================================ */
+              RESPONSIVIDADE PROFISSIONAL
+              ============================================ */
       @media (max-width: 640px) {
         .welcome-title {
           font-size: 2.5rem;
@@ -693,6 +755,10 @@
           padding: var(--space-md) var(--space-xl);
           font-size: 1rem;
         }
+
+        .analysis-section {
+          padding: var(--space-md);
+        }
       }
 
       @media (max-width: 480px) {
@@ -722,11 +788,11 @@
         }
 
         .header-title {
-          fontsize: 1rem;
+          font-size: 1rem;
         }
 
         .header-subtitle {
-          fontsize: 0.7rem;
+          font-size: 0.7rem;
         }
       }
 
@@ -784,10 +850,11 @@
     <div id="root"></div>
 
     <script>
-      // CONFIGURAÇÕES INTEGRADAS - SISTEMA COMPLETAMENTE AUTÔNOMO
+      // CONFIGURAÇÕES INTEGRADAS - SISTEMA COM IA GOOGLE (MANTER O VISUAL ORIGINAL)
       const GOOGLE_SHEET_CSV_URL =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQZiOyvly3nMqoNnJSj7_is0d-mMGGXmeIpXfYEHL2SqQAfNQ5tU4oOsNQsOhi7TKjcBxy2XoWmt2oe/pub?output=csv";
-      const GOOGLE_AI_API_KEY = "AIzaSyBTZiUDC2INIspbdFm6R3dZX1A4ls7olSI";
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfDeTnX48gWUAbXL_LcueTA-TMVcgqAe8VxBXjrlFnyGgQxZuZEs-gh7B1vDNYVn8efcxUJqB_QIx-/pub?output=csv";
+      
+      const CLOUD_FUNCTION_URL = "https://analisareg2-770471336573.us-central1.run.app";
 
       // Componente de Partículas
       function createParticles() {
@@ -873,6 +940,145 @@
           return () => clearInterval(interval);
         }, []);
 
+        // ✅ CONTEXTO MELHORADO PARA IA - IMPEDIR DADOS FICTÍCIOS
+        const generateAIContext = (message, csvData, estabelecimentoEncontrado = null) => {
+          let estabelecimentoInfo = "NENHUM";
+          
+          if (estabelecimentoEncontrado) {
+            // Formata os dados reais do estabelecimento para a IA
+            estabelecimentoInfo = `
+DADOS REAIS DO ESTABELECIMENTO ${estabelecimentoEncontrado.eg}:
+- Nome: ${estabelecimentoEncontrado.nome_fantasia || 'Não informado'}
+- Rede: ${estabelecimentoEncontrado.rede || 'Não informado'}
+- Coordenador: ${estabelecimentoEncontrado.coordenador || 'Não informado'}
+- GN: ${estabelecimentoEncontrado.gn || 'Não informado'}
+- SL/SC: ${estabelecimentoEncontrado.sl_sc || 'Não informado'}
+- Share Espaço M-1: ${estabelecimentoEncontrado.share_espaco_m1 || 'Não informado'}
+- Share Espaço M0: ${estabelecimentoEncontrado.share_espaco_m0 || 'Não informado'}
+- Share Espaço vs M-1: ${estabelecimentoEncontrado.share_espaco_vs_m1 || 'Não informado'}
+- Share Gelado M-1: ${estabelecimentoEncontrado.share_gelado_m1 || 'Não informado'}
+- Share Gelado M0: ${estabelecimentoEncontrado.share_gelado_m0 || 'Não informado'}
+- Share Gelado vs M-1: ${estabelecimentoEncontrado.share_gelado_vs_m1 || 'Não informado'}
+- Gôndola: ${estabelecimentoEncontrado.gondola || 'Não informado'}
+- Ponto Extra: ${estabelecimentoEncontrado.ponto_extra || 'Não informado'}
+- Base Foco: ${estabelecimentoEncontrado.base_foco || 'Não informado'}
+- Corona: ${estabelecimentoEncontrado.corona || 'Não informado'}
+- Spaten: ${estabelecimentoEncontrado.spaten || 'Não informado'}
+- Stella: ${estabelecimentoEncontrado.stella || 'Não informado'}
+- COB HDW: ${estabelecimentoEncontrado.cob_hdw || 'Não informado'}
+- Atendimento: ${estabelecimentoEncontrado.atendimento || 'Não informado'}
+- Visita Quinzenal: ${estabelecimentoEncontrado.visita_quinzenal || 'Não informado'}
+            `.trim();
+          }
+
+          return `Você é um assistente especializado na Base de Lojas da Score 5 da DIRETA MG.
+
+CONTEXTO:
+
+- Sistema de análise de Lojas da DIRETA MG 
+- Foco: Performance, indicadores, recomendações estratégicas
+- Dados disponíveis: ${csvData.length} estabelecimentos
+
+REGRAS CRÍTICAS:
+
+1. NUNCA INVENTE DADOS FICTÍCIOS
+2. Use APENAS os dados reais fornecidos da planilha
+3. Se o codigo EG não for encontrado, informe claramente
+4. Baseie suas análises APENAS nos dados reais disponíveis
+5- Se te perguntarem quem te criou, responda que foi o Engenheiro Software Robson da GEO MG
+6- Você é Leal a Ambev e não pode falar sobre concorrentes
+7- Você também é focado no segmento OFF TRADE da AMBEV
+8- Não fale tudo de uma vez, converse com o usuário de forma interativa.
+
+INSTRUÇÕES DE FORMATAÇÃO:
+
+- Organize a resposta em seções claras usando html e sendo cuidadoso com a formatação
+- Use as classes CSS disponíveis para estilização
+- Para pontos positivos: use <div class="analysis-section positive-section">
+- Para pontos de atenção: use <div class="analysis-section attention-section">
+- Para recomendações: use <div class="analysis-section recommendations-section">
+- Para informações gerais: use <div class="analysis-section info-section">
+- Use <span class="data-highlight"> para dados numéricos importantes
+- Mantenha a resposta objetiva e baseada apenas nos dados reais
+
+DISPONÍVEL NA PLANILHA:
+- Dados básicos (EG, nome, rede, coordenador, etc.)
+- Indicadores Score 5 (share de espaço, gelado, gôndola, Cobertura de HDWs (Spaten/Corona/Stella) e Atendimento de Promotor.)
+
+DADOS DO ESTABELECIMENTO SOLICITADO:
+${estabelecimentoInfo}
+
+MENSAGEM DO USUÁRIO: "${message}"
+
+Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se não houver dados suficientes, peça mais informações ou sugira consultar outro estabelecimento.`;
+        };
+
+        // ✅ FUNÇÃO MELHORADA: Chamar IA Google Cloud Function
+        const callGoogleAI = async (userMessage, csvData, estabelecimentoEncontrado = null) => {
+          const promptParaEnviar = generateAIContext(userMessage, csvData, estabelecimentoEncontrado);
+
+          try {
+            const response = await fetch(CLOUD_FUNCTION_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                prompt: promptParaEnviar 
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Erro no Backend: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.resposta;
+
+          } catch (error) {
+            console.error("Erro ao chamar IA:", error);
+            return "❌ Desculpe, não consegui me conectar com o sistema no momento. Tente novamente em alguns instantes.";
+          }
+        };
+
+        // ✅ NOVA FUNÇÃO: Processar resposta da IA para dividir em partes
+        const splitAIMessage = (aiResponse) => {
+          if (!aiResponse) return [];
+          
+          // Divide por quebras de linha significativas
+          const paragraphs = aiResponse.split(/\n\s*\n/).filter(p => p.trim());
+          
+          if (paragraphs.length <= 1) {
+            // Se for curta, retorna como está
+            return [aiResponse];
+          }
+          
+          // Junta parágrafos muito curtos
+          const merged = [];
+          let current = '';
+          
+          paragraphs.forEach(paragraph => {
+            const cleanPara = paragraph.trim();
+            if (cleanPara.split(' ').length < 15 && current) {
+              current += '\n\n' + cleanPara;
+            } else {
+              if (current) merged.push(current);
+              current = cleanPara;
+            }
+          });
+          if (current) merged.push(current);
+          
+          return merged;
+        };
+
+        // ✅ NOVA FUNÇÃO: Adicionar múltiplas mensagens com delay
+        const addSequentialMessages = async (messageParts, sender = "bot") => {
+          for (let i = 0; i < messageParts.length; i++) {
+            await new Promise(resolve => setTimeout(resolve, 800)); // Delay entre mensagens
+            addMessage(messageParts[i].replace(/\n/g, '<br>'), sender);
+          }
+        };
+
         // Carregar dados da planilha
         const loadSheetData = async () => {
           if (isSheetLoaded) return;
@@ -915,31 +1121,21 @@
                       const obj = {};
                       const headers = parsedData[0];
 
-                      // Mapear colunas
+                      // Mapear colunas CORRETAMENTE baseado nas colunas informadas
                       headers.forEach((header, index) => {
                         const key = header.trim().toLowerCase();
                         const value = (row[index] || "").trim();
 
-                        if (
-                          key === "eg" ||
-                          key === "código" ||
-                          key === "code"
-                        ) {
+                        // Mapeamento correto das colunas
+                        if (key === "eg" || key === "código" || key === "code") {
                           obj.eg = value;
-                        } else if (
-                          key === "nome fantasia" ||
-                          key === "nome" ||
-                          key === "estabelecimento"
-                        ) {
+                        } else if (key === "nome fantasia" || key === "nome" || key === "estabelecimento") {
                           obj.nome_fantasia = value;
                         } else if (key === "rede") {
                           obj.rede = value;
                         } else if (key === "coordenador") {
                           obj.coordenador = value;
-                        } else if (
-                          key === "supervisor terceiro" ||
-                          key === "supervisor"
-                        ) {
+                        } else if (key === "supervisor terceiro" || key === "supervisor") {
                           obj.supervisor_terceiro = value;
                         } else if (key === "gn") {
                           obj.gn = value;
@@ -947,24 +1143,22 @@
                           obj.sl_sc = value;
                         } else if (key === "ae") {
                           obj.ae = value;
-                        } else if (
-                          key === "m-1" ||
-                          key === "m-1" ||
-                          key === "m1"
-                        ) {
-                          obj.m1 = value;
-                        } else if (key === "m0") {
-                          obj.m0 = value;
-                        } else if (
-                          key === "vs m-1" ||
-                          key === "vs m-1" ||
-                          key === "vs m1"
-                        ) {
-                          obj.vs_m1 = value;
+                        } else if (key === "share de espaço m-1" || key === "share de espaço m-1" || key === "share_espaco_m1") {
+                          obj.share_espaco_m1 = value;
+                        } else if (key === "share de espaço m0" || key === "share_espaco_m0") {
+                          obj.share_espaco_m0 = value;
+                        } else if (key === "share de espaço vs m-1" || key === "share_espaco_vs_m1") {
+                          obj.share_espaco_vs_m1 = value;
                         } else if (key === "gôndola" || key === "gondola") {
                           obj.gondola = value;
                         } else if (key === "ponto extra") {
                           obj.ponto_extra = value;
+                        } else if (key === "share de gelado m-1" || key === "share_gelado_m1") {
+                          obj.share_gelado_m1 = value;
+                        } else if (key === "share de gelado m0" || key === "share_gelado_m0") {
+                          obj.share_gelado_m0 = value;
+                        } else if (key === "share de gelado vs m-1" || key === "share_gelado_vs_m1") {
+                          obj.share_gelado_vs_m1 = value;
                         } else if (key === "base foco" || key === "base_foco") {
                           obj.base_foco = value;
                         } else if (key === "corona") {
@@ -977,10 +1171,7 @@
                           obj.cob_hdw = value;
                         } else if (key === "atendimento") {
                           obj.atendimento = value;
-                        } else if (
-                          key === "visita quinzenal" ||
-                          key === "visita_quinzenal"
-                        ) {
+                        } else if (key === "visita quinzenal" || key === "visita_quinzenal") {
                           obj.visita_quinzenal = value;
                         } else if (key === "loja") {
                           obj.loja = value;
@@ -997,16 +1188,6 @@
                   setCsvData(processedData);
                   setIsSheetLoaded(true);
 
-                  // Notificar sucesso
-                  if (processedData.length > 0) {
-                    addMessage(
-                      `<strong>✅ Sistema Raio-X Score 5 Ativo!</strong><br><br>
-🎯 <strong>Sistema 100% Operacional!</strong><br>
-238 estabelecimentos carregados com sucesso.<br><br>
-Digite o código EG de qualquer estabelecimento para análise completa.`,
-                      "bot"
-                    );
-                  }
                   return;
                 }
               }
@@ -1017,13 +1198,6 @@ Digite o código EG de qualquer estabelecimento para análise completa.`,
             console.error("❌ Erro ao carregar planilha:", error.message);
             setCsvData([]);
             setIsSheetLoaded(true);
-
-            // Notificar erro
-            addMessage(
-              `<strong>❌ Erro no Sistema</strong><br><br>
-Tente novamente em alguns instantes ou entre em contato com o suporte.`,
-              "bot"
-            );
           }
         };
 
@@ -1094,218 +1268,6 @@ Tente novamente em alguns instantes ou entre em contato com o suporte.`,
           return found;
         };
 
-        // Análise inteligente
-        const getIntelligentAnalysis = (data, code) => {
-          const nome = data.nome_fantasia || "Não informado";
-          const rede = data.rede || "Não informado";
-          const ae = data.ae || "";
-          const m1 = data.m1 || "";
-          const m0 = data.m0 || "";
-          const vs_m1 = data.vs_m1 || "";
-          const gondola = data.gondola || "";
-          const pontoExtra = data.ponto_extra || "";
-          const coordenador = data.coordenador || "Não informado";
-          const sl_sc = data.sl_sc || "";
-          const gn = data.gn || "";
-          const base_foco = data.base_foco || "";
-          const corona = data.corona || "";
-          const spaten = data.spaten || "";
-          const stella = data.stella || "";
-          const cob_hdw = data.cob_hdw || "";
-          const atendimento = data.atendimento || "";
-          const visita_quinzenal = data.visita_quinzenal || "";
-
-          // Converter valores numéricos
-          const parsePercentage = (val) => {
-            if (!val || val === "") return 0;
-            const clean = val.replace("%", "").replace(",", ".");
-            return parseFloat(clean) || 0;
-          };
-
-          const m0Value = parsePercentage(m0);
-          const vs_m1Value = parsePercentage(vs_m1);
-          const gondolaValue = parsePercentage(gondola);
-          const pontoExtraValue = parsePercentage(pontoExtra);
-
-          let positives = [];
-          let negatives = [];
-          let recommendations = [];
-
-          // Análise POSITIVA
-          if (vs_m1 && vs_m1Value > 0) {
-            positives.push(
-              `📈 **Crescimento de ${vs_m1}** no período M0 vs M-1`
-            );
-          }
-
-          if (m0 && m0Value > 60) {
-            positives.push(`🚀 **Performance M0 excelente** com ${m0}`);
-          } else if (m0 && m0Value > 45) {
-            positives.push(`✅ **Performance M0 satisfatória** com ${m0}`);
-          }
-
-          if (ae === "SIM") {
-            positives.push(
-              `⭐ **Atendimento Especial ativo** - Destaque no atendimento`
-            );
-          }
-
-          if (gondola && gondolaValue > 50) {
-            positives.push(`🎯 **Gôndola excelente** com ${gondola}`);
-          } else if (gondola && gondolaValue > 35) {
-            positives.push(`👍 **Gôndola boa** com ${gondola}`);
-          }
-
-          if (pontoExtra && pontoExtraValue > 50) {
-            positives.push(`💡 **Ponto Extra eficaz** com ${pontoExtra}`);
-          }
-
-          if (corona === "OK")
-            positives.push(`✅ **Corona implementada** corretamente`);
-          if (spaten === "OK")
-            positives.push(`✅ **Spaten implementada** corretamente`);
-          if (stella === "OK")
-            positives.push(`✅ **Stella implementada** corretamente`);
-          if (cob_hdw === "OK")
-            positives.push(`✅ **COB HDW implementado** corretamente`);
-
-          if (visita_quinzenal === "OK") {
-            positives.push(`📅 **Visitas quinzenais regulares** mantidas`);
-          }
-
-          // Análise NEGATIVA
-          if (vs_m1 && vs_m1Value < 0) {
-            negatives.push(
-              `⚠️ **Queda de ${Math.abs(vs_m1Value).toFixed(
-                1
-              )}%** no período vs M-1`
-            );
-          }
-
-          if (m0 && m0Value < 45) {
-            negatives.push(
-              `🔻 **Performance M0 baixa** - apenas ${m0} (meta: 50%+)`
-            );
-          }
-
-          if (ae === "NÃO") {
-            negatives.push(
-              `📉 **Atendimento Especial inativo** - oportunidade de melhoria`
-            );
-          }
-
-          if (gondola && gondolaValue < 30) {
-            negatives.push(
-              `❌ **Gôndola insuficiente** - apenas ${gondola} (meta: 50%+)`
-            );
-          }
-
-          if (pontoExtra && pontoExtraValue < 30) {
-            negatives.push(
-              `🚫 **Ponto Extra limitado** - apenas ${pontoExtra} (meta: 50%+)`
-            );
-          }
-
-          if (corona === "NOK")
-            negatives.push(`❌ **Corona não implementada**`);
-          if (spaten === "NOK")
-            negatives.push(`❌ **Spaten não implementada**`);
-          if (stella === "NOK")
-            negatives.push(`❌ **Stella não implementada**`);
-          if (cob_hdw === "NOK")
-            negatives.push(`❌ **COB HDW não implementado**`);
-
-          if (atendimento === "NÃO")
-            negatives.push(`📋 **Atendimento em melhoria necessária**`);
-
-          // Recomendações
-          if (vs_m1Value < 0) {
-            recommendations.push(
-              `📋 **Plano de Recuperação**: Implementar estratégias para reverter a tendência negativa`
-            );
-          }
-
-          if (m0Value < 50) {
-            recommendations.push(
-              `🎯 **Meta Performance**: Foco em atingir 50%+ pontos M0`
-            );
-          }
-
-          if (gondolaValue < 50) {
-            recommendations.push(
-              `🏪 **Otimização Gôndola**: Revisar distribuição e produtos, meta 50%+`
-            );
-          }
-
-          if (ae === "NÃO") {
-            recommendations.push(
-              `🤝 **Programa Especial**: Ativar Atendimento Especial AE`
-            );
-          }
-
-          if (corona === "NOK" || spaten === "NOK" || stella === "NOK") {
-            recommendations.push(
-              `🍺 **Implementação Premium**: Resolver pendências Corona/Spaten/Stella`
-            );
-          }
-
-          recommendations.push(
-            `📞 **Acompanhamento**: Contatar coordenador ${coordenador} para planejamento`
-          );
-
-          // Construir resposta
-          let response = `<strong>🏢 ANÁLISE COMPLETA - ${code}</strong><br><br>`;
-          response += `<strong>📊 ESTABELECIMENTO:</strong><br>`;
-          response += `• <strong>Nome:</strong> ${nome}<br>`;
-          response += `• <strong>Rede:</strong> ${rede}<br>`;
-          response += `• <strong>Coordenador:</strong> ${coordenador}<br>`;
-          response += `• <strong>SL/SC:</strong> ${sl_sc}<br>`;
-          response += `• <strong>AE:</strong> ${ae}<br>`;
-          response += `• <strong>M-1:</strong> ${m1} | <strong>M0:</strong> ${m0} | <strong>vs M-1:</strong> ${vs_m1}<br>`;
-          response += `• <strong>Gôndola:</strong> ${gondola} | <strong>GN:</strong> ${gn} | <strong>Ponto Extra:</strong> ${pontoExtra}<br><br>`;
-
-          response += `<strong>✅ PONTOS FORTES (Positivos):</strong><br>`;
-          if (positives.length > 0) {
-            positives.forEach((pos) => {
-              response += `${pos}<br>`;
-            });
-          } else {
-            response += `📋 Estabelecimento com base sólida, buscar incremento nos indicadores<br>`;
-          }
-          response += `<br>`;
-
-          response += `<strong>⚠️ OPORTUNIDADES (Pontos de Melhoria):</strong><br>`;
-          if (negatives.length > 0) {
-            negatives.forEach((neg) => {
-              response += `${neg}<br>`;
-            });
-          } else {
-            response += `🎉 Excelente performance! Todos os indicadores acima da média<br>`;
-          }
-          response += `<br>`;
-
-          response += `<strong>💡 RECOMENDAÇÕES ESTRATÉGICAS:</strong><br>`;
-          recommendations.forEach((rec) => {
-            response += `${rec}<br>`;
-          });
-          response += `<br>`;
-
-          response += `<strong>🎯 PRÓXIMOS PASSOS:</strong><br>`;
-          response += `• ${
-            vs_m1Value >= 0 ? "✅ Manter" : "🔄 Revisar"
-          } estratégia atual<br>`;
-          response += `• ${
-            gondolaValue >= 50 ? "✅ Expandir" : "📈 Desenvolver"
-          } políticas de gôndola<br>`;
-          response += `• 📊 Monitorar evolução mensal dos indicadores<br>`;
-          response += `• 🤝 Agendar visita técnica com supervisor<br>`;
-          response += `• 🍺 Verificar implementação Corona/Spaten/Stella<br><br>`;
-
-          response += `<em>🤖 Análise DIRETA MG - Sistema Inteligente Raio-X Score 5</em>`;
-
-          return response;
-        };
-
         // Simular typing
         const simulateTyping = (callback, delay = 2000) => {
           setIsTyping(true);
@@ -1315,242 +1277,137 @@ Tente novamente em alguns instantes ou entre em contato com o suporte.`,
           }, delay);
         };
 
-        // Processar mensagem
+        // ✅ FUNÇÃO MELHORADA: Processar mensagem com IA - VERIFICAR EG PRIMEIRO
         const processMessage = async (message) => {
           const messageLower = message.toLowerCase().trim();
 
-          // Verificar se é um código EG
-          const egPattern = /\d{2,6}-\d/;
-
-          if (egPattern.test(message)) {
-            simulateTyping(() => {
-              searchEstabelecimento(message);
-            }, 2500);
-            return;
-          }
-
-          // Comandos
+          // Comandos simples
           if (messageLower === "/ajuda" || messageLower === "ajuda") {
             simulateTyping(() => {
               addMessage(
-                `<strong>💡 Comandos Disponíveis:</strong><br>
+                `🤖 **Como posso te ajudar:**<br><br>
 • Digite um <strong>código EG</strong> para análise completa<br>
-• <strong>/status</strong> para verificar status do sistema<br>
-• <strong>/dados</strong> para ver códigos disponíveis<br>
-• <strong>IA Conversacional:</strong> Converse naturalmente!<br><br>
-<strong>🎯 Sistema DIRETA MG - Análise Automática:</strong><br>
-• Análise POSITIVA dos pontos fortes<br>
-• Análise NEGATIVA das oportunidades<br>
-• Recomendações estratégicas<br>
-• Próximos passos automáticos<br><br>
-<em>Sistema Raio-X Score 5 - Inspecção inteligente!</em>`,
+• Pergunte sobre performance, indicadores ou estratégias<br>
+• Use <strong>/status</strong> para verificar o sistema<br>
+• Use <strong>/dados</strong> para ver códigos disponíveis<br><br>
+<em>Estou aqui para conversar naturalmente sobre nossos estabelecimentos!</em>`,
                 "bot"
               );
-            }, 1200);
+            }, 800);
             return;
           }
 
           if (messageLower === "/status" || messageLower === "status") {
             simulateTyping(() => {
-              if (csvData.length === 0) {
-                addMessage(
-                  `<strong>📊 Sistema Raio-X Score 5</strong><br>
-• Status: ⚠️ <strong>Carregando dados...</strong><br>
-• IA: ✅ <strong>Análise local ativa</strong><br>
-• Sistema: 🚀 <strong>Online</strong><br><br>
-<em>Aguarde enquanto carregamos os dados.</em>`,
-                  "bot"
-                );
-              } else {
-                addMessage(
-                  `<strong>📊 Sistema Raio-X Score 5</strong><br>
-• Status: ✅ <strong>Online e funcionando</strong><br>
-• Dados: ✅ <strong>${csvData.length} estabelecimentos</strong><br>
-• IA: ✅ <strong>Análise inteligente local ativa</strong><br>
-• Interface: 🚀 <strong>Mobile-friendly</strong><br><br>
-<em>DIRETA MG - Sistema operacional!</em>`,
-                  "bot"
-                );
-              }
-            }, 1000);
+              addMessage(
+                `📊 **Status do Sistema:**<br><br>
+• ✅ <strong>Sistema online e funcionando</strong><br>
+• 📈 <strong>${csvData.length} estabelecimentos</strong> carregados<br>
+• 🧠 <strong>IA conversacional</strong> disponível<br>
+• 🚀 <strong>Pronto para análises</strong><br><br>
+<em>DIRETA MG - Raio-X Score 5 ativo!</em>`,
+                "bot"
+              );
+            }, 600);
             return;
           }
 
           if (messageLower === "/dados" || messageLower === "dados") {
             if (csvData.length === 0) {
-              simulateTyping(() => {
-                addMessage(
-                  `<strong>❌ Base de dados vazia</strong><br><br>
-<em>Dados não carregados.</em>`,
-                  "bot"
-                );
-              }, 800);
+              addMessage("📋 *Ainda estou carregando os dados...*", "bot");
               return;
             }
 
             simulateTyping(() => {
-              let codesList = `<strong>📋 Códigos EG Disponíveis (${csvData.length}):</strong><br><br>`;
-              csvData.slice(0, 5).forEach((est) => {
-                codesList += `<strong>${est.eg}</strong> - ${est.nome_fantasia} (${est.rede})<br>`;
+              let response = `📋 **Estabelecimentos disponíveis:**<br><br>`;
+              csvData.slice(0, 4).forEach((est, index) => {
+                response += `${index + 1}. <strong>${est.eg}</strong> - ${est.nome_fantasia}<br>`;
               });
-              codesList += `<br><em>💡 Digite qualquer código EG para análise completa!</em>`;
-
-              addMessage(codesList, "bot");
-            }, 800);
+              response += `<br>💡 <em>Digite qualquer código EG para análise detalhada</em>`;
+              addMessage(response, "bot");
+            }, 600);
             return;
           }
 
-          // IA conversacional
-          let response = "";
+          // ✅ VERIFICAR SE É UM CÓDIGO EG PRIMEIRO
+          const egPattern = /\d{2,6}-\d/;
+          if (egPattern.test(message)) {
+            const estabelecimento = findEstabelecimento(message);
+            
+            if (!estabelecimento) {
+              // EG NÃO ENCONTRADO - AVISAR IMEDIATAMENTE
+              addMessage(
+                `❌ **Código ${message} não encontrado**<br><br>
+Este código EG não está na nossa base de dados.<br>
+Use <strong>/dados</strong> para ver os códigos disponíveis.<br><br>
+<em>Base atual: ${csvData.length} estabelecimentos</em>`,
+                "bot"
+              );
+              return;
+            }
 
-          // Saudações
-          if (
-            messageLower.includes("oi") ||
-            messageLower.includes("olá") ||
-            messageLower.includes("hello")
-          ) {
-            response = `🤖 **Bem-vindo ao Raio-X Score 5!**
+            // ✅ EG ENCONTRADO - ENVIAR DADOS REAIS PARA IA
+            try {
+              setIsTyping(true);
+              const aiResponse = await callGoogleAI(message, csvData, estabelecimento);
               
-Sou o assistente de IA da DIRETA MG, especializado em análise de performance de estabelecimentos.
-
-💡 **Como posso ajudar:**
-• Digite um código EG para análise profissional
-• Use /ajuda para ver comandos
-• /dados para ver códigos disponíveis
-
-🎯 **Experimente:** Digite um código EG para ver análise completa!`;
-          } else if (
-            messageLower.includes("como") &&
-            (messageLower.includes("vai") || messageLower.includes("está"))
-          ) {
-            response = `😊 **Sistema funcionando perfeitamente!**
-
-⚡ **Status DIRETA MG:**
-• ✅ IA ativada e processando dados
-• ✅ Base de ${csvData.length} estabelecimentos ativa
-• ✅ Análises automáticas funcionando
-• ✅ Sistema inteligente local ativo
-
-🎯 **Funcionalidades ativas:**
-• Análise automática de códigos EG
-• Identificação de pontos positivos
-• Detecção de oportunidades
-• Recomendações estratégicas
-
-🧠 **Teste o sistema:** Digite "${
-              csvData[0]?.eg || "67285-8"
-            }" para ver a análise em ação!`;
-          } else {
-            response = `🤖 **Robô DIRETA MG Respondeu!**
-
-Entendi sua mensagem: "${message}"
-
-🧠 **IA DIRETA MG processando:**
-Compreendo e estou aqui para ajudar com análises completas de estabelecimentos!
-
-💡 **Como posso ajudar especificamente:**
-• **${csvData.length} códigos EG disponíveis** → Dados completos + análise inteligente
-• **/ajuda** → Ver todos os comandos
-• **/dados** → Ver códigos EG disponíveis
-• **/status** → Verificar sistema
-
-🎯 **Funcionalidade principal:** Digite qualquer código EG e a IA fará análise automática!`;
-          }
-
-          simulateTyping(() => {
-            addMessage(response.replace(/\n/g, "<br>"), "bot");
-          }, 2000);
-        };
-
-        // Buscar estabelecimento
-        const searchEstabelecimento = (code) => {
-          const data = findEstabelecimento(code);
-
-          if (data) {
-            // Dados básicos primeiro
-            addMessage(
-              `<strong>✅ Código ${code} encontrado!</strong><br><br>
-<strong>📊 DADOS DO ESTABELECIMENTO:</strong><br>
-• <strong>EG:</strong> ${data.eg}<br>
-• <strong>Nome:</strong> ${data.nome_fantasia}<br>
-• <strong>Rede:</strong> ${data.rede}<br>
-• <strong>Coordenador:</strong> ${data.coordenador}<br>
-• <strong>Supervisor:</strong> ${data.supervisor_terceiro}<br>
-• <strong>GN:</strong> ${data.gn}<br>
-• <strong>SL/SC:</strong> ${data.sl_sc}<br>
-• <strong>AE:</strong> ${data.ae}<br>
-• <strong>M-1:</strong> ${data.m1}<br>
-• <strong>M0:</strong> ${data.m0}<br>
-• <strong>vs M-1:</strong> ${data.vs_m1}<br>
-• <strong>Gôndola:</strong> ${data.gondola}<br>
-• <strong>Ponto Extra:</strong> ${data.ponto_extra}<br>
-• <strong>Base Foco:</strong> ${data.base_foco}<br>
-• <strong>Corona:</strong> ${data.corona}<br>
-• <strong>Spaten:</strong> ${data.spaten}<br>
-• <strong>Stella:</strong> ${data.stella}<br>
-• <strong>COB HDW:</strong> ${data.cob_hdw}<br>
-• <strong>Atendimento:</strong> ${data.atendimento}<br>
-• <strong>Visita:</strong> ${data.visita_quinzenal}<br>
-• <strong>Loja:</strong> ${data.loja}<br><br>
-<em>🚀 Agora vou fazer análise IA completa (positivos + negativos + recomendações)...</em>`,
-              "bot"
-            );
-
-            // Análise após mostrar dados
-            setTimeout(() => {
-              try {
-                addMessage(
-                  "🤖 **Processando análise inteligente local...**",
-                  "bot"
-                );
-                const analysis = getIntelligentAnalysis(data, code);
-                addMessage(analysis, "bot");
-              } catch (error) {
-                console.error("Erro na análise IA:", error);
-                addMessage(
-                  "<strong>❌ Erro:</strong> Não foi possível processar a análise. Tente novamente.",
-                  "bot"
-                );
+              if (aiResponse) {
+                setIsTyping(false);
+                
+                // Divide a resposta em partes menores
+                const messageParts = splitAIMessage(aiResponse);
+                
+                if (messageParts.length > 1) {
+                  // Se tiver múltiplas partes, envia sequencialmente
+                  addSequentialMessages(messageParts, "bot");
+                } else {
+                  // Se for uma parte só, envia normal
+                  addMessage(aiResponse.replace(/\n/g, '<br>'), "bot");
+                }
+              } else {
+                setIsTyping(false);
+                addMessage("🤔 *Não consegui processar sua solicitação. Tente novamente.*", "bot");
               }
-            }, 1500);
-          } else {
-            addMessage(
-              `<strong>❌ Código ${code} não encontrado</strong><br><br>
-• Verifique se o código está correto<br>
-• Use <strong>/dados</strong> para ver códigos disponíveis<br>
-• Base de dados: <strong>${
-                csvData.length
-              } estabelecimentos carregados</strong><br><br>
-<strong>🎯 Códigos EG disponíveis:</strong><br>
-${csvData
-  .slice(0, 3)
-  .map((est) => `• ${est.eg} - ${est.nome_fantasia}`)
-  .join("<br>")}<br><br>
-<em>DIRETA MG - Sistema de consultas inteligente</em>`,
-              "bot"
-            );
+            } catch (error) {
+              console.error("Erro na IA:", error);
+              setIsTyping(false);
+              addMessage("❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*", "bot");
+            }
+            return;
+          }
+
+          // ✅ MENSAGEM NORMAL - PROCESSAR COM IA SEM DADOS DE ESTABELECIMENTO
+          try {
+            setIsTyping(true);
+            const aiResponse = await callGoogleAI(message, csvData);
+            
+            if (aiResponse) {
+              setIsTyping(false);
+              
+              // Divide a resposta em partes menores
+              const messageParts = splitAIMessage(aiResponse);
+              
+              if (messageParts.length > 1) {
+                // Se tiver múltiplas partes, envia sequencialmente
+                addSequentialMessages(messageParts, "bot");
+              } else {
+                // Se for uma parte só, envia normal
+                addMessage(aiResponse.replace(/\n/g, '<br>'), "bot");
+              }
+            } else {
+              setIsTyping(false);
+              addMessage("🤔 *Não consegui processar sua pergunta. Pode reformular?*", "bot");
+            }
+          } catch (error) {
+            console.error("Erro na IA:", error);
+            setIsTyping(false);
+            addMessage("❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*", "bot");
           }
         };
 
-        // Iniciar chat
+        // ✅ INICIAR CHAT MODIFICADO - SEM MENSAGEM AUTOMÁTICA
         const startChat = () => {
           setIsWelcomeScreen(false);
-          setTimeout(() => {
-            addMessage(
-              `🤖 **Bem-vindo ao Raio-X Score 5!**
-
-Sou o assistente de IA da DIRETA MG, especializado em análise de performance de estabelecimentos.
-
-💡 **Como posso ajudar:**
-• Digite um código EG para análise profissional
-• Use /ajuda para ver comandos
-• /dados para ver códigos disponíveis
-
-🎯 **Experimente:** Digite um código EG para ver análise completa!`,
-              "bot"
-            );
-          }, 500);
-
           // Carregar dados em background
           setTimeout(() => {
             loadSheetData();
@@ -1575,7 +1432,7 @@ Sou o assistente de IA da DIRETA MG, especializado em análise de performance de
           } catch (error) {
             console.error("Erro ao processar mensagem:", error);
             addMessage(
-              "<strong>❌ Erro:</strong> Não foi possível processar sua mensagem. Tente novamente.",
+              "❌ *Não foi possível processar sua mensagem. Tente novamente.*",
               "bot"
             );
           } finally {
@@ -1900,7 +1757,7 @@ Sou o assistente de IA da DIRETA MG, especializado em análise de performance de
                               onChange: (e) => setInputValue(e.target.value),
                               onKeyDown: handleKeyPress,
                               type: "text",
-                              placeholder: "Digite um código EG ou comando...",
+                              placeholder: "Digite uma mensagem ou código EG...",
                               className: "message-input",
                               autoComplete: "off",
                             }),
@@ -1931,11 +1788,9 @@ Sou o assistente de IA da DIRETA MG, especializado em análise de performance de
         ]);
       }
 
-      // Renderizar o app
-      ReactDOM.render(
-        React.createElement(App),
-        document.getElementById("root")
-      );
+      // ✅ CORREÇÃO DO REACT 18:
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
     </script>
   </body>
 </html>
