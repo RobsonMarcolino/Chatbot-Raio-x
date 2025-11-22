@@ -9,7 +9,8 @@
     />
     <meta name="theme-color" content="#00a8ff" />
     <title>
-      Raio-X Score 5 | Sistema de inteligência de dados - 🤖 Powered by DIRETA MG
+      Raio-X Score 5 | Sistema de inteligência de dados - 🤖 Powered by DIRETA
+      MG
     </title>
     <link
       rel="icon"
@@ -174,6 +175,207 @@
       }
 
       /* ============================================
+              TELA DE LOGIN PROFISSIONAL
+              ============================================ */
+      .login-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: var(--space-xl);
+        position: relative;
+      }
+
+      .login-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 3rem 2.5rem;
+        box-shadow: 0 8px 32px rgba(0, 168, 255, 0.2),
+          0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        max-width: 440px;
+        width: 100%;
+        animation: floatIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: var(--space-2xl);
+      }
+
+      .login-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto var(--space-lg);
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-2xl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .login-logo img {
+        width: 50px;
+        height: 50px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
+
+      .login-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: var(--space-sm);
+        background: linear-gradient(
+          135deg,
+          var(--primary-light),
+          var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .login-subtitle {
+        font-size: 1.125rem;
+        color: var(--text-inverse);
+        font-weight: 500;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .form-label {
+        color: var(--text-inverse);
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .form-input {
+        padding: var(--space-md) var(--space-lg);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-xl);
+        color: var(--text-inverse);
+        font-size: 1rem;
+        font-weight: 500;
+        outline: none;
+        transition: all var(--transition-normal);
+        backdrop-filter: blur(10px);
+      }
+
+      .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .form-input:focus {
+        border-color: var(--primary-light);
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.2);
+      }
+
+      .login-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-sm);
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        color: white;
+        border: none;
+        padding: var(--space-lg);
+        font-size: 1.125rem;
+        font-weight: 600;
+        border-radius: var(--radius-xl);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        box-shadow: var(--shadow-lg);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: var(--space-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .login-button:hover::before {
+        left: 100%;
+      }
+
+      .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .login-button:active {
+        transform: translateY(0);
+      }
+
+      .login-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .error-message {
+        background: rgba(255, 56, 96, 0.2);
+        border: 1px solid rgba(255, 56, 96, 0.4);
+        color: #ffebee;
+        padding: var(--space-md);
+        border-radius: var(--radius-lg);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .login-footer {
+        text-align: center;
+        margin-top: var(--space-xl);
+        color: var(--text-inverse);
+        font-size: 0.875rem;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .company-name {
+        color: var(--primary-light);
+        font-weight: 700;
+      }
+
+      /* ============================================
               TELA DE BOAS-VINDAS PROFISSIONAL - ATUALIZADA
               ============================================ */
       .welcome-screen {
@@ -282,11 +484,6 @@
         margin-bottom: var(--space-2xl);
         font-weight: 500;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      }
-
-      .company-name {
-        color: var(--primary-light);
-        font-weight: 700;
       }
 
       .start-button {
@@ -713,6 +910,29 @@
               RESPONSIVIDADE PROFISSIONAL
               ============================================ */
       @media (max-width: 640px) {
+        .login-container {
+          padding: 2rem 1.5rem;
+          margin: 1rem;
+        }
+
+        .login-title {
+          font-size: 2rem;
+        }
+
+        .login-subtitle {
+          font-size: 1rem;
+        }
+
+        .login-logo {
+          width: 70px;
+          height: 70px;
+        }
+
+        .login-logo img {
+          width: 40px;
+          height: 40px;
+        }
+
         .welcome-title {
           font-size: 2.5rem;
         }
@@ -762,6 +982,14 @@
       }
 
       @media (max-width: 480px) {
+        .login-title {
+          font-size: 1.75rem;
+        }
+
+        .login-subtitle {
+          font-size: 0.9rem;
+        }
+
         .welcome-title {
           font-size: 2rem;
         }
@@ -853,8 +1081,17 @@
       // CONFIGURAÇÕES INTEGRADAS - SISTEMA COM IA GOOGLE (MANTER O VISUAL ORIGINAL)
       const GOOGLE_SHEET_CSV_URL =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfDeTnX48gWUAbXL_LcueTA-TMVcgqAe8VxBXjrlFnyGgQxZuZEs-gh7B1vDNYVn8efcxUJqB_QIx-/pub?output=csv";
-      
-      const CLOUD_FUNCTION_URL = "https://analisareg2-770471336573.us-central1.run.app";
+
+      const CLOUD_FUNCTION_URL =
+        "https://analisareg2-770471336573.us-central1.run.app";
+
+      // USUÁRIOS AUTORIZADOS (em produção, isso viria de um backend seguro)
+      const AUTHORIZED_USERS = {
+        ambev: "score5@2024",
+        direta: "mg@2024",
+        admin: "raioX@2024",
+        gestor: "offtrade@2024",
+      };
 
       // Componente de Partículas
       function createParticles() {
@@ -889,7 +1126,7 @@
 
       // Componente React principal
       function App() {
-        const [isWelcomeScreen, setIsWelcomeScreen] = React.useState(true);
+        const [currentScreen, setCurrentScreen] = React.useState("login"); // login, welcome, chat
         const [messages, setMessages] = React.useState([]);
         const [inputValue, setInputValue] = React.useState("");
         const [isLoading, setIsLoading] = React.useState(false);
@@ -897,6 +1134,12 @@
         const [isSheetLoaded, setIsSheetLoaded] = React.useState(false);
         const [isTyping, setIsTyping] = React.useState(false);
         const [subtitleIndex, setSubtitleIndex] = React.useState(0);
+
+        // Estados do login
+        const [username, setUsername] = React.useState("");
+        const [password, setPassword] = React.useState("");
+        const [loginError, setLoginError] = React.useState("");
+        const [isLoggingIn, setIsLoggingIn] = React.useState(false);
 
         // Refs
         const messagesEndRef = React.useRef(null);
@@ -940,34 +1183,86 @@
           return () => clearInterval(interval);
         }, []);
 
+        // ✅ FUNÇÃO DE LOGIN
+        const handleLogin = async (e) => {
+          e.preventDefault();
+
+          if (!username || !password) {
+            setLoginError("Por favor, preencha todos os campos");
+            return;
+          }
+
+          setIsLoggingIn(true);
+          setLoginError("");
+
+          // Simular verificação de credenciais (em produção, isso seria uma chamada API)
+          setTimeout(() => {
+            const normalizedUsername = username.toLowerCase().trim();
+
+            if (
+              AUTHORIZED_USERS[normalizedUsername] &&
+              AUTHORIZED_USERS[normalizedUsername] === password
+            ) {
+              // Login bem-sucedido
+              setCurrentScreen("welcome");
+              // Carregar dados em background
+              setTimeout(() => {
+                loadSheetData();
+              }, 1000);
+            } else {
+              setLoginError("Usuário ou senha inválidos");
+            }
+
+            setIsLoggingIn(false);
+          }, 1500);
+        };
+
         // ✅ CONTEXTO MELHORADO PARA IA - IMPEDIR DADOS FICTÍCIOS
-        const generateAIContext = (message, csvData, estabelecimentoEncontrado = null) => {
+        const generateAIContext = (
+          message,
+          csvData,
+          estabelecimentoEncontrado = null
+        ) => {
           let estabelecimentoInfo = "NENHUM";
-          
+
           if (estabelecimentoEncontrado) {
             // Formata os dados reais do estabelecimento para a IA
             estabelecimentoInfo = `
 DADOS REAIS DO ESTABELECIMENTO ${estabelecimentoEncontrado.eg}:
-- Nome: ${estabelecimentoEncontrado.nome_fantasia || 'Não informado'}
-- Rede: ${estabelecimentoEncontrado.rede || 'Não informado'}
-- Coordenador: ${estabelecimentoEncontrado.coordenador || 'Não informado'}
-- GN: ${estabelecimentoEncontrado.gn || 'Não informado'}
-- SL/SC: ${estabelecimentoEncontrado.sl_sc || 'Não informado'}
-- Share Espaço M-1: ${estabelecimentoEncontrado.share_espaco_m1 || 'Não informado'}
-- Share Espaço M0: ${estabelecimentoEncontrado.share_espaco_m0 || 'Não informado'}
-- Share Espaço vs M-1: ${estabelecimentoEncontrado.share_espaco_vs_m1 || 'Não informado'}
-- Share Gelado M-1: ${estabelecimentoEncontrado.share_gelado_m1 || 'Não informado'}
-- Share Gelado M0: ${estabelecimentoEncontrado.share_gelado_m0 || 'Não informado'}
-- Share Gelado vs M-1: ${estabelecimentoEncontrado.share_gelado_vs_m1 || 'Não informado'}
-- Gôndola: ${estabelecimentoEncontrado.gondola || 'Não informado'}
-- Ponto Extra: ${estabelecimentoEncontrado.ponto_extra || 'Não informado'}
-- Base Foco: ${estabelecimentoEncontrado.base_foco || 'Não informado'}
-- Corona: ${estabelecimentoEncontrado.corona || 'Não informado'}
-- Spaten: ${estabelecimentoEncontrado.spaten || 'Não informado'}
-- Stella: ${estabelecimentoEncontrado.stella || 'Não informado'}
-- COB HDW: ${estabelecimentoEncontrado.cob_hdw || 'Não informado'}
-- Atendimento: ${estabelecimentoEncontrado.atendimento || 'Não informado'}
-- Visita Quinzenal: ${estabelecimentoEncontrado.visita_quinzenal || 'Não informado'}
+- Nome: ${estabelecimentoEncontrado.nome_fantasia || "Não informado"}
+- Rede: ${estabelecimentoEncontrado.rede || "Não informado"}
+- Coordenador: ${estabelecimentoEncontrado.coordenador || "Não informado"}
+- GN: ${estabelecimentoEncontrado.gn || "Não informado"}
+- SL/SC: ${estabelecimentoEncontrado.sl_sc || "Não informado"}
+- Share Espaço M-1: ${
+              estabelecimentoEncontrado.share_espaco_m1 || "Não informado"
+            }
+- Share Espaço M0: ${
+              estabelecimentoEncontrado.share_espaco_m0 || "Não informado"
+            }
+- Share Espaço vs M-1: ${
+              estabelecimentoEncontrado.share_espaco_vs_m1 || "Não informado"
+            }
+- Share Gelado M-1: ${
+              estabelecimentoEncontrado.share_gelado_m1 || "Não informado"
+            }
+- Share Gelado M0: ${
+              estabelecimentoEncontrado.share_gelado_m0 || "Não informado"
+            }
+- Share Gelado vs M-1: ${
+              estabelecimentoEncontrado.share_gelado_vs_m1 || "Não informado"
+            }
+- Gôndola: ${estabelecimentoEncontrado.gondola || "Não informado"}
+- Ponto Extra: ${estabelecimentoEncontrado.ponto_extra || "Não informado"}
+- Base Foco: ${estabelecimentoEncontrado.base_foco || "Não informado"}
+- Corona: ${estabelecimentoEncontrado.corona || "Não informado"}
+- Spaten: ${estabelecimentoEncontrado.spaten || "Não informado"}
+- Stella: ${estabelecimentoEncontrado.stella || "Não informado"}
+- COB HDW: ${estabelecimentoEncontrado.cob_hdw || "Não informado"}
+- Atendimento: ${estabelecimentoEncontrado.atendimento || "Não informado"}
+- Visita Quinzenal: ${
+              estabelecimentoEncontrado.visita_quinzenal || "Não informado"
+            }
             `.trim();
           }
 
@@ -1014,8 +1309,16 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
         };
 
         // ✅ FUNÇÃO MELHORADA: Chamar IA Google Cloud Function
-        const callGoogleAI = async (userMessage, csvData, estabelecimentoEncontrado = null) => {
-          const promptParaEnviar = generateAIContext(userMessage, csvData, estabelecimentoEncontrado);
+        const callGoogleAI = async (
+          userMessage,
+          csvData,
+          estabelecimentoEncontrado = null
+        ) => {
+          const promptParaEnviar = generateAIContext(
+            userMessage,
+            csvData,
+            estabelecimentoEncontrado
+          );
 
           try {
             const response = await fetch(CLOUD_FUNCTION_URL, {
@@ -1024,7 +1327,7 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                prompt: promptParaEnviar 
+                prompt: promptParaEnviar,
               }),
             });
 
@@ -1034,7 +1337,6 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
 
             const data = await response.json();
             return data.resposta;
-
           } catch (error) {
             console.error("Erro ao chamar IA:", error);
             return "❌ Desculpe, não consegui me conectar com o sistema no momento. Tente novamente em alguns instantes.";
@@ -1044,38 +1346,40 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
         // ✅ NOVA FUNÇÃO: Processar resposta da IA para dividir em partes
         const splitAIMessage = (aiResponse) => {
           if (!aiResponse) return [];
-          
+
           // Divide por quebras de linha significativas
-          const paragraphs = aiResponse.split(/\n\s*\n/).filter(p => p.trim());
-          
+          const paragraphs = aiResponse
+            .split(/\n\s*\n/)
+            .filter((p) => p.trim());
+
           if (paragraphs.length <= 1) {
             // Se for curta, retorna como está
             return [aiResponse];
           }
-          
+
           // Junta parágrafos muito curtos
           const merged = [];
-          let current = '';
-          
-          paragraphs.forEach(paragraph => {
+          let current = "";
+
+          paragraphs.forEach((paragraph) => {
             const cleanPara = paragraph.trim();
-            if (cleanPara.split(' ').length < 15 && current) {
-              current += '\n\n' + cleanPara;
+            if (cleanPara.split(" ").length < 15 && current) {
+              current += "\n\n" + cleanPara;
             } else {
               if (current) merged.push(current);
               current = cleanPara;
             }
           });
           if (current) merged.push(current);
-          
+
           return merged;
         };
 
         // ✅ NOVA FUNÇÃO: Adicionar múltiplas mensagens com delay
         const addSequentialMessages = async (messageParts, sender = "bot") => {
           for (let i = 0; i < messageParts.length; i++) {
-            await new Promise(resolve => setTimeout(resolve, 800)); // Delay entre mensagens
-            addMessage(messageParts[i].replace(/\n/g, '<br>'), sender);
+            await new Promise((resolve) => setTimeout(resolve, 800)); // Delay entre mensagens
+            addMessage(messageParts[i].replace(/\n/g, "<br>"), sender);
           }
         };
 
@@ -1127,15 +1431,26 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
                         const value = (row[index] || "").trim();
 
                         // Mapeamento correto das colunas
-                        if (key === "eg" || key === "código" || key === "code") {
+                        if (
+                          key === "eg" ||
+                          key === "código" ||
+                          key === "code"
+                        ) {
                           obj.eg = value;
-                        } else if (key === "nome fantasia" || key === "nome" || key === "estabelecimento") {
+                        } else if (
+                          key === "nome fantasia" ||
+                          key === "nome" ||
+                          key === "estabelecimento"
+                        ) {
                           obj.nome_fantasia = value;
                         } else if (key === "rede") {
                           obj.rede = value;
                         } else if (key === "coordenador") {
                           obj.coordenador = value;
-                        } else if (key === "supervisor terceiro" || key === "supervisor") {
+                        } else if (
+                          key === "supervisor terceiro" ||
+                          key === "supervisor"
+                        ) {
                           obj.supervisor_terceiro = value;
                         } else if (key === "gn") {
                           obj.gn = value;
@@ -1143,21 +1458,40 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
                           obj.sl_sc = value;
                         } else if (key === "ae") {
                           obj.ae = value;
-                        } else if (key === "share de espaço m-1" || key === "share de espaço m-1" || key === "share_espaco_m1") {
+                        } else if (
+                          key === "share de espaço m-1" ||
+                          key === "share de espaço m-1" ||
+                          key === "share_espaco_m1"
+                        ) {
                           obj.share_espaco_m1 = value;
-                        } else if (key === "share de espaço m0" || key === "share_espaco_m0") {
+                        } else if (
+                          key === "share de espaço m0" ||
+                          key === "share_espaco_m0"
+                        ) {
                           obj.share_espaco_m0 = value;
-                        } else if (key === "share de espaço vs m-1" || key === "share_espaco_vs_m1") {
+                        } else if (
+                          key === "share de espaço vs m-1" ||
+                          key === "share_espaco_vs_m1"
+                        ) {
                           obj.share_espaco_vs_m1 = value;
                         } else if (key === "gôndola" || key === "gondola") {
                           obj.gondola = value;
                         } else if (key === "ponto extra") {
                           obj.ponto_extra = value;
-                        } else if (key === "share de gelado m-1" || key === "share_gelado_m1") {
+                        } else if (
+                          key === "share de gelado m-1" ||
+                          key === "share_gelado_m1"
+                        ) {
                           obj.share_gelado_m1 = value;
-                        } else if (key === "share de gelado m0" || key === "share_gelado_m0") {
+                        } else if (
+                          key === "share de gelado m0" ||
+                          key === "share_gelado_m0"
+                        ) {
                           obj.share_gelado_m0 = value;
-                        } else if (key === "share de gelado vs m-1" || key === "share_gelado_vs_m1") {
+                        } else if (
+                          key === "share de gelado vs m-1" ||
+                          key === "share_gelado_vs_m1"
+                        ) {
                           obj.share_gelado_vs_m1 = value;
                         } else if (key === "base foco" || key === "base_foco") {
                           obj.base_foco = value;
@@ -1171,7 +1505,10 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
                           obj.cob_hdw = value;
                         } else if (key === "atendimento") {
                           obj.atendimento = value;
-                        } else if (key === "visita quinzenal" || key === "visita_quinzenal") {
+                        } else if (
+                          key === "visita quinzenal" ||
+                          key === "visita_quinzenal"
+                        ) {
                           obj.visita_quinzenal = value;
                         } else if (key === "loja") {
                           obj.loja = value;
@@ -1321,7 +1658,9 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
             simulateTyping(() => {
               let response = `📋 **Estabelecimentos disponíveis:**<br><br>`;
               csvData.slice(0, 4).forEach((est, index) => {
-                response += `${index + 1}. <strong>${est.eg}</strong> - ${est.nome_fantasia}<br>`;
+                response += `${index + 1}. <strong>${est.eg}</strong> - ${
+                  est.nome_fantasia
+                }<br>`;
               });
               response += `<br>💡 <em>Digite qualquer código EG para análise detalhada</em>`;
               addMessage(response, "bot");
@@ -1333,7 +1672,7 @@ Responda de forma natural, organizada e visual, mas use APENAS dados reais. Se n
           const egPattern = /\d{2,6}-\d/;
           if (egPattern.test(message)) {
             const estabelecimento = findEstabelecimento(message);
-            
+
             if (!estabelecimento) {
               // EG NÃO ENCONTRADO - AVISAR IMEDIATAMENTE
               addMessage(
@@ -1349,29 +1688,39 @@ Use <strong>/dados</strong> para ver os códigos disponíveis.<br><br>
             // ✅ EG ENCONTRADO - ENVIAR DADOS REAIS PARA IA
             try {
               setIsTyping(true);
-              const aiResponse = await callGoogleAI(message, csvData, estabelecimento);
-              
+              const aiResponse = await callGoogleAI(
+                message,
+                csvData,
+                estabelecimento
+              );
+
               if (aiResponse) {
                 setIsTyping(false);
-                
+
                 // Divide a resposta em partes menores
                 const messageParts = splitAIMessage(aiResponse);
-                
+
                 if (messageParts.length > 1) {
                   // Se tiver múltiplas partes, envia sequencialmente
                   addSequentialMessages(messageParts, "bot");
                 } else {
                   // Se for uma parte só, envia normal
-                  addMessage(aiResponse.replace(/\n/g, '<br>'), "bot");
+                  addMessage(aiResponse.replace(/\n/g, "<br>"), "bot");
                 }
               } else {
                 setIsTyping(false);
-                addMessage("🤔 *Não consegui processar sua solicitação. Tente novamente.*", "bot");
+                addMessage(
+                  "🤔 *Não consegui processar sua solicitação. Tente novamente.*",
+                  "bot"
+                );
               }
             } catch (error) {
               console.error("Erro na IA:", error);
               setIsTyping(false);
-              addMessage("❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*", "bot");
+              addMessage(
+                "❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*",
+                "bot"
+              );
             }
             return;
           }
@@ -1380,38 +1729,48 @@ Use <strong>/dados</strong> para ver os códigos disponíveis.<br><br>
           try {
             setIsTyping(true);
             const aiResponse = await callGoogleAI(message, csvData);
-            
+
             if (aiResponse) {
               setIsTyping(false);
-              
+
               // Divide a resposta em partes menores
               const messageParts = splitAIMessage(aiResponse);
-              
+
               if (messageParts.length > 1) {
                 // Se tiver múltiplas partes, envia sequencialmente
                 addSequentialMessages(messageParts, "bot");
               } else {
                 // Se for uma parte só, envia normal
-                addMessage(aiResponse.replace(/\n/g, '<br>'), "bot");
+                addMessage(aiResponse.replace(/\n/g, "<br>"), "bot");
               }
             } else {
               setIsTyping(false);
-              addMessage("🤔 *Não consegui processar sua pergunta. Pode reformular?*", "bot");
+              addMessage(
+                "🤔 *Não consegui processar sua pergunta. Pode reformular?*",
+                "bot"
+              );
             }
           } catch (error) {
             console.error("Erro na IA:", error);
             setIsTyping(false);
-            addMessage("❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*", "bot");
+            addMessage(
+              "❌ *Estou com dificuldades técnicas. Tente novamente em instantes.*",
+              "bot"
+            );
           }
         };
 
-        // ✅ INICIAR CHAT MODIFICADO - SEM MENSAGEM AUTOMÁTICA
+        // ✅ INICIAR CHAT MODIFICADO
         const startChat = () => {
-          setIsWelcomeScreen(false);
-          // Carregar dados em background
-          setTimeout(() => {
-            loadSheetData();
-          }, 1000);
+          setCurrentScreen("chat");
+        };
+
+        // ✅ VOLTAR AO LOGIN
+        const handleLogout = () => {
+          setCurrentScreen("login");
+          setMessages([]);
+          setUsername("");
+          setPassword("");
         };
 
         // Enviar mensagem
@@ -1463,28 +1822,223 @@ Use <strong>/dados</strong> para ver os códigos disponíveis.<br><br>
           };
         }, []);
 
-        return React.createElement("div", { className: "app" }, [
-          // Video Background
-          React.createElement(
-            "div",
-            {
-              key: "video-background",
-              className: "video-background",
-            },
-            [
-              React.createElement("video", {
-                key: "background-video",
-                autoPlay: true,
-                loop: true,
-                muted: true,
-                playsInline: true,
-                src: "https://cdn.pixabay.com/video/2024/01/24/198018-906226540_large.mp4",
-              }),
-            ]
-          ),
+        // Renderizar tela de login
+        if (currentScreen === "login") {
+          return React.createElement("div", { className: "app" }, [
+            React.createElement(
+              "div",
+              {
+                key: "video-background",
+                className: "video-background",
+              },
+              [
+                React.createElement("video", {
+                  key: "background-video",
+                  autoPlay: true,
+                  loop: true,
+                  muted: true,
+                  playsInline: true,
+                  src: "https://cdn.pixabay.com/video/2024/01/24/198018-906226540_large.mp4",
+                }),
+              ]
+            ),
 
-          // Tela de Boas-vindas
-          isWelcomeScreen &&
+            React.createElement(
+              "div",
+              {
+                key: "login",
+                className: "login-screen",
+              },
+              [
+                React.createElement(
+                  "div",
+                  {
+                    key: "login-container",
+                    className: "login-container",
+                  },
+                  [
+                    React.createElement(
+                      "div",
+                      {
+                        key: "login-header",
+                        className: "login-header",
+                      },
+                      [
+                        React.createElement(
+                          "div",
+                          {
+                            key: "login-logo",
+                            className: "login-logo",
+                          },
+                          [
+                            React.createElement("img", {
+                              key: "logo-icon",
+                              src: "https://cdn-icons-png.flaticon.com/128/1698/1698535.png",
+                              alt: "Raio-X Score 5",
+                            }),
+                          ]
+                        ),
+                        React.createElement(
+                          "h1",
+                          {
+                            key: "login-title",
+                            className: "login-title",
+                          },
+                          "Raio-X Score 5"
+                        ),
+                        React.createElement(
+                          "p",
+                          {
+                            key: "login-subtitle",
+                            className: "login-subtitle",
+                          },
+                          "Sistema de Inteligência de Dados"
+                        ),
+                      ]
+                    ),
+
+                    React.createElement(
+                      "form",
+                      {
+                        key: "login-form",
+                        onSubmit: handleLogin,
+                        className: "login-form",
+                      },
+                      [
+                        React.createElement(
+                          "div",
+                          {
+                            key: "username-group",
+                            className: "form-group",
+                          },
+                          [
+                            React.createElement(
+                              "label",
+                              {
+                                key: "username-label",
+                                className: "form-label",
+                                htmlFor: "username",
+                              },
+                              "Usuário"
+                            ),
+                            React.createElement("input", {
+                              key: "username-input",
+                              id: "username",
+                              type: "text",
+                              value: username,
+                              onChange: (e) => setUsername(e.target.value),
+                              placeholder: "Digite seu usuário",
+                              className: "form-input",
+                              autoComplete: "username",
+                              required: true,
+                            }),
+                          ]
+                        ),
+
+                        React.createElement(
+                          "div",
+                          {
+                            key: "password-group",
+                            className: "form-group",
+                          },
+                          [
+                            React.createElement(
+                              "label",
+                              {
+                                key: "password-label",
+                                className: "form-label",
+                                htmlFor: "password",
+                              },
+                              "Senha"
+                            ),
+                            React.createElement("input", {
+                              key: "password-input",
+                              id: "password",
+                              type: "password",
+                              value: password,
+                              onChange: (e) => setPassword(e.target.value),
+                              placeholder: "Digite sua senha",
+                              className: "form-input",
+                              autoComplete: "current-password",
+                              required: true,
+                            }),
+                          ]
+                        ),
+
+                        loginError &&
+                          React.createElement(
+                            "div",
+                            {
+                              key: "error-message",
+                              className: "error-message",
+                            },
+                            loginError
+                          ),
+
+                        React.createElement(
+                          "button",
+                          {
+                            key: "login-button",
+                            type: "submit",
+                            className: "login-button",
+                            disabled: isLoggingIn,
+                          },
+                          [
+                            isLoggingIn ? "⏳" : "🔐",
+                            isLoggingIn
+                              ? " Verificando..."
+                              : " Acessar Sistema",
+                          ]
+                        ),
+                      ]
+                    ),
+
+                    React.createElement(
+                      "div",
+                      {
+                        key: "login-footer",
+                        className: "login-footer",
+                      },
+                      [
+                        "Sistema desenvolvido pela ",
+                        React.createElement(
+                          "span",
+                          {
+                            key: "company-name",
+                            className: "company-name",
+                          },
+                          "DIRETA MG"
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ]);
+        }
+
+        // Renderizar tela de boas-vindas
+        if (currentScreen === "welcome") {
+          return React.createElement("div", { className: "app" }, [
+            React.createElement(
+              "div",
+              {
+                key: "video-background",
+                className: "video-background",
+              },
+              [
+                React.createElement("video", {
+                  key: "background-video",
+                  autoPlay: true,
+                  loop: true,
+                  muted: true,
+                  playsInline: true,
+                  src: "https://cdn.pixabay.com/video/2024/01/24/198018-906226540_large.mp4",
+                }),
+              ]
+            ),
+
             React.createElement(
               "div",
               {
@@ -1584,207 +2138,227 @@ Use <strong>/dados</strong> para ver os códigos disponíveis.<br><br>
                 ),
               ]
             ),
+          ]);
+        }
 
-          // Chat Container
-          !isWelcomeScreen &&
-            React.createElement(
-              "div",
-              {
-                key: "chat",
-                className: "chat-container",
-              },
-              [
-                React.createElement(
-                  "div",
-                  {
-                    key: "phone-frame",
-                    className: "phone-frame",
-                  },
-                  [
-                    // Header
-                    React.createElement(
-                      "div",
-                      {
-                        key: "chat-header",
-                        className: "chat-header",
-                      },
-                      [
-                        React.createElement(
-                          "div",
-                          {
-                            key: "header-info",
-                            className: "header-info",
-                          },
-                          [
-                            React.createElement(
-                              "div",
-                              {
-                                key: "header-avatar",
-                                className: "header-avatar",
-                              },
-                              [
-                                React.createElement("img", {
-                                  key: "header-bot",
-                                  src: "https://cdn-icons-png.flaticon.com/128/1698/1698535.png",
-                                  alt: "Robô",
-                                  style: { width: "24px", height: "24px" },
-                                }),
-                              ]
-                            ),
-                            React.createElement(
-                              "div",
-                              {
-                                key: "header-text",
-                                className: "header-text",
-                              },
-                              [
-                                React.createElement(
-                                  "h1",
-                                  {
-                                    key: "header-title",
-                                    className: "header-title",
-                                  },
-                                  "Raio-X Score 5"
-                                ),
-                                React.createElement(
-                                  "p",
-                                  {
-                                    key: "header-subtitle",
-                                    className: "header-subtitle",
-                                  },
-                                  isSheetLoaded
-                                    ? `${csvData.length} estabelecimentos carregados`
-                                    : "Carregando dados..."
-                                ),
-                              ]
-                            ),
-                          ]
-                        ),
-                        React.createElement(
-                          "button",
-                          {
-                            key: "close-button",
-                            onClick: () => setIsWelcomeScreen(true),
-                            className: "close-button",
-                            title: "Fechar chat",
-                          },
-                          [React.createElement("span", { key: "close-x" }, "✕")]
-                        ),
-                      ]
-                    ),
+        // Renderizar chat
+        return React.createElement("div", { className: "app" }, [
+          React.createElement(
+            "div",
+            {
+              key: "video-background",
+              className: "video-background",
+            },
+            [
+              React.createElement("video", {
+                key: "background-video",
+                autoPlay: true,
+                loop: true,
+                muted: true,
+                playsInline: true,
+                src: "https://cdn.pixabay.com/video/2024/01/24/198018-906226540_large.mp4",
+              }),
+            ]
+          ),
 
-                    // Messages
-                    React.createElement(
-                      "div",
-                      {
-                        key: "messages-container",
-                        className: "messages-container",
-                      },
-                      [
-                        // Renderizar mensagens
-                        ...messages.map((message, index) =>
-                          React.createElement("div", {
-                            key: `message-${index}`,
-                            className: `message ${message.sender} animate-message-slide`,
-                            dangerouslySetInnerHTML: {
-                              __html: message.content,
-                            },
-                          })
-                        ),
-
-                        // Typing Indicator
-                        isTyping &&
+          React.createElement(
+            "div",
+            {
+              key: "chat",
+              className: "chat-container",
+            },
+            [
+              React.createElement(
+                "div",
+                {
+                  key: "phone-frame",
+                  className: "phone-frame",
+                },
+                [
+                  // Header
+                  React.createElement(
+                    "div",
+                    {
+                      key: "chat-header",
+                      className: "chat-header",
+                    },
+                    [
+                      React.createElement(
+                        "div",
+                        {
+                          key: "header-info",
+                          className: "header-info",
+                        },
+                        [
                           React.createElement(
                             "div",
                             {
-                              key: "typing-indicator",
-                              className: "typing-indicator",
+                              key: "header-avatar",
+                              className: "header-avatar",
+                            },
+                            [
+                              React.createElement("img", {
+                                key: "header-bot",
+                                src: "https://cdn-icons-png.flaticon.com/128/1698/1698535.png",
+                                alt: "Robô",
+                                style: { width: "24px", height: "24px" },
+                              }),
+                            ]
+                          ),
+                          React.createElement(
+                            "div",
+                            {
+                              key: "header-text",
+                              className: "header-text",
                             },
                             [
                               React.createElement(
-                                "div",
+                                "h1",
                                 {
-                                  key: "typing-dots",
-                                  className: "typing-dots",
+                                  key: "header-title",
+                                  className: "header-title",
                                 },
-                                [
-                                  React.createElement("span", {
-                                    key: "dot-1",
-                                    className: "typing-dot",
-                                  }),
-                                  React.createElement("span", {
-                                    key: "dot-2",
-                                    className: "typing-dot",
-                                  }),
-                                  React.createElement("span", {
-                                    key: "dot-3",
-                                    className: "typing-dot",
-                                  }),
-                                ]
+                                "Raio-X Score 5"
                               ),
-                              "IA está digitando...",
+                              React.createElement(
+                                "p",
+                                {
+                                  key: "header-subtitle",
+                                  className: "header-subtitle",
+                                },
+                                isSheetLoaded
+                                  ? `${csvData.length} estabelecimentos carregados`
+                                  : "Carregando dados..."
+                              ),
                             ]
                           ),
+                        ]
+                      ),
+                      React.createElement(
+                        "button",
+                        {
+                          key: "close-button",
+                          onClick: handleLogout,
+                          className: "close-button",
+                          title: "Sair do sistema",
+                        },
+                        [React.createElement("span", { key: "close-x" }, "🚪")]
+                      ),
+                    ]
+                  ),
 
-                        // Ref para scroll
+                  // Messages
+                  React.createElement(
+                    "div",
+                    {
+                      key: "messages-container",
+                      className: "messages-container",
+                    },
+                    [
+                      // Renderizar mensagens
+                      ...messages.map((message, index) =>
                         React.createElement("div", {
-                          key: "messages-end",
-                          ref: messagesEndRef,
-                        }),
-                      ]
-                    ),
+                          key: `message-${index}`,
+                          className: `message ${message.sender} animate-message-slide`,
+                          dangerouslySetInnerHTML: {
+                            __html: message.content,
+                          },
+                        })
+                      ),
 
-                    // Input
-                    React.createElement(
-                      "div",
-                      {
-                        key: "input-container",
-                        className: "input-container",
-                      },
-                      [
+                      // Typing Indicator
+                      isTyping &&
                         React.createElement(
-                          "form",
+                          "div",
                           {
-                            key: "chat-form",
-                            onSubmit: handleSubmit,
-                            className: "chat-form",
+                            key: "typing-indicator",
+                            className: "typing-indicator",
                           },
                           [
-                            React.createElement("input", {
-                              key: "message-input",
-                              ref: inputRef,
-                              value: inputValue,
-                              onChange: (e) => setInputValue(e.target.value),
-                              onKeyDown: handleKeyPress,
-                              type: "text",
-                              placeholder: "Digite uma mensagem ou código EG...",
-                              className: "message-input",
-                              autoComplete: "off",
-                            }),
                             React.createElement(
-                              "button",
+                              "div",
                               {
-                                key: "send-button",
-                                type: "submit",
-                                className: "send-button",
-                                disabled: isLoading,
+                                key: "typing-dots",
+                                className: "typing-dots",
                               },
                               [
-                                React.createElement(
-                                  "span",
-                                  { key: "send-icon" },
-                                  "➤"
-                                ),
+                                React.createElement("span", {
+                                  key: "dot-1",
+                                  className: "typing-dot",
+                                }),
+                                React.createElement("span", {
+                                  key: "dot-2",
+                                  className: "typing-dot",
+                                }),
+                                React.createElement("span", {
+                                  key: "dot-3",
+                                  className: "typing-dot",
+                                }),
                               ]
                             ),
+                            "IA está digitando...",
                           ]
                         ),
-                      ]
-                    ),
-                  ]
-                ),
-              ]
-            ),
+
+                      // Ref para scroll
+                      React.createElement("div", {
+                        key: "messages-end",
+                        ref: messagesEndRef,
+                      }),
+                    ]
+                  ),
+
+                  // Input
+                  React.createElement(
+                    "div",
+                    {
+                      key: "input-container",
+                      className: "input-container",
+                    },
+                    [
+                      React.createElement(
+                        "form",
+                        {
+                          key: "chat-form",
+                          onSubmit: handleSubmit,
+                          className: "chat-form",
+                        },
+                        [
+                          React.createElement("input", {
+                            key: "message-input",
+                            ref: inputRef,
+                            value: inputValue,
+                            onChange: (e) => setInputValue(e.target.value),
+                            onKeyDown: handleKeyPress,
+                            type: "text",
+                            placeholder: "Digite uma mensagem ou código EG...",
+                            className: "message-input",
+                            autoComplete: "off",
+                          }),
+                          React.createElement(
+                            "button",
+                            {
+                              key: "send-button",
+                              type: "submit",
+                              className: "send-button",
+                              disabled: isLoading,
+                            },
+                            [
+                              React.createElement(
+                                "span",
+                                { key: "send-icon" },
+                                "➤"
+                              ),
+                            ]
+                          ),
+                        ]
+                      ),
+                    ]
+                  ),
+                ]
+              ),
+            ]
+          ),
         ]);
       }
 
